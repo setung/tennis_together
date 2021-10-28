@@ -1,1 +1,37 @@
+name: deploy
 
+# main 브랜치에 push가 동작되면 실행한다
+on:
+  push:
+    branches: [main]
+    
+jobs:
+  build:
+    # 해당 동작들을 돌릴 OS
+    runs-on: ubuntu-latest
+    steps:
+      # 실제 main branch에 push하면 동작할 내용들
+      
+      # dependencies 설치 
+      # java 설치
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+          
+      # checkout 하기
+      - name: checkout backend
+        uses: actions/checkout@v2
+        
+      # frontend 폴더에 frontend 프로젝트 설치
+      #- name: checkout frontend
+      
+      # heroku에 배포하기
+      - name: deploy to heroku
+        uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "tennis-togeter" #
+          heroku_email: "4evajsh@gmail.com"
+      
+  
