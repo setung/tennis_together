@@ -19,6 +19,11 @@ jobs:
           distribution: 'temurin'
           java-version: '11'
           
+      # build 하기
+      - name: build frontend to resources
+        run: |
+          sh build.sh
+      
       # checkout 하기
       - name: checkout backend
         uses: actions/checkout@v2
