@@ -1,4 +1,4 @@
-package kr.couchcoding.tennis_togeter.config;
+package kr.couchcoding.tennis_together.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;

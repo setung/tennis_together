@@ -1,4 +1,4 @@
-package kr.couchcoding.tennis_togeter.entity;
+package kr.couchcoding.tennis_together.entity;
 
 import java.io.Serializable;
 
