@@ -1,9 +1,12 @@
 name: deploy
 
-# main 브랜치에 push가 동작되면 실행한다
+# main, develop 브랜치에 push, pull_request가 동작되면 실행한다
 on:
   push:
-    branches: [main]
+    branches: [main, develop]
+    
+  pull_request:
+    branches: [main, develop]
     
 jobs:
   build:
@@ -19,17 +22,31 @@ jobs:
           distribution: 'temurin'
           java-version: '11'
           
+      # node 설치
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+          
+     
+      # checkout 하기
+      # backend
+      - name: checkout backend
+        uses: actions/checkout@v2
+        
+      # frontend
+      - name: checkout frontend
+        uses: actions/checkout@v2
+        with:
+          repository: ssso-pro1/tennis-together-fe
+          path: ./frontend
+
+      
+      # backend 폴더에 frontend 프로젝트 설치
       # build 하기
       - name: build frontend to resources
         run: |
           sh build.sh
-      
-      # checkout 하기
-      - name: checkout backend
-        uses: actions/checkout@v2
-        
-      # frontend 폴더에 frontend 프로젝트 설치
-      #- name: checkout frontend
+     
       
       # heroku에 배포하기
       - name: deploy to heroku
