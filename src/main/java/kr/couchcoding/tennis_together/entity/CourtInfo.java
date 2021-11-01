@@ -1,10 +1,13 @@
 package kr.couchcoding.tennis_together.entity;
 
+import lombok.Getter;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Entity
+@Getter
 public class CourtInfo {
 
     @Id
