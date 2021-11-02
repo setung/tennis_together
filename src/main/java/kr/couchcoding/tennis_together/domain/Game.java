@@ -24,9 +24,10 @@ public class Game {
     private User gameCreator; // writer_id 칼럼을 객체로
 
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
     private String title;
 
+    @Column(nullable = false)
     private String content;
 
     @Column(name = "gender_type")
@@ -35,10 +36,10 @@ public class Game {
     @Column(name = "age_type")
     private int ageType;
 
-    @Column(name = "str_dt")
+    @Column(name = "str_dt", length = 8)
     private String strDt;
 
-    @Column(name = "end_dt")
+    @Column(name = "end_dt", length = 8)
     private String endDt;
 
     @Column(nullable = false, name = "reg_dtm")

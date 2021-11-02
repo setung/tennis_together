@@ -14,6 +14,7 @@ import java.util.List;
 public class User {
 
     @Id // 기본 키 핸드폰번호 값으로 직접할당
+    @Column(length = 10)
     private String uid;
 
     @Column(nullable = false, length = 50) // 디폴트는 nullalbe = true, length = 255
@@ -43,8 +44,9 @@ public class User {
     @Column(nullable = false, name = "act_dv_cd")
     private char actDvCd;
 
-    @Column(name = "profile_url")
+    @Column(length = 100, name = "profile_url")
     private String profileUrl;
+
     private double score;
 
     @ManyToOne

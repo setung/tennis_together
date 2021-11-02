@@ -36,6 +36,7 @@ public class GameUserList {
     @Column(name = "upd_dtm")
     private LocalDateTime updDtm;
 
+    @Builder
     public GameUserList(long gameUserNo, User gameUser, Game joinedGame, char stDvCd, LocalDateTime regDtm, LocalDateTime updDtm){
 
         this.gameUserNo = gameUserNo;

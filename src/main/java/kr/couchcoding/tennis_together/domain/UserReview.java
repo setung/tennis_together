@@ -28,9 +28,9 @@ public class UserReview {
     //@JoinColumn(name = "uid")
     //private User writerUser; // writer_uid 칼럼을 객체로
 
+    @Column(nullable = false, length = 10, name = "writer_uid")
+    private String writerUid;
 
-    @Column(name = "seq_no")
-    private long seqNo;
 
     @Column(name = "review_title")
     private String reviewTitle;
@@ -47,12 +47,12 @@ public class UserReview {
     @Column(name = "score")
     private double score;
 
-    public UserReview(long reviewNo, User reviewUser, User writtenUser, long seqNo, String reviewTitle, String reviewContent
+    public UserReview(long reviewNo, User reviewUser, String writerUid, String reviewTitle, String reviewContent
                     , LocalDateTime regDtm, LocalDateTime updDtm, double score){
         this.reviewNo = reviewNo;
         this.reviewUser = reviewUser;
+        this.writerUid = writerUid;
         //this.writtenUser = writtenUser;
-        this.seqNo = seqNo;
         this.reviewTitle = reviewTitle;
         this.reviewContent = reviewContent;
         this.regDtm = regDtm;

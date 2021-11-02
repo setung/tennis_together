@@ -19,10 +19,10 @@ public class GameComment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long commentNo;
 
-    @Column(name = "review_title")
+    @Column(nullable = false, length = 100, name = "review_title")
     private String reviewTitle;
 
-    @Column(name = "review_content")
+    @Column(nullable = false, name = "review_content")
     private String reviewContent;
 
     @Column(nullable = false, name = "reg_dtm")
