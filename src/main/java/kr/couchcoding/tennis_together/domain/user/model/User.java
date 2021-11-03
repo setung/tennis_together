@@ -4,16 +4,19 @@ import javax.persistence.*;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import kr.couchcoding.tennis_together.domain.location.model.LocCd;
 import lombok.*;
 import java.time.LocalDateTime;
+import java.util.Collection;
 
 @Entity
 @Getter
 @NoArgsConstructor // 기본 생성자 생성
 @Table(name="user_info")
-public class User {
+public class User implements UserDetails{
 
     @Id 
     @Column(length = 50, columnDefinition = "firebase uid")
@@ -79,6 +82,39 @@ public class User {
         this.profileUrl = profileUrl;
         this.score = score;
         this.locCd = locCd;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public String getUsername() {
+        return uid;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return actDvCd == '1'; 
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return actDvCd == '1';
     }
 
 }
