@@ -4,6 +4,8 @@ import lombok.*;
 import javax.persistence.*;
 
 import org.hibernate.annotations.ColumnDefault;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import kr.couchcoding.tennis_together.domain.user.model.User;
 
@@ -35,17 +37,16 @@ public class GameUserList {
     private char stDvCd = '1';
 
     @Column(name = "reg_dtm")
+    @CreatedDate
     private LocalDateTime regDtm;
 
     @Column(name = "upd_dtm")
+    @LastModifiedDate
     private LocalDateTime updDtm;
 
     @Builder
-    public GameUserList(User gameUser, Game joinedGame, char stDvCd, LocalDateTime regDtm, LocalDateTime updDtm){
+    public GameUserList(User gameUser, Game joinedGame){
         this.joinedGame = joinedGame;
         this.gameUser = gameUser;
-        this.stDvCd = stDvCd;
-        this.regDtm = regDtm;
-        this.updDtm = updDtm;
     }
 }

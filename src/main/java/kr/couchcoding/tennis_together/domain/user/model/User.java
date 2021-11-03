@@ -2,6 +2,9 @@ package kr.couchcoding.tennis_together.domain.user.model;
 
 import javax.persistence.*;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+
 import kr.couchcoding.tennis_together.domain.location.model.LocCd;
 import lombok.*;
 import java.time.LocalDateTime;
@@ -38,9 +41,11 @@ public class User {
     private int history;
 
     @Column(nullable = false, name = "reg_dtm")
+    @CreatedDate
     private LocalDateTime regDtm;
 
     @Column(nullable = false, name = "upd_dtm")
+    @LastModifiedDate
     private LocalDateTime updDtm;
 
     @Column(nullable = false, name = "act_dv_cd")
@@ -71,9 +76,6 @@ public class User {
         this.birth = birth;
         this.gender = gender;
         this.history = history;
-        this.regDtm = regDtm;
-        this.updDtm = updDtm;
-        this.actDvCd = actDvCd;
         this.profileUrl = profileUrl;
         this.score = score;
         this.locCd = locCd;

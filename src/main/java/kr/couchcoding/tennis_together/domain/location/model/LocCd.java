@@ -30,12 +30,11 @@ public class LocCd {
     private char regStCd = '1';
 
     @Builder
-    public LocCd(String locSd, String locSkk, String locSdName, String locSkkName, char regStCd){
+    public LocCd(String locSd, String locSkk, String locSdName, String locSkkName){
         this.locSd = locSd;
         this.locSkk = locSkk;
         this.locSdName = locSdName;
         this.locSkkName = locSkkName;
-        this.regStCd = regStCd;
     }
 }
 

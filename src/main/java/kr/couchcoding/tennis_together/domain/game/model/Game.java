@@ -4,6 +4,8 @@ import lombok.*;
 import javax.persistence.*;
 
 import org.hibernate.annotations.ColumnDefault;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import kr.couchcoding.tennis_together.domain.location.model.LocCd;
 import kr.couchcoding.tennis_together.domain.user.model.User;
@@ -47,9 +49,11 @@ public class Game {
     private String endDt;
 
     @Column(nullable = false, name = "reg_dtm")
+    @CreatedDate
     private LocalDateTime regDtm;
 
     @Column(nullable = false, name = "upd_dtm")
+    @LastModifiedDate
     private LocalDateTime updDtm;
 
     @ManyToOne
@@ -60,9 +64,9 @@ public class Game {
     private char stDvCd = '1';
 
     @Builder
-    public Game(long gameNo, User gameCreator, String title, String content, char genderType
-                , char ageType, String strDt, String endDt, LocalDateTime regDtm, LocalDateTime updDtm
-                , LocCd locCd, char stDvCd){
+    public Game(long gameNo, User gameCreator, String title, String content, char genderType,
+                char ageType, String strDt, String endDt,
+                LocCd locCd){
         this.gameNo = gameNo;
         this.gameCreator = gameCreator;
         this.title = title;
@@ -71,9 +75,6 @@ public class Game {
         this.ageType = ageType;
         this.strDt = strDt;
         this.endDt = endDt;
-        this.regDtm = regDtm;
-        this.updDtm = updDtm;
         this.locCd = locCd;
-        this.stDvCd = stDvCd;
     }
 }

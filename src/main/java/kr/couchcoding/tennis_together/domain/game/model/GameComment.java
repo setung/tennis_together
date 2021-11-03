@@ -4,6 +4,9 @@ import lombok.*;
 
 import javax.persistence.*;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+
 import kr.couchcoding.tennis_together.domain.user.model.User;
 
 import java.time.LocalDateTime;
@@ -27,9 +30,11 @@ public class GameComment {
     private String reviewContent;
 
     @Column(nullable = false, name = "reg_dtm")
+    @CreatedDate
     private LocalDateTime regDtm;
 
     @Column(nullable = false, name = "upd_dtm")
+    @LastModifiedDate
     private LocalDateTime updDtm;
 
     private int depth;
@@ -49,12 +54,10 @@ public class GameComment {
 
     @Builder
     public GameComment(
-            String reviewTitle, String reviewContent, LocalDateTime regDtm, LocalDateTime updDtm
-            , int depth, int grpNo, Game commentedGame, User comtWriteUser){
+            String reviewTitle, String reviewContent, 
+            int depth, int grpNo, Game commentedGame, User comtWriteUser){
         this.reviewTitle = reviewTitle;
         this.reviewContent = reviewContent;
-        this.regDtm = regDtm;
-        this.updDtm = updDtm;
         this.depth = depth;
         this.grpNo = grpNo;
         this.commentedGame = commentedGame;

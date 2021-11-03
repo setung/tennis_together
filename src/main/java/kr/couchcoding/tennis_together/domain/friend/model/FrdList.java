@@ -3,6 +3,7 @@ import lombok.*;
 import javax.persistence.*;
 
 import org.hibernate.annotations.ColumnDefault;
+import org.springframework.data.annotation.CreatedDate;
 
 import kr.couchcoding.tennis_together.domain.user.model.User;
 
@@ -33,10 +34,11 @@ public class FrdList {
     private char relStCd = '1';
 
     @Column(name = "reg_dtm")
+    @CreatedDate
     private LocalDateTime regDtm;
 
     @Builder
-    public FrdList(User frdUser, char relStCd, LocalDateTime regDtm){
+    public FrdList(User frdUser, char relStCd){
         this.frdUser = frdUser;
         //this.friend = friend;
         this.relStCd = relStCd;

@@ -4,6 +4,8 @@ import lombok.*;
 import javax.persistence.*;
 
 import org.hibernate.annotations.ColumnDefault;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import kr.couchcoding.tennis_together.domain.location.model.LocCd;
 
@@ -48,9 +50,11 @@ public class Court {
     private String adtInfo;
 
     @Column(name ="reg_dtm")
+    @CreatedDate
     private LocalDateTime regDtm;
 
     @Column(name = "upd_dtm")
+    @LastModifiedDate
     private LocalDateTime updDtm;
 
     @Column(name="act_dv_cd")
@@ -58,8 +62,8 @@ public class Court {
 
     @Builder
     public Court(LocCd locCd, String roadAdr, String price, String orgUrl, Double lat, Double lon
-                , LocalDateTime startTime, LocalDateTime endTime, String courtContact, LocalDateTime regDtm
-                , LocalDateTime updDtm, String adtInfo) {
+                , LocalDateTime startTime, LocalDateTime endTime, String courtContact 
+                , String adtInfo) {
         this.locCd = locCd;
         this.roadAdr = roadAdr;
         this.price = price;
@@ -70,10 +74,6 @@ public class Court {
         this.endTime = endTime;
         this.courtContact = courtContact;
         this.adtInfo = adtInfo;
-        this.regDtm = regDtm;
-        this.updDtm = updDtm;
-
-
     }
 
 }
