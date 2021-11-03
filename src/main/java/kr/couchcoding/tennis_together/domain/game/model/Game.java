@@ -55,17 +55,9 @@ public class Game {
     @ManyToOne
     @JoinColumn(name = "loc_cd_no")
     private LocCd locCd;
-    
+
     @Column(name = "st_dv_cd")
     private char stDvCd;
-
-    // GameComment 객체와 양방향 매핑 1 : N
-    @OneToMany(mappedBy = "commentedGame")
-    private List<GameComment> gameComment = new ArrayList<>();
-
-    // GameUser 객체와 양방향 매핑 1 : N
-    @OneToMany(mappedBy = "joinedGame")
-    private List<GameUserList> gameUserList = new ArrayList<>();
 
     @Builder
     public Game(long gameNo, User gameCreator, String title, String content, char genderType
