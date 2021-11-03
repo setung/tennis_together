@@ -31,8 +31,8 @@ public class CourtService {
             throw new CustomException(ErrorCode.NOT_FOUND_GAME_COURT);
     }
 
-    public Court findCourtByLocCd(long locCdNo) {
-        Optional<Court> courtInfo = courtRepository.findByLocCd(locCdNo);
+    public List<Court> findCourtByLocCd(long locCdNo) {
+        Optional<List<Court>> courtInfo = courtRepository.findByLocCd(locCdNo);
 
         if (courtInfo.isPresent())
             return courtInfo.get();

@@ -20,7 +20,7 @@ public class CourtController {
     }
 
     @GetMapping
-    public Court findCourtByLocCd(@RequestParam long locCdNo) {
+    public List<Court> findCourtByLocCd(@RequestParam long locCdNo) {
         return courtService.findCourtByLocCd(locCdNo);
     }
 }
