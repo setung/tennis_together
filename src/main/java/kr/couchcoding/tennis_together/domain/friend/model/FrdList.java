@@ -18,13 +18,13 @@ public class FrdList {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long frdRelNo;
 
-    @JoinColumn(name = "uid")
     @ManyToOne
+    @JoinColumn(name = "uid")
     private User user;
 
     // User 객체와 양방향 매핑 N : 1
-    @JoinColumn(name = "frd_uid")
     @ManyToOne
+    @JoinColumn(name = "frd_uid")
     private User frdUser;
 
     @Column(name = "rel_st_cd")

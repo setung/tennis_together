@@ -7,8 +7,6 @@ import kr.couchcoding.tennis_together.domain.location.model.LocCd;
 import kr.couchcoding.tennis_together.domain.user.model.User;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
