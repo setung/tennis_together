@@ -1,7 +1,7 @@
-package kr.couchcoding.tennis_together.controller;
+package kr.couchcoding.tennis_together.controller.court;
 
-import kr.couchcoding.tennis_together.domain.service.CourtService;
-import kr.couchcoding.tennis_together.entity.CourtInfo;
+import kr.couchcoding.tennis_together.domain.court.model.Court;
+import kr.couchcoding.tennis_together.domain.court.service.CourtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,12 +18,12 @@ public class CourtController {
     private final CourtService courtService;
 
     @GetMapping
-    public List<CourtInfo> findCourts() {
+    public List<Court> findCourts() {
         return courtService.findCourts();
     }
 
     @GetMapping("/{courtNo}")
-    public CourtInfo findCourtByNo(@PathVariable long courtNo) {
+    public Court findCourtByNo(@PathVariable long courtNo) {
         return courtService.findCourtByNo(courtNo);
     }
 

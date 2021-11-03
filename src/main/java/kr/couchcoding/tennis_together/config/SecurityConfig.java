@@ -11,13 +11,15 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
-public class SecurityConfig extends WebSecurityConfigurerAdapter{
-  
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
     @Override
     public void configure(WebSecurity web) throws Exception {
         // 인증 예외 URL설정
         web.ignoring().antMatchers(HttpMethod.POST, "/users")
-            .antMatchers("/")
-            .antMatchers("/resources/**");
-    } 
+                .antMatchers("/")
+                .antMatchers("/courts")
+                .antMatchers("/courts/**")
+                .antMatchers("/resources/**");
+    }
 }

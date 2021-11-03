@@ -1,7 +1,7 @@
-package kr.couchcoding.tennis_together.domain.service;
+package kr.couchcoding.tennis_together.domain.court.service;
 
-import kr.couchcoding.tennis_together.domain.dao.CourtRepository;
-import kr.couchcoding.tennis_together.entity.CourtInfo;
+import kr.couchcoding.tennis_together.domain.court.model.Court;
+import kr.couchcoding.tennis_together.domain.court.repository.CourtRepository;
 import kr.couchcoding.tennis_together.exception.CustomException;
 import kr.couchcoding.tennis_together.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -16,12 +16,12 @@ public class CourtService {
 
     private final CourtRepository courtRepository;
 
-    public List<CourtInfo> findCourts() {
+    public List<Court> findCourts() {
         return courtRepository.findAll();
     }
 
-    public CourtInfo findCourtByNo(long courtNo) {
-        Optional<CourtInfo> courtInfo = courtRepository.findById(courtNo);
+    public Court findCourtByNo(long courtNo) {
+        Optional<Court> courtInfo = courtRepository.findById(courtNo);
 
         if (courtInfo.isPresent())
             return courtInfo.get();

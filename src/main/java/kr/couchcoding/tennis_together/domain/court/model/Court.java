@@ -26,6 +26,9 @@ public class Court {
     @JoinColumn(name = "loc_cd_no")
     private LocCd locCd;
 
+    @Column(name = "court_name", length = 100)
+    private String name;
+
     @Column(name = "road_adr", length = 100)
     private String roadAdr;
 
@@ -46,6 +49,7 @@ public class Court {
     @Column(name = "court_contact", length = 200)
     private String courtContact;
 
+    @Lob
     @Column(name = "adt_info")
     private String adtInfo;
 
@@ -58,14 +62,15 @@ public class Court {
     private LocalDateTime updDtm;
 
     @Column(name="act_dv_cd")
-    private char actDvCd = '1';
+    private Character actDvCd = '1';
 
     @Builder
-    public Court(LocCd locCd, String roadAdr, String price, String orgUrl, Double lat, Double lon
+    public Court(LocCd locCd, String name, String roadAdr, String price, String orgUrl, Double lat, Double lon
                 , LocalDateTime startTime, LocalDateTime endTime, String courtContact 
                 , String adtInfo) {
         this.locCd = locCd;
         this.roadAdr = roadAdr;
+        this.name = name;
         this.price = price;
         this.orgUrl = orgUrl;
         this.lat = lat;
