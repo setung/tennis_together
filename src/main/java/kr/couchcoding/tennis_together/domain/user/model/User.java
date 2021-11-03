@@ -29,9 +29,6 @@ public class User implements UserDetails{
     @Column(nullable = false, length = 50) // 디폴트는 nullalbe = true, length = 255
     private String name;
 
-    @Column(nullable = false, length = 30)
-    private String password;
-
     @Column(nullable = false, length = 50)
     private String nickname;
 
@@ -75,7 +72,6 @@ public class User implements UserDetails{
                 double score, LocCd locCd){
         this.uid = uid;
         this.name = name;
-        this.password = password;
         this.nickname = nickname;
         this.birth = birth;
         this.gender = gender;
@@ -116,6 +112,12 @@ public class User implements UserDetails{
     @Override
     public boolean isEnabled() {
         return actDvCd == '1';
+    }
+
+    @Override
+    public String getPassword() {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }
