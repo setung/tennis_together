@@ -15,6 +15,7 @@ import java.util.Collection;
 @Entity
 @Getter
 @NoArgsConstructor // 기본 생성자 생성
+@ToString
 @Table(name="user_info")
 public class User implements UserDetails{
 
