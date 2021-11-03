@@ -44,7 +44,7 @@ public class User {
     private LocalDateTime updDtm;
 
     @Column(nullable = false, name = "act_dv_cd")
-    private char actDvCd;
+    private char actDvCd = '1';
 
     @Column(length = 100, name = "profile_url")
     private String profileUrl;

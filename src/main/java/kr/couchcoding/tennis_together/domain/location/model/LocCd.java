@@ -27,7 +27,7 @@ public class LocCd {
     private String locSkkName;
 
     @Column(nullable = false, name = "reg_st_cd")
-    private char regStCd;
+    private char regStCd = '1';
 
     @Builder
     public LocCd(String locSd, String locSkk, String locSdName, String locSkkName, char regStCd){

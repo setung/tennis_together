@@ -3,6 +3,8 @@ package kr.couchcoding.tennis_together.domain.game.model;
 import lombok.*;
 import javax.persistence.*;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import kr.couchcoding.tennis_together.domain.user.model.User;
 
 import java.time.LocalDateTime;
@@ -30,7 +32,7 @@ public class GameUserList {
     private User gameUser; // uid 칼럼을 객체로
 
     @Column(name = "st_dv_cd")
-    private char stDvCd;
+    private char stDvCd = '1';
 
     @Column(name = "reg_dtm")
     private LocalDateTime regDtm;

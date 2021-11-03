@@ -3,6 +3,8 @@ import lombok.*;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import kr.couchcoding.tennis_together.domain.location.model.LocCd;
 
 import java.time.LocalDateTime;
@@ -50,6 +52,9 @@ public class Court {
 
     @Column(name = "upd_dtm")
     private LocalDateTime updDtm;
+
+    @Column(name="act_dv_cd")
+    private char actDvCd = '1';
 
     @Builder
     public Court(LocCd locCd, String roadAdr, String price, String orgUrl, Double lat, Double lon

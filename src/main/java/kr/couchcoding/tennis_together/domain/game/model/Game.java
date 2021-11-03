@@ -3,6 +3,8 @@ package kr.couchcoding.tennis_together.domain.game.model;
 import lombok.*;
 import javax.persistence.*;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import kr.couchcoding.tennis_together.domain.location.model.LocCd;
 import kr.couchcoding.tennis_together.domain.user.model.User;
 
@@ -55,7 +57,7 @@ public class Game {
     private LocCd locCd;
 
     @Column(name = "st_dv_cd")
-    private char stDvCd;
+    private char stDvCd = '1';
 
     @Builder
     public Game(long gameNo, User gameCreator, String title, String content, char genderType

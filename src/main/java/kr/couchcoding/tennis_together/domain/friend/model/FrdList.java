@@ -2,6 +2,8 @@ package kr.couchcoding.tennis_together.domain.friend.model;
 import lombok.*;
 import javax.persistence.*;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import kr.couchcoding.tennis_together.domain.user.model.User;
 
 import java.time.LocalDateTime;
@@ -28,20 +30,16 @@ public class FrdList {
     private User frdUser;
 
     @Column(name = "rel_st_cd")
-    private char relStCd;
+    private char relStCd = '1';
 
     @Column(name = "reg_dtm")
     private LocalDateTime regDtm;
 
-    @Column(name = "upd_dtm")
-    private LocalDateTime updDtm;
-
     @Builder
-    public FrdList(User frdUser, char relStCd, LocalDateTime regDtm, LocalDateTime updDtm){
+    public FrdList(User frdUser, char relStCd, LocalDateTime regDtm){
         this.frdUser = frdUser;
         //this.friend = friend;
         this.relStCd = relStCd;
         this.regDtm = regDtm;
-        this.updDtm = updDtm;
     }
 }
