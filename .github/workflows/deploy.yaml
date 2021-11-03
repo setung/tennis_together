@@ -1,11 +1,8 @@
 name: deploy
 
-# main, develop 브랜치에 push, pull_request가 동작되면 실행한다
+# main, develop 브랜치에 push시 동작한다
 on:
   push:
-    branches: [main, develop]
-    
-  pull_request:
     branches: [main, develop]
     
 jobs:
