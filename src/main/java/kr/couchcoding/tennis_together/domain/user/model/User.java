@@ -12,9 +12,12 @@ import java.time.LocalDateTime;
 @Table(name="user_info")
 public class User {
 
-    @Id // 기본 키 핸드폰번호 값으로 직접할당
-    @Column(length = 10)
+    @Id 
+    @Column(length = 50, columnDefinition = "firebase uid")
     private String uid;
+    
+    @Column(length = 10, columnDefinition = "휴대폰 번호")
+    private String phone;
 
     @Column(nullable = false, length = 50) // 디폴트는 nullalbe = true, length = 255
     private String name;
@@ -58,7 +61,7 @@ public class User {
     *  - 객체는 생성할 때는 Builder를 사용
     * */
     @Builder
-    public User(String uid, String name, String password, String nickname, String birth, char gender,
+    public User(String uid, String phone, String name, String password, String nickname, String birth, char gender,
                 int history, LocalDateTime regDtm, LocalDateTime updDtm, char actDvCd, String profileUrl,
                 double score, LocCd locCd){
         this.uid = uid;
