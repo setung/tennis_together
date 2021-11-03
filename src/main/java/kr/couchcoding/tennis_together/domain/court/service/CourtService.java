@@ -5,6 +5,8 @@ import kr.couchcoding.tennis_together.domain.court.repository.CourtRepository;
 import kr.couchcoding.tennis_together.exception.CustomException;
 import kr.couchcoding.tennis_together.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -31,12 +33,7 @@ public class CourtService {
             throw new CustomException(ErrorCode.NOT_FOUND_GAME_COURT);
     }
 
-    public List<Court> findCourtByLocCd(long locCdNo) {
-        Optional<List<Court>> courtInfo = courtRepository.findByLocCd(locCdNo);
-
-        if (courtInfo.isPresent())
-            return courtInfo.get();
-        else
-            throw new CustomException(ErrorCode.NOT_FOUND_GAME_COURT);
+    public Page<Court> findCourtByLocCd(long locCdNo, Pageable pageable) {
+        return courtRepository.findByLocCd(locCdNo, pageable);
     }
 }
