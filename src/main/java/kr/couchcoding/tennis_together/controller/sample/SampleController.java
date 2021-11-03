@@ -1,7 +1,5 @@
 package kr.couchcoding.tennis_together.controller.sample;
 
-import java.security.Principal;
-
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
