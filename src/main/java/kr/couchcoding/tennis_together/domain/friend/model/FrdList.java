@@ -40,8 +40,6 @@ public class FrdList {
     @Builder
     public FrdList(User frdUser, char relStCd){
         this.frdUser = frdUser;
-        //this.friend = friend;
         this.relStCd = relStCd;
-        this.regDtm = regDtm;
     }
 }
