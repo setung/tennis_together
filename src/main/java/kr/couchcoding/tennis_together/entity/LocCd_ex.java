@@ -11,7 +11,7 @@ import lombok.Getter;
 @Getter
 @Entity
 @IdClass(LocCdKey.class)
-public class LocCd {
+public class LocCd_ex {
     @Id
     @Column(length = 2)
     private String locSd;
