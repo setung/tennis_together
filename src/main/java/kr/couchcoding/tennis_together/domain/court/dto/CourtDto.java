@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class CourtDto {
 
-    private long courtNo;
+    private Long courtNo;
     private LocCd locCd;
     private String name;
     private String roadAdr;

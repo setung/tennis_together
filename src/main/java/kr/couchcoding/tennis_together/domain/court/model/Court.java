@@ -21,7 +21,7 @@ public class Court {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long courtNo;
+    private Long courtNo;
 
     @ManyToOne
     @JoinColumn(name = "loc_cd_no")
