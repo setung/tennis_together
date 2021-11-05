@@ -19,7 +19,7 @@ public class FrdList {
     @Id
     @Column(name = "frd_rel_no")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long frdRelNo;
+    private Long frdRelNo;
 
     @ManyToOne
     @JoinColumn(name = "uid")
@@ -38,8 +38,8 @@ public class FrdList {
     private LocalDateTime regDtm;
 
     @Builder
-    public FrdList(User frdUser, char relStCd){
+    public FrdList(User user, User frdUser){
+        this.user = user;
         this.frdUser = frdUser;
-        this.relStCd = relStCd;
     }
 }
