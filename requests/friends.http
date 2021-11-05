@@ -1,0 +1,8 @@
+### Add Friends (Success)
+POST http://localhost:8080/users/me/friends
+Authorization: Bearer test
+Content-Type: application/json
+
+{
+ "addedUserUid": "test2"
+}
