@@ -15,34 +15,34 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import kr.couchcoding.tennis_together.domain.user.service.UserService;
 
-
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
-public class SecurityConfig extends WebSecurityConfigurerAdapter{
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     UserService userService;
-    
+
     @Profile("local")
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
-            .authorizeRequests()
-            .anyRequest().authenticated()
-            .and()
-            .addFilterBefore(new MockAuthFilter(userService),
-                UsernamePasswordAuthenticationFilter.class)
-            .exceptionHandling()
-            .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
+                .authorizeRequests()
+                .anyRequest().authenticated()
+                .and()
+                .addFilterBefore(new MockAuthFilter(userService),
+                        UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling()
+                .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
     }
-
+    
     @Override
     public void configure(WebSecurity web) throws Exception {
         // 인증 예외 URL설정
         web.ignoring().antMatchers(HttpMethod.POST, "/users")
-            .antMatchers("/")
-            .antMatchers("/courts")
-            .antMatchers("/courts/**")
-            .antMatchers("/resources/**");
-    } 
+                .antMatchers("/")
+                .antMatchers("/courts")
+                .antMatchers("/courts/**")
+                .antMatchers("/resources/**");
+    }
+
 }
