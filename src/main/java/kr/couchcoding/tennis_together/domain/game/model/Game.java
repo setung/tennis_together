@@ -1,6 +1,8 @@
 package kr.couchcoding.tennis_together.domain.game.model;
 
+import kr.couchcoding.tennis_together.domain.court.model.Court;
 import lombok.*;
+
 import javax.persistence.*;
 
 import org.hibernate.annotations.ColumnDefault;
@@ -10,6 +12,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import kr.couchcoding.tennis_together.domain.location.model.LocCd;
 import kr.couchcoding.tennis_together.domain.user.model.User;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -21,14 +24,11 @@ public class Game {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "game_no")
-    private long gameNo;
+    private Long gameNo;
 
-
-    // User 객체와 양방향 매핑 N : 1
     @ManyToOne
-    @JoinColumn(name = "uid")
+    @JoinColumn(name = "user_uid")
     private User gameCreator; // writer_id 칼럼을 객체로
-
 
     @Column(nullable = false, length = 100)
     private String title;
@@ -36,17 +36,17 @@ public class Game {
     @Column(nullable = false)
     private String content;
 
-    @Column(name = "gender_type")
-    private char genderType;
+    @Column(name = "gender_type", length = 10)
+    private String genderType;
 
     @Column(name = "age_type")
-    private int ageType;
+    private Integer ageType;
 
     @Column(name = "str_dt", length = 8)
-    private String strDt;
+    private LocalDate strDt;
 
     @Column(name = "end_dt", length = 8)
-    private String endDt;
+    private LocalDate endDt;
 
     @Column(nullable = false, name = "reg_dtm")
     @CreatedDate
@@ -57,16 +57,15 @@ public class Game {
     private LocalDateTime updDtm;
 
     @ManyToOne
-    @JoinColumn(name = "loc_cd_no")
-    private LocCd locCd;
+    @JoinColumn(name = "court_no")
+    private Court court;
 
     @Column(name = "st_dv_cd")
-    private char stDvCd = '1';
+    private Character stDvCd = '1';
 
     @Builder
-    public Game(long gameNo, User gameCreator, String title, String content, char genderType,
-                char ageType, String strDt, String endDt,
-                LocCd locCd){
+    public Game(long gameNo, User gameCreator, String title, String content, String genderType,
+                Integer ageType, LocalDate strDt, LocalDate endDt, Court court) {
         this.gameNo = gameNo;
         this.gameCreator = gameCreator;
         this.title = title;
@@ -75,6 +74,6 @@ public class Game {
         this.ageType = ageType;
         this.strDt = strDt;
         this.endDt = endDt;
-        this.locCd = locCd;
+        this.court = court;
     }
 }
