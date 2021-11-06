@@ -13,6 +13,9 @@ configurations {
 		extendsFrom annotationProcessor
 	}
 }
+manifest {
+  attributes 'Main-Class': 'kr.couchcoding.tennis_together.TennisTogetherApplication'
+}
 
 repositories {
 	mavenCentral()
