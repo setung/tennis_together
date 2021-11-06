@@ -29,10 +29,6 @@ public class LocCdService {
 
     public LocCd findById(long locCdNo) {
         Optional<LocCd> locCd = locCdRepository.findById(locCdNo);
-
-        if (!locCd.isPresent())
-            throw new CustomException(ErrorCode.NOT_FOUND_LOCATION);
-
-        return locCd.get();
+        return locCd.orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_LOCATION));
     }
 }

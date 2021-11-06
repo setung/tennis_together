@@ -26,11 +26,7 @@ public class CourtService {
 
     public Court findCourtByNo(long courtNo) {
         Optional<Court> courtInfo = courtRepository.findById(courtNo);
-
-        if (courtInfo.isPresent())
-            return courtInfo.get();
-        else
-            throw new CustomException(ErrorCode.NOT_FOUND_GAME_COURT);
+        return courtInfo.orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_GAME_COURT));
     }
 
     public Page<Court> findCourtByLocCd(long locCdNo, Pageable pageable) {

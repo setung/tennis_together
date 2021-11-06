@@ -15,7 +15,7 @@ import kr.couchcoding.tennis_together.exception.CustomException;
 import kr.couchcoding.tennis_together.exception.ErrorCode;
 
 @Service
-public class UserService implements UserDetailsService{
+public class UserService implements UserDetailsService {
     @Autowired
     UserRepository userRepository;
 
@@ -24,12 +24,8 @@ public class UserService implements UserDetailsService{
      */
     @Override
     @Transactional(readOnly = true)
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {        
-        Optional <User> user = userRepository.findById(username);
-        if(user.isPresent()) {
-            return user.get();
-        } else {
-            throw new CustomException(ErrorCode.NOT_FOUND_USER);
-        }
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Optional<User> user = userRepository.findById(username);
+        return user.orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
     }
 }
