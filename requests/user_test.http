@@ -1,2 +1,5 @@
 GET http://localhost:8080/sample HTTP/1.1
 Authorization: Bearer test
+
+GET https://tennis-togeter.herokuapp.com/
+Authorization: Bearer test
