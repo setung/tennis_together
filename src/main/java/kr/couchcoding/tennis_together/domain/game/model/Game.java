@@ -11,10 +11,12 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import kr.couchcoding.tennis_together.domain.location.model.LocCd;
 import kr.couchcoding.tennis_together.domain.user.model.User;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+@EntityListeners(AuditingEntityListener.class)
 @Entity
 @Getter
 @NoArgsConstructor
@@ -42,6 +44,9 @@ public class Game {
     @Column(name = "age_type")
     private Integer ageType;
 
+    @Column(name = "history_type")
+    private Integer historyType;
+
     @Column(name = "str_dt", length = 8)
     private LocalDate strDt;
 
@@ -65,11 +70,12 @@ public class Game {
 
     @Builder
     public Game(long gameNo, User gameCreator, String title, String content, String genderType,
-                Integer ageType, LocalDate strDt, LocalDate endDt, Court court) {
+                Integer historyType, Integer ageType, LocalDate strDt, LocalDate endDt, Court court) {
         this.gameNo = gameNo;
         this.gameCreator = gameCreator;
         this.title = title;
         this.content = content;
+        this.historyType = historyType;
         this.genderType = genderType;
         this.ageType = ageType;
         this.strDt = strDt;
