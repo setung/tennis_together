@@ -8,14 +8,14 @@ import kr.couchcoding.tennis_together.domain.game.service.GameService;
 import kr.couchcoding.tennis_together.domain.user.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.transaction.Transactional;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/games")
+@Transactional
 public class GameController {
 
     private final GameService gameService;
@@ -39,5 +39,28 @@ public class GameController {
                 .build();
 
         gameService.postGame(game);
+    }
+
+    @PatchMapping("/{gameNo}")
+    public void updateGame(@PathVariable Long gameNo, @RequestBody PostGameDTO gameDTO, Authentication authentication) {
+        User user = ((User) authentication.getPrincipal());
+        Game game = gameService.findGameByGameNoAndGameCreator(gameNo, user);
+        Court court = null;
+
+        if (gameDTO.getCourtNo() != null)
+            court = courtService.findCourtByNo(gameDTO.getCourtNo());
+
+        Game updatedGame = Game.builder()
+                .title(gameDTO.getTitle())
+                .content(gameDTO.getContent())
+                .historyType(gameDTO.getHistoryType())
+                .genderType(gameDTO.getGenderType())
+                .ageType(gameDTO.getAgeType())
+                .strDt(gameDTO.getStrDt())
+                .endDt(gameDTO.getEndDt())
+                .court(court)
+                .build();
+
+        gameService.updateGame(game, updatedGame);
     }
 }
