@@ -20,10 +20,10 @@ import java.util.Collection;
 public class User implements UserDetails{
 
     @Id 
-    @Column(length = 50, columnDefinition = "firebase uid")
+    @Column(length = 50)//, columnDefinition = "firebase uid")
     private String uid;
     
-    @Column(length = 10, columnDefinition = "휴대폰 번호")
+    @Column(length = 10)//, columnDefinition = "휴대폰 번호")
     private String phone;
 
     @Column(nullable = false, length = 50) // 디폴트는 nullalbe = true, length = 255
@@ -36,10 +36,10 @@ public class User implements UserDetails{
     private String birth;
 
     @Column(nullable = false)
-    private char gender;
+    private Character gender;
 
     @Column(nullable = false)
-    private int history;
+    private Integer history;
 
     @Column(nullable = false, name = "reg_dtm")
     @CreatedDate
@@ -50,12 +50,12 @@ public class User implements UserDetails{
     private LocalDateTime updDtm;
 
     @Column(nullable = false, name = "act_dv_cd")
-    private char actDvCd = '1';
+    private Character actDvCd = '1';
 
     @Column(length = 100, name = "profile_url")
     private String profileUrl;
 
-    private double score;
+    private Long score;
 
     @ManyToOne
     @JoinColumn(name = "loc_cd_no")
@@ -67,9 +67,9 @@ public class User implements UserDetails{
     *  - 객체는 생성할 때는 Builder를 사용
     * */
     @Builder
-    public User(String uid, String phone, String name, String password, String nickname, String birth, char gender,
-                int history, LocalDateTime regDtm, LocalDateTime updDtm, char actDvCd, String profileUrl,
-                double score, LocCd locCd){
+    public User(String uid, String phone, String name, String password, String nickname, String birth, Character gender,
+                Integer history, LocalDateTime regDtm, LocalDateTime updDtm, Character actDvCd, String profileUrl,
+                Long score, LocCd locCd){
         this.uid = uid;
         this.name = name;
         this.nickname = nickname;
@@ -79,6 +79,9 @@ public class User implements UserDetails{
         this.profileUrl = profileUrl;
         this.score = score;
         this.locCd = locCd;
+    }
+
+    public User(User registeredUser) {
     }
 
     @Override

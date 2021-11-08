@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "tennis-together-46e92",
+  "private_key_id": "7aebdcb1e59af5ac7c127cc114e5060fb4e3f62e",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCVUkYardBYk9oF\nJXSZB8eOwfrqiEZ9VEoo9iJYnIjMFlZRaqysuv7COC0GitH9KxxzygY99HfcXCuD\nTT9WwC7r5DwbOu3mOn1kTsvKNVCmDoZ57Bya2faRaYZvg7YJ2gmcF/dJYW77LCo3\nPFnGWSo0QpsEaTSZgV2/VCkcZL+VBcxGcw58MLCLWv/JXf4yvnlFZNF/QAoNPEtq\neZBpYP1j7DOzuQNjnzymkBCghBgk0AT8Ct6IScB2Qg/Zab5RKqBq8oFDOMAZpLXq\n3v+lGwv/PwNO2lurPbKPyZLtev7u3PUETqNTVhuNun2wNw8TLaPuMn+xwLZPFtJA\nU9qHwPYxAgMBAAECggEAAUeCrUDW+6NMp2WiQZtk9M6pqS/AttsthXtSYQL6UxFP\n7QOmdhZmD2Du1dMDqJEhfcZ51jcNfdhWURos1D/yRvgeIbeYCTRwFZdtPI7HYZzX\nPx0sQ5FhgO5wBe2RdjUlhu5XoovQqRtAQ1fjhwUFjQwTCu8h0bzfgj+k2Ibuc0bl\nlUFCpYZn3OVliLXwQk0JM4KsSVju7ykYGT8l/8GrAq6Qb7Zku/M+XBbTHR9fIgZd\nYH4wjYEywgPVwI3y4dtKBW8NOP094HjnJV/pMf6J7A6XxUyh/QtrLgtrUoHiQFCl\n/9GXYz72w2hW/l0XpCVuBZpgUDkcB8yA/Y85CDhOYQKBgQDQUbqrBpkjxam4YccN\nbQ5MNYR2QW3dTM+ww4UaN9p75yrKUrMQkMjGw8MYDgfM1G+OSC3qMWPngEsHVzjm\neie6afaSCuJgQsOjtoJ3hYaEtlcUoRFgCvneY74AhwqKP85JLDr4o5JcggdX8+Wq\nNH5D1GRWbJCg1X4ltlWLrBfA2QKBgQC3f56sgTGz2An80AIYjmMf0bNQD+aQGYtC\nu1vYCDA3AzfluC6MxLbcUQy1HrAnHYrov3VwfU8Lsub0RTvQZ+qP9gI+/Nsbzzqb\nFRrY3V1mai5zZrSQLPWJMI8qe8YNGVUyIMFHXq2hPc3dJryIjQrwYpI+4ZqnaWVA\nOpDYWDOJGQKBgGc1JqtW4IYlhtlvr+OJ9Txyg0bnUZwDUx57L7V2mIssUznb0RVS\n9fXrxPtk8B5d3Ur7navafmmSWRmw7+LYAFjN6LggJlmUmkLAyFCY2bVkdS4mQmp3\n5aV1ewvd2630wKnl/O10dK3aSfMcRduWmDvYvUFIFjtoqk/azvUc9MO5AoGBALVb\n//KVGg+a9XwWBgxJJnU7aBM4M/O2G2qQDN0+cpDcsHFuESv1/JlRzdJxCz8Nts4E\n9MiCQQ7Z+ePxTYXUPwOb7GpetRwOO+ks+cTfPMHNLi3Gk61vkhnOkaE2he9KW2bY\n8s5cKBWWJRJvh6UaaXZephZaGeVeiMDrYV9CBWV5AoGBALQkgai4dB5O1oIWj4x3\nMD2U+4NHrDL0OaauuAPbJjFhapn+k17Fazi0Rp4ZY5u0mGHgjm4cXL6Z6RiOemjN\nPnC+GXT61Xwd6UBLOHUTLHOCL48zhkYDd/k51A6fJqDnmvr7lygVUSjcrlLsNFna\nhILSWPN2rKJrMEvnHj93YbkC\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-nioe9@tennis-together-46e92.iam.gserviceaccount.com",
+  "client_id": "112707161305024709200",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-nioe9%40tennis-together-46e92.iam.gserviceaccount.com"
+}

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Gmail and Phone Authentication</title>
+
+	<script src="https://www.gstatic.com/firebasejs/5.0.4/firebase.js"></script>
+	<script>
+	  var config = {
+	      apiKey: "AIzaSyCqVKUa_y947kmsAYLMN1q2tpgt9CUPtOs",
+          authDomain: "tennis-together-46e92.firebaseapp.com",
+          projectId: "tennis-together-46e92",
+          storageBucket: "tennis-together-46e92.appspot.com",
+          messagingSenderId: "76536506522",
+          appId: "1:76536506522:web:d5ac531036e7dfbfdcd723",
+          measurementId: "G-4QGCZZ866R"
+	  };
+	  firebase.initializeApp(config);
+	</script>
+  <script src="https://cdn.firebase.com/libs/firebaseui/2.3.0/firebaseui.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.3.0/firebaseui.css" />
+  <link href="style.css" rel="stylesheet" type="text/css" media="screen" />
+
+</head>
+<body>
+    <div id="container">
+      <h3>전화 번호 인증</h3>
+      <div id="loading">Loading...</div>
+      <div id="loaded" class="hidden">
+
+
+        <div id="main">
+          <div id="user-signed-in" class="hidden">
+            <div id="user-info">
+              <div id="phone"></div>
+              <div class="clearfix"></div>
+            </div>
+            <p>
+              <button id="sign-out">Sign Out</button>
+            </p>
+          </div>
+
+          <div id="user-signed-out" class="hidden">
+            <div id="firebaseui-spa">
+              <div id="firebaseui-container"></div>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>

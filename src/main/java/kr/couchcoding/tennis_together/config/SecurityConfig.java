@@ -1,5 +1,7 @@
 package kr.couchcoding.tennis_together.config;
 
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -15,12 +17,19 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import kr.couchcoding.tennis_together.domain.user.service.UserService;
 
+import com.google.firebase.auth.FirebaseAuth;   // firebase 추가
+import kr.couchcoding.tennis_together.config.JwtFilter; //jwt 필터 추가
+
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     UserService userService;
+
+    @Autowired
+    private FirebaseAuth firebaseAuth;
 
     @Profile("local")
     @Override
@@ -29,7 +38,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .anyRequest().authenticated()
                 .and()
-                .addFilterBefore(new MockAuthFilter(userService),
+                //.addFilterBefore(new MockAuthFilter(userService),
+                //        UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtFilter(userService, firebaseAuth),
                         UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling()
                 .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));

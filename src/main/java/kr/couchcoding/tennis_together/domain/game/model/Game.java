@@ -21,8 +21,7 @@ public class Game {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "game_no")
-    private long gameNo;
-
+    private Long gameNo;
 
     // User 객체와 양방향 매핑 N : 1
     @ManyToOne
@@ -37,10 +36,10 @@ public class Game {
     private String content;
 
     @Column(name = "gender_type")
-    private char genderType;
+    private Character genderType;
 
     @Column(name = "age_type")
-    private int ageType;
+    private Character ageType;
 
     @Column(name = "str_dt", length = 8)
     private String strDt;

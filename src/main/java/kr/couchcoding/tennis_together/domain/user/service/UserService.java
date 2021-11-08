@@ -2,6 +2,7 @@ package kr.couchcoding.tennis_together.domain.user.service;
 
 import java.util.Optional;
 
+import kr.couchcoding.tennis_together.domain.location.model.LocCd;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -28,4 +29,25 @@ public class UserService implements UserDetailsService {
         Optional<User> user = userRepository.findById(username);
         return user.orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
     }
+
+    // 유저 등록
+    @Transactional
+    public User register (String uid, String phone, String name, String birth, String profileUrl, Character gender
+                            , Integer history, String nickname, LocCd locCd){
+        User registeredUser = User.builder()
+                .uid(uid)
+                .phone(phone)
+                .name(name)
+                .birth(birth)
+                .profileUrl(profileUrl)
+                .gender(gender)
+                .history(history)
+                .nickname(nickname)
+                .locCd(locCd)
+                .build();
+        userRepository.save(registeredUser);
+
+        return registeredUser;
+    }
+
 }

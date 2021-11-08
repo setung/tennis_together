@@ -27,12 +27,17 @@ public class MockAuthFilter extends OncePerRequestFilter {
         String token = request.getHeader("Authorization");
         if (token != null && token.startsWith("Bearer ")) {
             String username = token.substring(7);
+
             if(username.startsWith("test")){
+
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+
                 UsernamePasswordAuthenticationToken authentication = 
                 new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 doFilter(request, response, filterChain);
+
             } else if (username.equals("unknown")) {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "USER_NOT_FOUND");
             } else {
