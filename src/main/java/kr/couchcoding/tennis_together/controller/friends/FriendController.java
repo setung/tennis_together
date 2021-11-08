@@ -2,6 +2,8 @@ package kr.couchcoding.tennis_together.controller.friends;
 
 import kr.couchcoding.tennis_together.controller.friends.dto.FollowRequestDTO;
 import kr.couchcoding.tennis_together.controller.friends.dto.FollowResponseDTO;
+import kr.couchcoding.tennis_together.domain.court.dto.CourtDto;
+import kr.couchcoding.tennis_together.domain.friend.model.FrdList;
 import kr.couchcoding.tennis_together.domain.friend.service.FriendService;
 import kr.couchcoding.tennis_together.domain.user.model.User;
 import kr.couchcoding.tennis_together.domain.user.service.UserService;
@@ -30,12 +32,11 @@ public class FriendController {
 
     //팔로우 친구 조회
     @GetMapping("")
-    public Page<FollowResponseDTO> getFollowList( Authentication authentication,Pageable pageable) {
+    public Page<FollowResponseDTO> getFollowList(Authentication authentication, Pageable pageable) {
         // header에 user포함, RequestParam으로 받을 필요 없음
-        User user = ((User)authentication.getPrincipal()); // 인증유저를 갖고온다.
-        return friendService.getFollowList( user, pageable);
+        User user = ((User) authentication.getPrincipal()); // 인증유저를 갖고온다.
+        return friendService.getFollowList(user, pageable).map(frdList -> new FollowResponseDTO(frdList));
+        //map은 item을 바꿔주는 method
 
     }
-
-
 }

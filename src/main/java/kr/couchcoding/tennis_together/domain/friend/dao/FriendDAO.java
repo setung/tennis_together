@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 public interface FriendDAO extends JpaRepository<FrdList,Long> { // type과 idtype
     FrdList findByUserAndFrdUser(User user, User FrdUser);
 
-    Page<FollowResponseDTO> findByUser(User FrdUser, Pageable pageable);
+    Page<FrdList> findByUser(User FrdUser, Pageable pageable); // return을 FrdList로
 
 
 

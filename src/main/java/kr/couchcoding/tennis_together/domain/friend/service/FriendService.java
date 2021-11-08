@@ -1,7 +1,6 @@
 package kr.couchcoding.tennis_together.domain.friend.service;
 
-import kr.couchcoding.tennis_together.controller.friends.dto.FollowResponseDTO;
-import kr.couchcoding.tennis_together.domain.court.model.Court;
+
 import kr.couchcoding.tennis_together.domain.friend.dao.FriendDAO;
 import kr.couchcoding.tennis_together.domain.friend.model.FrdList;
 import kr.couchcoding.tennis_together.domain.user.model.User;
@@ -34,7 +33,7 @@ public class FriendService {
     }
 
 
-    public Page<FollowResponseDTO> getFollowList(User user, Pageable pageable) {
+    public Page<FrdList> getFollowList(User user, Pageable pageable) {
         return friendDAO.findByUser(user,pageable); // jpa에서 get의 동작방식이 다르기 때문에 jpa에서는 -> find
     }
 
