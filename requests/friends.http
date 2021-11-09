@@ -1,8 +1,14 @@
 ### Add Friends (Success)
 POST http://localhost:8080/users/me/friends
-Authorization: Bearer test
+Authorization: Bearer test1
 Content-Type: application/json
 
 {
  "addedUserUid": "test2"
 }
+
+### get Friends (Success)
+
+GET http://localhost:8080/users/me/friends
+Authorization: Bearer test
+
