@@ -42,7 +42,7 @@ public class FriendController {
     }
 
     //팔로우 친구 삭제
-    @DeleteMapping("{/frdRelNo}")
+    @DeleteMapping("/{frdRelNo}")
     public void deleteFriend(@PathVariable(value = "frdRelNo") Long frdRelNo, Authentication authentication) {
         User user = ((User)authentication.getPrincipal());
         friendService.deleteFriend(user,frdRelNo);
