@@ -38,7 +38,7 @@ public class FrdList {
     private LocalDateTime regDtm;
 
     @Builder
-    public FrdList(User user, User frdUser,Long frdRelNo){
+    public FrdList(User user, User frdUser){
         this.user = user;
         this.frdUser = frdUser;
     }
