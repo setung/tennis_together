@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,6 +36,16 @@ public class FriendService {
 
     public Page<FrdList> getFollowList(User user, Pageable pageable) {
         return friendDAO.findByUser(user,pageable); // jpa에서 get의 동작방식이 다르기 때문에 jpa에서는 -> find
+    }
+
+
+    public void deleteFriend(User user, Long frdRelNo) {
+        FrdList existData = friendDAO.findByUserAndFrdRelNo(user, frdRelNo); // 다른친구 삭제하면 안되니까 user도 받아야함
+        if(existData != null) {
+            friendDAO.delete(existData);
+        } else {
+            throw new CustomException(ErrorCode.NOT_FOUND_FRIEND);
+        }
     }
 
 }

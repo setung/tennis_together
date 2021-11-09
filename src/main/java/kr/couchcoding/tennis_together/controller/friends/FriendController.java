@@ -23,6 +23,7 @@ public class FriendController {
     @Autowired
     UserService userService;
 
+    //팔로우
     @PostMapping("")
     public void followFriend(@RequestBody FollowRequestDTO requestDTO, Authentication authentication) { // 받고 싶은 것 계속 추가
         User user = ((User)authentication.getPrincipal()); // 인증유저를 갖고온다.
@@ -38,5 +39,12 @@ public class FriendController {
         return friendService.getFollowList(user, pageable).map(frdList -> new FollowResponseDTO(frdList));
         //map은 item을 바꿔주는 method
 
+    }
+
+    //팔로우 친구 삭제
+    @DeleteMapping("{/frdRelNo}")
+    public void deleteFriend(@PathVariable(value = "frdRelNo") Long frdRelNo, Authentication authentication) {
+        User user = ((User)authentication.getPrincipal());
+        friendService.deleteFriend(user,frdRelNo);
     }
 }
