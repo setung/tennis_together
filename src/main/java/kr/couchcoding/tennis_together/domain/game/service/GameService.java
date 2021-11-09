@@ -40,4 +40,8 @@ public class GameService {
 
         return games;
     }
+
+    public void deleteGame(Game game) {
+        gameRepository.delete(game);
+    }
 }
