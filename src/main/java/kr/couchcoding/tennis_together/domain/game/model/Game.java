@@ -1,18 +1,15 @@
 package kr.couchcoding.tennis_together.domain.game.model;
 
 import kr.couchcoding.tennis_together.domain.court.model.Court;
-import lombok.*;
-
-import javax.persistence.*;
-
-import org.hibernate.annotations.ColumnDefault;
+import kr.couchcoding.tennis_together.domain.user.model.User;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
-
-import kr.couchcoding.tennis_together.domain.location.model.LocCd;
-import kr.couchcoding.tennis_together.domain.user.model.User;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -81,5 +78,16 @@ public class Game {
         this.strDt = strDt;
         this.endDt = endDt;
         this.court = court;
+    }
+
+    public void updateGame(Game updatedGame) {
+        if (updatedGame.getCourt() != null) court = updatedGame.getCourt();
+        if (updatedGame.getTitle() != null) title = updatedGame.getTitle();
+        if (updatedGame.getContent() != null) content = updatedGame.getContent();
+        if (updatedGame.getHistoryType() != null) historyType = updatedGame.getHistoryType();
+        if (updatedGame.getGenderType() != null) genderType = updatedGame.getGenderType();
+        if (updatedGame.getAgeType() != null) ageType = updatedGame.getAgeType();
+        if (updatedGame.getStrDt() != null) strDt = updatedGame.getStrDt();
+        if (updatedGame.getEndDt() != null) endDt = updatedGame.getEndDt();
     }
 }

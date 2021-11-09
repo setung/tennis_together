@@ -48,6 +48,12 @@ public class GameController {
         gameService.postGame(game);
     }
 
+    @PatchMapping("/{gameNo}")
+    public void updateGame(@PathVariable Long gameNo, @RequestBody PostGameDTO updatedGameDTO, Authentication authentication) {
+        User user = ((User) authentication.getPrincipal());
+        gameService.updateGame(user, gameNo, updatedGameDTO);
+    }
+
     @GetMapping
     public Page<ResponseGameDTO> findGames(
             @RequestParam(required = false) Long courtNo,
