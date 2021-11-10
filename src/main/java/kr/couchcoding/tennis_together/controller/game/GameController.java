@@ -18,13 +18,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import javax.transaction.Transactional;
 import java.time.LocalDate;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/games")
-@Transactional
 public class GameController {
 
     private final GameService gameService;
@@ -51,26 +49,9 @@ public class GameController {
     }
 
     @PatchMapping("/{gameNo}")
-    public void updateGame(@PathVariable Long gameNo, @RequestBody PostGameDTO gameDTO, Authentication authentication) {
+    public void updateGame(@PathVariable Long gameNo, @RequestBody PostGameDTO updatedGameDTO, Authentication authentication) {
         User user = ((User) authentication.getPrincipal());
-        Game game = gameService.findGameByGameNoAndGameCreator(gameNo, user);
-        Court court = null;
-
-        if (gameDTO.getCourtNo() != null)
-            court = courtService.findCourtByNo(gameDTO.getCourtNo());
-
-        Game updatedGame = Game.builder()
-                .title(gameDTO.getTitle())
-                .content(gameDTO.getContent())
-                .historyType(gameDTO.getHistoryType())
-                .genderType(gameDTO.getGenderType())
-                .ageType(gameDTO.getAgeType())
-                .strDt(gameDTO.getStrDt())
-                .endDt(gameDTO.getEndDt())
-                .court(court)
-                .build();
-
-        gameService.updateGame(game, updatedGame);
+        gameService.updateGame(user, gameNo, updatedGameDTO);
     }
 
     @GetMapping
