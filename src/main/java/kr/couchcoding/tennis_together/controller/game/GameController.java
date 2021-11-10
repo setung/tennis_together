@@ -81,6 +81,11 @@ public class GameController {
         return gameService.findAll(spec, pageable).map(game -> new ResponseGameDTO(game));
     }
 
+    @GetMapping("/{gameNo}")
+    public ResponseGameDTO findGame(@PathVariable Long gameNo) {
+        return new ResponseGameDTO(gameService.findGameByNo(gameNo));
+    }
+
     @DeleteMapping("/{gameNo}")
     public void deleteGame(@PathVariable Long gameNo, Authentication authentication) {
         User user = ((User) authentication.getPrincipal());

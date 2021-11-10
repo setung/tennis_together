@@ -45,6 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/courts")
                 .antMatchers("/courts/**")
                 .antMatchers(HttpMethod.GET,"/games")
+                .antMatchers(HttpMethod.GET,"/games/**")
                 .antMatchers("/resources/**")
                 .antMatchers("/js/**")
                 .antMatchers("/css/**")
