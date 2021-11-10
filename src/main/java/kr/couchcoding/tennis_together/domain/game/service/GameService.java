@@ -1,6 +1,7 @@
 package kr.couchcoding.tennis_together.domain.game.service;
 
 import kr.couchcoding.tennis_together.controller.game.dto.PostGameDTO;
+import kr.couchcoding.tennis_together.controller.game.dto.ResponseGameDTO;
 import kr.couchcoding.tennis_together.domain.court.model.Court;
 import kr.couchcoding.tennis_together.domain.court.service.CourtService;
 import kr.couchcoding.tennis_together.domain.game.dao.GameRepository;
@@ -66,5 +67,10 @@ public class GameService {
 
     public void deleteGame(Game game) {
         gameRepository.delete(game);
+    }
+
+    public Game findGameByNo(Long gameNo) {
+        Optional<Game> game = gameRepository.findById(gameNo);
+        return game.orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_GAME));
     }
 }
