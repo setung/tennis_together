@@ -20,10 +20,10 @@ import java.util.Collection;
 public class User implements UserDetails{
 
     @Id 
-    @Column(length = 50)//, columnDefinition = "firebase uid")
+    @Column(length = 50, columnDefinition = "firebase uid")
     private String uid;
     
-    @Column(length = 10)//, columnDefinition = "휴대폰 번호")
+    @Column(length = 10, columnDefinition = "휴대폰 번호")
     private String phone;
 
     @Column(nullable = false, length = 50) // 디폴트는 nullalbe = true, length = 255
@@ -55,7 +55,7 @@ public class User implements UserDetails{
     @Column(length = 100, name = "profile_url")
     private String profileUrl;
 
-    private Long score;
+    private Double score;
 
     @ManyToOne
     @JoinColumn(name = "loc_cd_no")
@@ -69,7 +69,7 @@ public class User implements UserDetails{
     @Builder
     public User(String uid, String phone, String name, String password, String nickname, String birth, Character gender,
                 Integer history, LocalDateTime regDtm, LocalDateTime updDtm, Character actDvCd, String profileUrl,
-                Long score, LocCd locCd){
+                Double score, LocCd locCd){
         this.uid = uid;
         this.name = name;
         this.nickname = nickname;

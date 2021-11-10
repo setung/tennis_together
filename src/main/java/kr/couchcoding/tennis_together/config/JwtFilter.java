@@ -9,6 +9,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -18,12 +19,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.NoSuchElementException;
 
+@Component
 public class JwtFilter extends OncePerRequestFilter {
 
     private UserDetailsService userDetailsService;
     private FirebaseAuth firebaseAuth;
 
     public JwtFilter(UserDetailsService userDetailsService, FirebaseAuth firebaseAuth){
+
         this.userDetailsService = userDetailsService;
         this.firebaseAuth = firebaseAuth;
     }
@@ -36,8 +39,10 @@ public class JwtFilter extends OncePerRequestFilter {
 
         // 토큰을 받아와 검증
         try{
+
             String header = RequestUtil.getAuthorizationToken((request.getHeader("Authorization")));
             decodedToken = firebaseAuth.verifyIdToken(header);
+            System.out.println("auth OK + " + header + " + " + decodedToken);
 
         } catch (FirebaseAuthException | IllegalArgumentException e){
             // ErrorMessage 응답 전송
@@ -49,7 +54,10 @@ public class JwtFilter extends OncePerRequestFilter {
 
         // User를 가져와 SecurityContext에 저장
         try{
+            System.out.println("uid : " + decodedToken.getUid());
             UserDetails user = userDetailsService.loadUserByUsername(decodedToken.getUid());
+
+
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                     user, null, user.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
