@@ -1,6 +1,5 @@
 package kr.couchcoding.tennis_together.controller.user;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
@@ -27,7 +26,7 @@ public class UserController {
 
     // 회원 등록
     @PostMapping("")
-    public void register(@RequestHeader("Authorization") String authorization,
+    public String register(@RequestHeader("Authorization") String authorization,
                              @RequestBody RegisterDTO registerDTO){
 
         FirebaseToken decodedToken;
@@ -45,21 +44,22 @@ public class UserController {
         userService.register(
                 decodedToken.getUid()
                 , registerDTO.getPhone()
+                , registerDTO.getName()
                 , registerDTO.getBirth()
+                , registerDTO.getProfileUrl()
                 , registerDTO.getGender()
                 , registerDTO.getHistory()
                 , registerDTO.getNickname()
                 , registerDTO.getLocCd()
             );
+        return "redirect:/";
     }
 
-
-
-    // 로그인 (상세조회와 같다?)
-    @GetMapping("/{uid}")
-    public User login(Authentication authentication) {
-        User loginUser = (User) authentication.getPrincipal();
-
-        return loginUser;
+    // 로그인
+    @GetMapping("/me")
+    public String getUserMe(Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        // 마이페이지 URL ?
+        return "redirect:/myPage/" + user.getUid();
     }
 }

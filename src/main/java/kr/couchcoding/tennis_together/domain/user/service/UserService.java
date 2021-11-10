@@ -32,12 +32,14 @@ public class UserService implements UserDetailsService {
 
     // 유저 등록
     @Transactional
-    public User register(String uid, String phone, String name, Character gender
-            , Integer history, String nickname, LocCd locCd){
+    public User register (String uid, String phone, String name, String birth, String profileUrl, Character gender
+                            , Integer history, String nickname, LocCd locCd){
         User registeredUser = User.builder()
                 .uid(uid)
                 .phone(phone)
                 .name(name)
+                .birth(birth)
+                .profileUrl(profileUrl)
                 .gender(gender)
                 .history(history)
                 .nickname(nickname)

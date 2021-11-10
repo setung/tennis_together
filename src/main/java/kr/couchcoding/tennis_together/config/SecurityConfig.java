@@ -34,16 +34,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Profile("local")
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        System.out.println("KIH1");
-        http.csrf().disable() // CSRF 보호기능 disable
-                .authorizeRequests() // 요청에대한 권한 지정
-                .anyRequest().authenticated() // 모든 요청이 인증되어야한다.
+        http.csrf().disable()
+                .authorizeRequests()
+                .anyRequest().authenticated()
                 .and()
-                .addFilterBefore(new JwtFilter(userService, firebaseAuth), // 커스텀 필터인 JwtFilter를 먼저 수행한다.
-                        UsernamePasswordAuthenticationFilter.class)        // 이후 UsernamePasswordAuthenticationFilter 실행
-                .exceptionHandling() // 예외처리 기능 작동
-                .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)); // 인증실패시처리
-        System.out.println("KIH2");
+                //.addFilterBefore(new MockAuthFilter(userService),
+                //        UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtFilter(userService, firebaseAuth),
+                        UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling()
+                .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
     }
     
     @Override
