@@ -34,7 +34,7 @@ public class GameUserListService {
         GameUserList newGameUserList = GameUserList.builder()
                 .joinedGame(game)
                 .gameUser(user)
-                .stDvCd(GameUserListStatus.APPLIED)
+                .stDvCd(GameUserListStatus.APPLYING)
                 .build();
 
         gameUserListRepository.save(newGameUserList);
