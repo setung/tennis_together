@@ -1,6 +1,7 @@
 package kr.couchcoding.tennis_together.controller.game.specification;
 
 import kr.couchcoding.tennis_together.domain.game.model.Game;
+import kr.couchcoding.tennis_together.domain.game.status.GameStatus;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;
@@ -27,8 +28,8 @@ public class GameSpecification {
         return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("historyType"), historyType);
     }
 
-    public static Specification<Game> equalStatus(char status) {
-        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("stDvCd"), status);
+    public static Specification<Game> equalStatus(GameStatus status) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("gameStatus"), status);
     }
 
     public static Specification<Game> geStrDt(LocalDate strDt) {

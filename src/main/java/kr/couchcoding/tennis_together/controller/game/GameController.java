@@ -5,6 +5,7 @@ import kr.couchcoding.tennis_together.controller.game.dto.ResponseGameDTO;
 import kr.couchcoding.tennis_together.controller.game.specification.GameSpecification;
 import kr.couchcoding.tennis_together.domain.game.model.Game;
 import kr.couchcoding.tennis_together.domain.game.service.GameService;
+import kr.couchcoding.tennis_together.domain.game.status.GameStatus;
 import kr.couchcoding.tennis_together.domain.user.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -45,10 +46,11 @@ public class GameController {
             @RequestParam(required = false) String genderType,
             @RequestParam(required = false) Integer ageType,
             @RequestParam(required = false) Integer historyType,
-            @RequestParam(required = false) Character status,
+            @RequestParam(required = false) GameStatus status,
             @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate strDt,
             @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDt,
             @PageableDefault(sort = "regDtm", direction = Sort.Direction.DESC) Pageable pageable) {
+
 
         Specification<Game> spec = (root, query, criteriaBuilder) -> null;
         if (courtNo != null) spec = spec.and(GameSpecification.equalCourtNo(courtNo));

@@ -64,7 +64,7 @@ public class Game {
     private Court court;
 
     @Column(name = "st_dv_cd")
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private GameStatus gameStatus;
 
     @Builder
