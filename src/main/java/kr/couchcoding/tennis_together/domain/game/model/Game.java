@@ -1,6 +1,7 @@
 package kr.couchcoding.tennis_together.domain.game.model;
 
 import kr.couchcoding.tennis_together.domain.court.model.Court;
+import kr.couchcoding.tennis_together.domain.game.status.GameStatus;
 import kr.couchcoding.tennis_together.domain.user.model.User;
 import lombok.Builder;
 import lombok.Getter;
@@ -63,11 +64,13 @@ public class Game {
     private Court court;
 
     @Column(name = "st_dv_cd")
-    private Character stDvCd = '1';
+    @Enumerated(EnumType.ORDINAL)
+    private GameStatus gameStatus;
 
     @Builder
     public Game(long gameNo, User gameCreator, String title, String content, String genderType,
-                Integer historyType, Integer ageType, LocalDate strDt, LocalDate endDt, Court court) {
+                Integer historyType, Integer ageType, LocalDate strDt, LocalDate endDt, Court court,
+                GameStatus gameStatus) {
         this.gameNo = gameNo;
         this.gameCreator = gameCreator;
         this.title = title;
@@ -78,6 +81,7 @@ public class Game {
         this.strDt = strDt;
         this.endDt = endDt;
         this.court = court;
+        this.gameStatus = gameStatus;
     }
 
     public void updateGame(Game updatedGame) {

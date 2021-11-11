@@ -1,10 +1,8 @@
 package kr.couchcoding.tennis_together.controller.game;
 
-import kr.couchcoding.tennis_together.controller.game.dto.PostGameDTO;
+import kr.couchcoding.tennis_together.controller.game.dto.RequestGameDTO;
 import kr.couchcoding.tennis_together.controller.game.dto.ResponseGameDTO;
 import kr.couchcoding.tennis_together.controller.game.specification.GameSpecification;
-import kr.couchcoding.tennis_together.domain.court.model.Court;
-import kr.couchcoding.tennis_together.domain.court.service.CourtService;
 import kr.couchcoding.tennis_together.domain.game.model.Game;
 import kr.couchcoding.tennis_together.domain.game.service.GameService;
 import kr.couchcoding.tennis_together.domain.user.model.User;
@@ -26,30 +24,15 @@ import java.time.LocalDate;
 public class GameController {
 
     private final GameService gameService;
-    private final CourtService courtService;
 
     @PostMapping
-    public void postGame(@RequestBody PostGameDTO postGameDTO, Authentication authentication) {
+    public ResponseGameDTO postGame(@RequestBody RequestGameDTO postGameDTO, Authentication authentication) {
         User user = ((User) authentication.getPrincipal());
-        Court court = courtService.findCourtByNo(postGameDTO.getCourtNo());
-
-        Game game = Game.builder()
-                .gameCreator(user)
-                .court(court)
-                .title(postGameDTO.getTitle())
-                .content(postGameDTO.getContent())
-                .historyType(postGameDTO.getHistoryType())
-                .ageType(postGameDTO.getAgeType())
-                .genderType(postGameDTO.getGenderType())
-                .strDt(postGameDTO.getStrDt())
-                .endDt(postGameDTO.getEndDt())
-                .build();
-
-        gameService.postGame(game);
+        return new ResponseGameDTO(gameService.postGame(user, postGameDTO));
     }
 
     @PatchMapping("/{gameNo}")
-    public void updateGame(@PathVariable Long gameNo, @RequestBody PostGameDTO updatedGameDTO, Authentication authentication) {
+    public void updateGame(@PathVariable Long gameNo, @RequestBody RequestGameDTO updatedGameDTO, Authentication authentication) {
         User user = ((User) authentication.getPrincipal());
         gameService.updateGame(user, gameNo, updatedGameDTO);
     }
