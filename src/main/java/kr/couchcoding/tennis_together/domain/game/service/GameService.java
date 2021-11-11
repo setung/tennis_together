@@ -80,8 +80,13 @@ public class GameService {
         return games;
     }
 
-    public void deleteGame(Game game) {
-        gameRepository.delete(game);
+    public void deleteGame(User user, long gameNo) {
+        Game game = findGameByGameNoAndGameCreator(gameNo, user);
+
+        if (game.getGameStatus() == GameStatus.DELETED)
+            throw new CustomException(ErrorCode.BAD_REQUEST_GAME, "이미 삭제된 게임입니다.");
+
+        game.updateStatus(GameStatus.DELETED);
     }
 
     public Game findGameByNo(Long gameNo) {

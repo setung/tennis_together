@@ -72,8 +72,6 @@ public class GameController {
     @DeleteMapping("/{gameNo}")
     public void deleteGame(@PathVariable Long gameNo, Authentication authentication) {
         User user = ((User) authentication.getPrincipal());
-        Game game = gameService.findGameByGameNoAndGameCreator(gameNo, user);
-
-        gameService.deleteGame(game);
+        gameService.deleteGame(user, gameNo);
     }
 }

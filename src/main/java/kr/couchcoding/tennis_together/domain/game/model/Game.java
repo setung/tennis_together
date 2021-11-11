@@ -94,4 +94,8 @@ public class Game {
         if (updatedGame.getStrDt() != null) strDt = updatedGame.getStrDt();
         if (updatedGame.getEndDt() != null) endDt = updatedGame.getEndDt();
     }
+
+    public void updateStatus(GameStatus gameStatus) {
+        this.gameStatus = gameStatus;
+    }
 }
