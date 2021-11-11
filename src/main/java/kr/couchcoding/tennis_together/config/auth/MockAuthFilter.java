@@ -1,4 +1,4 @@
-package kr.couchcoding.tennis_together.config;
+package kr.couchcoding.tennis_together.config.auth;
 
 import java.io.IOException;
 
@@ -11,9 +11,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.web.filter.OncePerRequestFilter;
 
-public class MockAuthFilter extends OncePerRequestFilter {
+public class MockAuthFilter extends AuthFilter{
 
     private final UserDetailsService userDetailsService;
     public MockAuthFilter(UserDetailsService service) {

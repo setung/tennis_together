@@ -4,7 +4,6 @@ package kr.couchcoding.tennis_together.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -14,11 +13,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import kr.couchcoding.tennis_together.domain.user.service.UserService;
-
-import com.google.firebase.auth.FirebaseAuth;   // firebase 추가
-import kr.couchcoding.tennis_together.config.JwtFilter; //jwt 필터 추가
 
 
 @Configuration
@@ -27,11 +24,10 @@ import kr.couchcoding.tennis_together.config.JwtFilter; //jwt 필터 추가
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     UserService userService;
-
+    
     @Autowired
-    private FirebaseAuth firebaseAuth;
+    private OncePerRequestFilter jwtFilter;
 
-    @Profile("local")
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         System.out.println("KIH1");
@@ -39,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests() // 요청에대한 권한 지정
                 .anyRequest().authenticated() // 모든 요청이 인증되어야한다.
                 .and()
-                .addFilterBefore(new JwtFilter(userService, firebaseAuth), // 커스텀 필터인 JwtFilter를 먼저 수행한다.
+                .addFilterBefore(jwtFilter,// 커스텀 필터인 JwtFilter를 먼저 수행한다.
                         UsernamePasswordAuthenticationFilter.class)        // 이후 UsernamePasswordAuthenticationFilter 실행
                 .exceptionHandling() // 예외처리 기능 작동
                 .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)); // 인증실패시처리

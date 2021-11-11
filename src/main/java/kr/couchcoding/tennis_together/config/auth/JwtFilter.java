@@ -1,4 +1,4 @@
-package kr.couchcoding.tennis_together.config;
+package kr.couchcoding.tennis_together.config.auth;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
@@ -19,8 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.NoSuchElementException;
 
-@Component
-public class JwtFilter extends OncePerRequestFilter {
+public class JwtFilter extends AuthFilter{
 
     private UserDetailsService userDetailsService;
     private FirebaseAuth firebaseAuth;
