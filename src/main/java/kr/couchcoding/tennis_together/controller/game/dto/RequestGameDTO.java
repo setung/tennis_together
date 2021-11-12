@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-public class PostGameDTO {
+public class RequestGameDTO {
 
     String title;
     String content;
