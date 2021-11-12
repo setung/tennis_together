@@ -51,17 +51,20 @@ public class GameController {
             @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDt,
             @PageableDefault(sort = "regDtm", direction = Sort.Direction.DESC) Pageable pageable) {
 
-
         Specification<Game> spec = (root, query, criteriaBuilder) -> null;
         if (courtNo != null) spec = spec.and(GameSpecification.equalCourtNo(courtNo));
         if (uid != null) spec = spec.and(GameSpecification.equalUid(uid));
         if (genderType != null) spec = spec.and(GameSpecification.equalGenderType(genderType));
         if (ageType != null) spec = spec.and(GameSpecification.equalAgeType(ageType));
         if (historyType != null) spec = spec.and(GameSpecification.equalHistoryType(historyType));
-        if (status != null) spec = spec.and(GameSpecification.equalStatus(status));
         if (strDt != null) spec = spec.and(GameSpecification.geStrDt(strDt));
         if (endDt != null) spec = spec.and(GameSpecification.leEndDt(endDt));
         if (score != null) spec = spec.and(GameSpecification.geScore(score));
+        if (status != null) {
+            spec = spec.and(GameSpecification.equalStatus(status));
+        } else {
+            spec = spec.and(GameSpecification.notEqualStatus());
+        }
 
         return gameService.findAll(spec, pageable).map(game -> new ResponseGameDTO(game));
     }

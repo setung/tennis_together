@@ -32,6 +32,10 @@ public class GameSpecification {
         return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("gameStatus"), status);
     }
 
+    public static Specification<Game> notEqualStatus() {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.notEqual(root.get("gameStatus"), GameStatus.DELETED);
+    }
+
     public static Specification<Game> geStrDt(LocalDate strDt) {
         return (root, query, criteriaBuilder) -> criteriaBuilder.greaterThanOrEqualTo(root.get("strDt"), strDt);
     }

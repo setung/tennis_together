@@ -46,8 +46,18 @@ public class GameService {
     }
 
     public Game findGameByGameNoAndGameCreator(Long gameNo, User gameCreator) {
-        Optional<Game> game = gameRepository.findGameByGameNoAndGameCreator(gameNo, gameCreator);
-        return game.orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_GAME));
+        Optional<Game> gameOpt = gameRepository.findGameByGameNoAndGameCreator(gameNo, gameCreator);
+
+        gameOpt.ifPresentOrElse(
+                game -> {
+                    if (game.getGameStatus() == GameStatus.DELETED)
+                        throw new CustomException(ErrorCode.BAD_REQUEST_GAME, "삭제된 Game 입니다.");
+                },
+                () -> {
+                    throw new CustomException(ErrorCode.NOT_FOUND_GAME);
+                });
+
+        return gameOpt.get();
     }
 
     public void updateGame(User user, Long gameNo, RequestGameDTO updatedGameDTO) {
@@ -90,7 +100,17 @@ public class GameService {
     }
 
     public Game findGameByNo(Long gameNo) {
-        Optional<Game> game = gameRepository.findById(gameNo);
-        return game.orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_GAME));
+        Optional<Game> gameOpt = gameRepository.findById(gameNo);
+
+        gameOpt.ifPresentOrElse(
+                game -> {
+                    if (game.getGameStatus() == GameStatus.DELETED)
+                        throw new CustomException(ErrorCode.BAD_REQUEST_GAME, "삭제된 Game 입니다.");
+                },
+                () -> {
+                    throw new CustomException(ErrorCode.NOT_FOUND_GAME);
+                });
+
+        return gameOpt.get();
     }
 }
