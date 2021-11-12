@@ -21,15 +21,14 @@ public class UserReview {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "review_no")
-    private long reviewNo;
+    private Long reviewNo;
 
     // User 객체와 양방향 매핑 N : 1
     @ManyToOne
     @JoinColumn(name = "written_uid")
     private User reviewUser; // written_uid 칼럼을 객체로
 
-    @Column(name = "review_title")
-    private String reviewTitle;
+    // reviewTitle 칼럼 삭제
 
     @Column(name = "review_content")
     private String reviewContent;
@@ -42,14 +41,14 @@ public class UserReview {
     @LastModifiedDate
     private LocalDateTime updDtm;
 
+    // score 타입을 정수형으로 변경
     @Column(name = "score")
-    private double score;
+    private Long score;
 
-    public UserReview(long reviewNo, User reviewUser, String reviewTitle, String reviewContent
-                    , double score){
+    public UserReview(Long reviewNo, User reviewUser, String reviewContent
+                    , Long score){
         this.reviewNo = reviewNo;
         this.reviewUser = reviewUser;
-        this.reviewTitle = reviewTitle;
         this.reviewContent = reviewContent;
         this.score = score;
     }

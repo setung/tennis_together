@@ -21,5 +21,4 @@ public class LocCdDTO {
         locSkkName = locCd.getLocSkkName();
         regStCd = locCd.getRegStCd();
     }
-
 }

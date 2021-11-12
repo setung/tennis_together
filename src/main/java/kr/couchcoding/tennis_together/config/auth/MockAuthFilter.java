@@ -1,4 +1,4 @@
-package kr.couchcoding.tennis_together.config;
+package kr.couchcoding.tennis_together.config.auth;
 
 import java.io.IOException;
 
@@ -11,9 +11,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.web.filter.OncePerRequestFilter;
 
-public class MockAuthFilter extends OncePerRequestFilter {
+public class MockAuthFilter extends AuthFilter{
 
     private final UserDetailsService userDetailsService;
     public MockAuthFilter(UserDetailsService service) {
@@ -27,12 +26,17 @@ public class MockAuthFilter extends OncePerRequestFilter {
         String token = request.getHeader("Authorization");
         if (token != null && token.startsWith("Bearer ")) {
             String username = token.substring(7);
+
             if(username.startsWith("test")){
+
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+
                 UsernamePasswordAuthenticationToken authentication = 
                 new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 doFilter(request, response, filterChain);
+
             } else if (username.equals("unknown")) {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "USER_NOT_FOUND");
             } else {
