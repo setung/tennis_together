@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 
 @Service
 @RequiredArgsConstructor
@@ -23,17 +24,7 @@ public class GameUserListService {
 
     public void applyGame(User user, Long gameNo) {
         Game game = gameService.findGameByNo(gameNo);
-
-        if (game.getGameStatus() != GameStatus.RECRUITING)
-            throw new CustomException(ErrorCode.BAD_REQUEST_GAME, game.getGameStatus() + " 상태의 게임을 신청할 수 없습니다.");
-
-        if (game.getGameCreator().getUid().equals(user.getUid()))
-            throw new CustomException(ErrorCode.BAD_REQUEST_GAME, "자신의 게임에 신청할 수 없습니다.");
-
-        gameUserListRepository.findByGameUserAndJoinedGame(user, game)
-                .ifPresent(gameUserList -> {
-                    throw new CustomException(ErrorCode.BAD_REQUEST_GAME, "이미 신청한 게임입니다.");
-                });
+        verifyGame(user, game);
 
         GameUserList newGameUserList = GameUserList.builder()
                 .joinedGame(game)
@@ -42,5 +33,24 @@ public class GameUserListService {
                 .build();
 
         gameUserListRepository.save(newGameUserList);
+    }
+
+    private void verifyGame(User user, Game game) {
+        LocalDate now = LocalDate.now();
+
+        if (game.getGameStatus() != GameStatus.RECRUITING)
+            throw new CustomException(ErrorCode.BAD_REQUEST_GAME, game.getGameStatus() + " 상태의 게임을 신청할 수 없습니다.");
+
+        if (game.getGameCreator().getUid().equals(user.getUid()))
+            throw new CustomException(ErrorCode.BAD_REQUEST_GAME, "자신의 게임에 신청할 수 없습니다.");
+
+        if (!(game.getStrDt().equals(now) || game.getEndDt().equals(now))
+                && !(game.getStrDt().isBefore(now) && game.getEndDt().isAfter(now)))
+            throw new CustomException(ErrorCode.BAD_REQUEST_GAME, "신청기간이 아닙니다.");
+
+        gameUserListRepository.findByGameUserAndJoinedGame(user, game)
+                .ifPresent(gameUserList -> {
+                    throw new CustomException(ErrorCode.BAD_REQUEST_GAME, "이미 신청한 게임입니다.");
+                });
     }
 }
