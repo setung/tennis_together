@@ -23,8 +23,8 @@ public class FriendService {
 
     @Transactional
     public void followFriend(User user, User friend) {// 어떤유저가 누굴 팔로하는지
-        // 친구를 가져오는 로직 추가되어야 함
-        FrdList existData = friendDAO.findByUserAndFrdUser(user, friend);
+
+        FrdList existData = friendDAO.findByUserAndFrdUser(user, friend); // 친구를 가져오는 로직
         if(existData == null) {
             FrdList frdList = FrdList.builder().frdUser(friend).user(user).build(); // 친구목록 한 줄 추가
             friendDAO.save(frdList); // 저장

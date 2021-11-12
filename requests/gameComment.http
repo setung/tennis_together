@@ -1,0 +1,9 @@
+### Create Comment (Success)
+
+POST http://localhost:8080/21/comments
+Authorization: Bearer test1
+Content-Type: application/json
+
+{
+ "reviewContents": "저영~"
+}

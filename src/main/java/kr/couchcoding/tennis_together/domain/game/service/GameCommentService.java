@@ -19,13 +19,13 @@ public class GameCommentService {
     public void createComment(User user, Game game, GCRequestDTO gcRequestDTO) {
 
 
-        GameComment gameComment = GameComment.builder()
+        GameComment gc = GameComment.builder()
                 .comtWriteUser(user)
                 .commentedGame(game)
                 .reviewContent(gcRequestDTO.getReviewContents())
                 .build();
 
-        gameCommentRepository.save(gameComment);
+        gameCommentRepository.save(gc);
 
     }
 }
