@@ -1,17 +1,19 @@
 package kr.couchcoding.tennis_together.domain.game.model;
 
-import lombok.*;
-import javax.persistence.*;
-
-import org.hibernate.annotations.ColumnDefault;
+import kr.couchcoding.tennis_together.domain.court.model.Court;
+import kr.couchcoding.tennis_together.domain.user.model.User;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import kr.couchcoding.tennis_together.domain.location.model.LocCd;
-import kr.couchcoding.tennis_together.domain.user.model.User;
-
+import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+@EntityListeners(AuditingEntityListener.class)
 @Entity
 @Getter
 @NoArgsConstructor
@@ -23,11 +25,9 @@ public class Game {
     @Column(name = "game_no")
     private Long gameNo;
 
-    // User 객체와 양방향 매핑 N : 1
     @ManyToOne
-    @JoinColumn(name = "uid")
+    @JoinColumn(name = "user_uid")
     private User gameCreator; // writer_id 칼럼을 객체로
-
 
     @Column(nullable = false, length = 100)
     private String title;
@@ -35,17 +35,20 @@ public class Game {
     @Column(nullable = false)
     private String content;
 
-    @Column(name = "gender_type")
-    private Character genderType;
+    @Column(name = "gender_type", length = 10)
+    private String genderType;
 
     @Column(name = "age_type")
-    private Character ageType;
+    private Integer ageType;
+
+    @Column(name = "history_type")
+    private Integer historyType;
 
     @Column(name = "str_dt", length = 8)
-    private String strDt;
+    private LocalDate strDt;
 
     @Column(name = "end_dt", length = 8)
-    private String endDt;
+    private LocalDate endDt;
 
     @Column(nullable = false, name = "reg_dtm")
     @CreatedDate
@@ -56,24 +59,35 @@ public class Game {
     private LocalDateTime updDtm;
 
     @ManyToOne
-    @JoinColumn(name = "loc_cd_no")
-    private LocCd locCd;
+    @JoinColumn(name = "court_no")
+    private Court court;
 
     @Column(name = "st_dv_cd")
-    private char stDvCd = '1';
+    private Character stDvCd = '1';
 
     @Builder
-    public Game(long gameNo, User gameCreator, String title, String content, char genderType,
-                char ageType, String strDt, String endDt,
-                LocCd locCd){
+    public Game(long gameNo, User gameCreator, String title, String content, String genderType,
+                Integer historyType, Integer ageType, LocalDate strDt, LocalDate endDt, Court court) {
         this.gameNo = gameNo;
         this.gameCreator = gameCreator;
         this.title = title;
         this.content = content;
+        this.historyType = historyType;
         this.genderType = genderType;
         this.ageType = ageType;
         this.strDt = strDt;
         this.endDt = endDt;
-        this.locCd = locCd;
+        this.court = court;
+    }
+
+    public void updateGame(Game updatedGame) {
+        if (updatedGame.getCourt() != null) court = updatedGame.getCourt();
+        if (updatedGame.getTitle() != null) title = updatedGame.getTitle();
+        if (updatedGame.getContent() != null) content = updatedGame.getContent();
+        if (updatedGame.getHistoryType() != null) historyType = updatedGame.getHistoryType();
+        if (updatedGame.getGenderType() != null) genderType = updatedGame.getGenderType();
+        if (updatedGame.getAgeType() != null) ageType = updatedGame.getAgeType();
+        if (updatedGame.getStrDt() != null) strDt = updatedGame.getStrDt();
+        if (updatedGame.getEndDt() != null) endDt = updatedGame.getEndDt();
     }
 }
