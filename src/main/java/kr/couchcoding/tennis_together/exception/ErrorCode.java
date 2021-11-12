@@ -20,6 +20,9 @@ public enum ErrorCode {
     NOT_FOUND_GAME_COURT(HttpStatus.NOT_FOUND, "해당 테니스장을 찾을 수 없습니다."),
     NOT_FOUND_LOCATION(HttpStatus.NOT_FOUND, "해당 위치정보를 찾을 수 없습니다."),
 
+    EXIST_USER(HttpStatus.BAD_REQUEST, "이미 등록된 유저입니다."),
+    INVALID_AUTHORIZATION(HttpStatus.BAD_REQUEST, "인증 정보가 부정확합니다."),
+
     EXIST_FRIEND(HttpStatus.BAD_REQUEST, "이미 등록된 친구입니다.");
 
 

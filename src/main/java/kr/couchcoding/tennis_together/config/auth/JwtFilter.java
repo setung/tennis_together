@@ -41,7 +41,6 @@ public class JwtFilter extends AuthFilter{
 
             String header = RequestUtil.getAuthorizationToken((request.getHeader("Authorization")));
             decodedToken = firebaseAuth.verifyIdToken(header);
-            System.out.println("auth OK + " + header + " + " + decodedToken);
 
         } catch (FirebaseAuthException | IllegalArgumentException e){
             // ErrorMessage 응답 전송
@@ -53,10 +52,7 @@ public class JwtFilter extends AuthFilter{
 
         // User를 가져와 SecurityContext에 저장
         try{
-            System.out.println("uid : " + decodedToken.getUid());
             UserDetails user = userDetailsService.loadUserByUsername(decodedToken.getUid());
-
-
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                     user, null, user.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);

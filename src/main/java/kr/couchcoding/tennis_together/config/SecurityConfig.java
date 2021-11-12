@@ -2,6 +2,7 @@ package kr.couchcoding.tennis_together.config;
 
 
 
+import kr.couchcoding.tennis_together.config.auth.AuthFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -26,11 +27,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     UserService userService;
     
     @Autowired
-    private OncePerRequestFilter jwtFilter;
+    private AuthFilter jwtFilter;
+
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        System.out.println("KIH1");
         http.csrf().disable() // CSRF 보호기능 disable
                 .authorizeRequests() // 요청에대한 권한 지정
                 .anyRequest().authenticated() // 모든 요청이 인증되어야한다.
@@ -39,7 +41,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         UsernamePasswordAuthenticationFilter.class)        // 이후 UsernamePasswordAuthenticationFilter 실행
                 .exceptionHandling() // 예외처리 기능 작동
                 .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)); // 인증실패시처리
-        System.out.println("KIH2");
     }
     
     @Override

@@ -30,6 +30,8 @@ public class UserService implements UserDetailsService {
         return user.orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
     }
 
+
+
     // 유저 등록
     @Transactional
     public User register(String uid, String phone, String name, Character gender
