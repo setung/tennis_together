@@ -2,6 +2,7 @@ package kr.couchcoding.tennis_together.controller.game.dto;
 
 import kr.couchcoding.tennis_together.domain.court.model.Court;
 import kr.couchcoding.tennis_together.domain.game.model.Game;
+import kr.couchcoding.tennis_together.domain.game.status.GameStatus;
 import kr.couchcoding.tennis_together.domain.user.model.User;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,7 +26,7 @@ public class ResponseGameDTO {
     private LocalDateTime regDtm;
     private LocalDateTime updDtm;
     private Court court;
-    private Character stDvCd;
+    private GameStatus stDvCd;
 
     public ResponseGameDTO(Game game) {
         gameNo = game.getGameNo();
@@ -40,6 +41,6 @@ public class ResponseGameDTO {
         regDtm = game.getRegDtm();
         updDtm = game.getUpdDtm();
         court = game.getCourt();
-        stDvCd = game.getStDvCd();
+        stDvCd = game.getGameStatus();
     }
 }
