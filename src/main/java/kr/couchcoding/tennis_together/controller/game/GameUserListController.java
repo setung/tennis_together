@@ -1,6 +1,5 @@
 package kr.couchcoding.tennis_together.controller.game;
 
-import kr.couchcoding.tennis_together.domain.game.service.GameService;
 import kr.couchcoding.tennis_together.domain.game.service.GameUserListService;
 import kr.couchcoding.tennis_together.domain.user.model.User;
 import lombok.RequiredArgsConstructor;

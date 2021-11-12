@@ -35,7 +35,7 @@ public class GameUserList {
     private User gameUser; // uid 칼럼을 객체로
 
     @Column(name = "st_dv_cd")
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private GameUserListStatus stDvCd;
 
     @Column(name = "reg_dtm")

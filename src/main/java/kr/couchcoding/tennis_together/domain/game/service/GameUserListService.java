@@ -3,6 +3,7 @@ package kr.couchcoding.tennis_together.domain.game.service;
 import kr.couchcoding.tennis_together.domain.game.dao.GameUserListRepository;
 import kr.couchcoding.tennis_together.domain.game.model.Game;
 import kr.couchcoding.tennis_together.domain.game.model.GameUserList;
+import kr.couchcoding.tennis_together.domain.game.status.GameStatus;
 import kr.couchcoding.tennis_together.domain.game.status.GameUserListStatus;
 import kr.couchcoding.tennis_together.domain.user.model.User;
 import kr.couchcoding.tennis_together.exception.CustomException;
@@ -22,6 +23,9 @@ public class GameUserListService {
 
     public void applyGame(User user, Long gameNo) {
         Game game = gameService.findGameByNo(gameNo);
+
+        if (game.getGameStatus() != GameStatus.RECRUITING)
+            throw new CustomException(ErrorCode.BAD_REQUEST_GAME, game.getGameStatus() + " 상태의 게임을 신청할 수 없습니다.");
 
         if (game.getGameCreator().getUid().equals(user.getUid()))
             throw new CustomException(ErrorCode.BAD_REQUEST_GAME, "자신의 게임에 신청할 수 없습니다.");
