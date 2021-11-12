@@ -63,7 +63,7 @@ public class GameController {
         if (status != null) {
             spec = spec.and(GameSpecification.equalStatus(status));
         } else {
-            spec = spec.and(GameSpecification.notEqualStatus());
+            spec = spec.and(GameSpecification.notDelete());
         }
 
         return gameService.findAll(spec, pageable).map(game -> new ResponseGameDTO(game));

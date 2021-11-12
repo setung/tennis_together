@@ -32,7 +32,7 @@ public class GameSpecification {
         return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("gameStatus"), status);
     }
 
-    public static Specification<Game> notEqualStatus() {
+    public static Specification<Game> notDelete() {
         return (root, query, criteriaBuilder) -> criteriaBuilder.notEqual(root.get("gameStatus"), GameStatus.DELETED);
     }
 
