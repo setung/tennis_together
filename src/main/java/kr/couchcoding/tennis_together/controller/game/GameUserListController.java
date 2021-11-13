@@ -19,6 +19,12 @@ public class GameUserListController {
     @PostMapping("/{gameNo}/apply")
     public void applyGame(@PathVariable Long gameNo, Authentication authentication) {
         User user = ((User) authentication.getPrincipal());
-        gameUserListService.applyGame(user,gameNo);
+        gameUserListService.applyGame(user, gameNo);
+    }
+
+    @PostMapping("/{gameNo}/cancel")
+    public void cancelAppliedGame(@PathVariable Long gameNo, Authentication authentication) {
+        User user = ((User) authentication.getPrincipal());
+        gameUserListService.cancelAppliedGame(user, gameNo);
     }
 }
