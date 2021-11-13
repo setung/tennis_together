@@ -23,7 +23,7 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
-class MockGameUserListServiceTest {
+class GameUserListServiceTest {
 
     @Mock
     GameService gameService;
@@ -55,10 +55,6 @@ class MockGameUserListServiceTest {
         when(gameUserListRepository.findByGameUserAndJoinedGame(user, game)).thenReturn(Optional.empty());
 
         gameUserListService.applyGame(user, 1L);
-
-        verify(gameService, times(1)).findGameByNo(1L);
-        verify(gameUserListRepository, times(1)).findByGameUserAndJoinedGame(user, game);
-        verify(gameUserListRepository, times(1)).save(any());
     }
 
     @Test
@@ -75,10 +71,6 @@ class MockGameUserListServiceTest {
         when(gameUserListRepository.findByGameUserAndJoinedGame(user, game)).thenReturn(Optional.empty());
 
         assertThrows(CustomException.class, () -> gameUserListService.applyGame(user, 1L));
-
-        verify(gameService, times(1)).findGameByNo(1L);
-        verify(gameUserListRepository, times(0)).findByGameUserAndJoinedGame(user, game);
-        verify(gameUserListRepository, times(0)).save(any());
     }
 
     @Test
@@ -95,10 +87,6 @@ class MockGameUserListServiceTest {
         when(gameUserListRepository.findByGameUserAndJoinedGame(user, game)).thenReturn(Optional.empty());
 
         assertThrows(CustomException.class, () -> gameUserListService.applyGame(user, 1L));
-
-        verify(gameService, times(1)).findGameByNo(1L);
-        verify(gameUserListRepository, times(0)).findByGameUserAndJoinedGame(user, game);
-        verify(gameUserListRepository, times(0)).save(any());
     }
 
     @Test
@@ -109,10 +97,6 @@ class MockGameUserListServiceTest {
         when(gameUserListRepository.findByGameUserAndJoinedGame(user, game)).thenReturn(Optional.of(gameUserList));
 
         assertThrows(CustomException.class, () -> gameUserListService.applyGame(user, 1L));
-
-        verify(gameService, times(1)).findGameByNo(1L);
-        verify(gameUserListRepository, times(1)).findByGameUserAndJoinedGame(user, game);
-        verify(gameUserListRepository, times(0)).save(any());
     }
 
     @Test
@@ -129,10 +113,6 @@ class MockGameUserListServiceTest {
         when(gameUserListRepository.findByGameUserAndJoinedGame(user, game)).thenReturn(Optional.empty());
 
         assertThrows(CustomException.class,()-> gameUserListService.applyGame(user, 1L));
-
-        verify(gameService, times(1)).findGameByNo(1L);
-        verify(gameUserListRepository, times(0)).findByGameUserAndJoinedGame(user, game);
-        verify(gameUserListRepository, times(0)).save(any());
     }
 
     @Test
@@ -149,9 +129,5 @@ class MockGameUserListServiceTest {
         when(gameUserListRepository.findByGameUserAndJoinedGame(user, game)).thenReturn(Optional.empty());
 
         assertThrows(CustomException.class,()-> gameUserListService.applyGame(user, 1L));
-
-        verify(gameService, times(1)).findGameByNo(1L);
-        verify(gameUserListRepository, times(0)).findByGameUserAndJoinedGame(user, game);
-        verify(gameUserListRepository, times(0)).save(any());
     }
 }
