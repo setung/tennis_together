@@ -1,11 +1,13 @@
 package kr.couchcoding.tennis_together.controller.court;
 
+import kr.couchcoding.tennis_together.controller.court.specification.CourtSpecification;
 import kr.couchcoding.tennis_together.domain.court.dto.CourtDto;
 import kr.couchcoding.tennis_together.domain.court.model.Court;
 import kr.couchcoding.tennis_together.domain.court.service.CourtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,7 +24,12 @@ public class CourtController {
     }
 
     @GetMapping
-    public Page<CourtDto> findCourtByLocCd(@RequestParam long locCdNo, Pageable pageable) {
-        return courtService.findCourtByLocCd(locCdNo, pageable).map(court -> new CourtDto(court));
+    public Page<CourtDto> findAll(@RequestParam(required = false) Long locCdNo, Pageable pageable) {
+        Specification<Court> spec = (root, query, criteriaBuilder) -> null;
+
+        if (locCdNo != null)
+            spec = spec.and(CourtSpecification.equalsLocCdNo(locCdNo));
+
+        return courtService.findAll(spec, pageable).map(court -> new CourtDto(court));
     }
 }

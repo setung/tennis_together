@@ -1,8 +1,10 @@
 package kr.couchcoding.tennis_together.config;
 
+
+
+import kr.couchcoding.tennis_together.config.auth.AuthFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -12,8 +14,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import kr.couchcoding.tennis_together.domain.user.service.UserService;
+
 
 @Configuration
 @EnableWebSecurity
@@ -21,18 +25,22 @@ import kr.couchcoding.tennis_together.domain.user.service.UserService;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     UserService userService;
+    
+    @Autowired
+    private AuthFilter jwtFilter;
 
-    @Profile("local")
+
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-                .authorizeRequests()
-                .anyRequest().authenticated()
+        http.csrf().disable() // CSRF 보호기능 disable
+                .authorizeRequests() // 요청에대한 권한 지정
+                .anyRequest().authenticated() // 모든 요청이 인증되어야한다.
                 .and()
-                .addFilterBefore(new MockAuthFilter(userService),
-                        UsernamePasswordAuthenticationFilter.class)
-                .exceptionHandling()
-                .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
+                .addFilterBefore(jwtFilter,// 커스텀 필터인 JwtFilter를 먼저 수행한다.
+                        UsernamePasswordAuthenticationFilter.class)        // 이후 UsernamePasswordAuthenticationFilter 실행
+                .exceptionHandling() // 예외처리 기능 작동
+                .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)); // 인증실패시처리
     }
     
     @Override
@@ -45,6 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/courts")
                 .antMatchers("/courts/**")
                 .antMatchers(HttpMethod.GET,"/games")
+                .antMatchers(HttpMethod.GET,"/games/**")
                 .antMatchers("/resources/**")
                 .antMatchers("/js/**")
                 .antMatchers("/css/**")
