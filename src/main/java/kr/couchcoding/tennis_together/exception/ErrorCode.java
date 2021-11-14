@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus;
 public enum ErrorCode {
 
     BAD_REQUEST_PARAM(HttpStatus.BAD_REQUEST, "잘못된 요청입니다."),
-    BAD_REQUEST_GAME(HttpStatus.BAD_REQUEST, "잘못된 게임요청입니다."),
+    BAD_REQUEST_GAME(HttpStatus.BAD_REQUEST, "잘못된 게임 요청입니다."),
 
     UNAUTHORIZED_USER(HttpStatus.UNAUTHORIZED, "해당 요청은 로그인이 필요합니다."),
     FORBIDDEN_USER(HttpStatus.FORBIDDEN, "해당 요청에 권한이 없습니다."),

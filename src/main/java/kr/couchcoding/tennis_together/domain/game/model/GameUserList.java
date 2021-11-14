@@ -1,17 +1,18 @@
 package kr.couchcoding.tennis_together.domain.game.model;
 
-import lombok.*;
-import javax.persistence.*;
-
-import org.hibernate.annotations.ColumnDefault;
+import kr.couchcoding.tennis_together.domain.game.status.GameUserListStatus;
+import kr.couchcoding.tennis_together.domain.user.model.User;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import kr.couchcoding.tennis_together.domain.user.model.User;
-
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
-
+@EntityListeners(AuditingEntityListener.class)
 @Entity
 @Getter
 @NoArgsConstructor
@@ -20,8 +21,8 @@ public class GameUserList {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name ="game_user_no")
-    private long gameUserNo;
+    @Column(name = "game_user_no")
+    private Long gameUserNo;
 
     // Game 객체와 양방향 매핑 N : 1
     @ManyToOne
@@ -34,7 +35,8 @@ public class GameUserList {
     private User gameUser; // uid 칼럼을 객체로
 
     @Column(name = "st_dv_cd")
-    private char stDvCd = '1';
+    @Enumerated(EnumType.STRING)
+    private GameUserListStatus stDvCd;
 
     @Column(name = "reg_dtm")
     @CreatedDate
@@ -45,8 +47,9 @@ public class GameUserList {
     private LocalDateTime updDtm;
 
     @Builder
-    public GameUserList(User gameUser, Game joinedGame){
+    public GameUserList(User gameUser, Game joinedGame, GameUserListStatus stDvCd) {
         this.joinedGame = joinedGame;
         this.gameUser = gameUser;
+        this.stDvCd = stDvCd;
     }
 }
