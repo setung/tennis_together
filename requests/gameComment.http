@@ -1,6 +1,6 @@
 ### Create Comment (Success)
 
-POST http://localhost:8080/21/comments
+POST http://localhost:8080/games/21/comments
 Authorization: Bearer test1
 Content-Type: application/json
 

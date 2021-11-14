@@ -2,8 +2,6 @@ package kr.couchcoding.tennis_together.controller.friends;
 
 import kr.couchcoding.tennis_together.controller.friends.dto.FollowRequestDTO;
 import kr.couchcoding.tennis_together.controller.friends.dto.FollowResponseDTO;
-import kr.couchcoding.tennis_together.domain.court.dto.CourtDto;
-import kr.couchcoding.tennis_together.domain.friend.model.FrdList;
 import kr.couchcoding.tennis_together.domain.friend.service.FriendService;
 import kr.couchcoding.tennis_together.domain.user.model.User;
 import kr.couchcoding.tennis_together.domain.user.service.UserService;

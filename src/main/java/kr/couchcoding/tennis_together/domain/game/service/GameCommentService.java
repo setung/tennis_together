@@ -23,6 +23,7 @@ public class GameCommentService {
                 .comtWriteUser(user)
                 .commentedGame(game)
                 .reviewContent(gcRequestDTO.getReviewContents())
+                .depth(0)
                 .build();
 
         gameCommentRepository.save(gc);
