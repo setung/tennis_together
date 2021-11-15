@@ -250,4 +250,60 @@ class GameUserListServiceTest {
 
         assertThrows(CustomException.class, () -> gameUserListService.cancelAppliedGame(user, 1L));
     }
+
+    @Test
+    public void refuse_applied_game() {
+        GameUserList gameUserList = GameUserList.builder()
+                .stDvCd(GameUserListStatus.APPLYING)
+                .build();
+
+        when(gameUserListRepository.findByGameUserAndJoinedGame(user, game)).thenReturn(Optional.of(gameUserList));
+        when(userService.loadUserByUsername(user.getUid())).thenReturn(user);
+        when(gameService.findGameByGameNoAndGameCreator(1L, gameCreator)).thenReturn(game);
+
+        gameUserListService.refuseAppliedGame(gameCreator, 1L, user.getUid());
+
+        Assertions.assertThat(gameUserList.getStatus()).isEqualTo(GameUserListStatus.REFUSED);
+    }
+
+    @Test
+    public void refuse_applied_late() {
+        GameUserList gameUserList = GameUserList.builder()
+                .stDvCd(GameUserListStatus.APPLYING)
+                .build();
+
+        game = Game.builder()
+                .strDt(LocalDate.now().minusDays(1))
+                .endDt(LocalDate.now().minusDays(1))
+                .gameStatus(GameStatus.CLOSED)
+                .build();
+
+        when(gameUserListRepository.findByGameUserAndJoinedGame(user, game)).thenReturn(Optional.of(gameUserList));
+        when(userService.loadUserByUsername(user.getUid())).thenReturn(user);
+        when(gameService.findGameByGameNoAndGameCreator(1L, gameCreator)).thenReturn(game);
+
+        assertThrows(CustomException.class, () -> gameUserListService.refuseAppliedGame(gameCreator, 1L, user.getUid()));
+    }
+
+    @Test
+    public void refuse_approved_game() {
+        GameUserList gameUserList = GameUserList.builder()
+                .stDvCd(GameUserListStatus.APPROVED)
+                .build();
+
+        game = Game.builder()
+                .strDt(LocalDate.now())
+                .endDt(LocalDate.now())
+                .gameStatus(GameStatus.CLOSED)
+                .build();
+
+        when(gameUserListRepository.findByGameUserAndJoinedGame(user, game)).thenReturn(Optional.of(gameUserList));
+        when(userService.loadUserByUsername(user.getUid())).thenReturn(user);
+        when(gameService.findGameByGameNoAndGameCreator(1L, gameCreator)).thenReturn(game);
+
+        gameUserListService.refuseAppliedGame(gameCreator, 1L, user.getUid());
+
+        Assertions.assertThat(gameUserList.getStatus()).isEqualTo(GameUserListStatus.REFUSED);
+        Assertions.assertThat(game.getGameStatus()).isEqualTo(GameStatus.RECRUITING);
+    }
 }

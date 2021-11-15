@@ -34,4 +34,11 @@ public class GameUserListController {
         User gameCreator = ((User) authentication.getPrincipal());
         gameUserListService.approveAppliedGame(gameCreator, gameNo, joinedUserUid);
     }
+
+    @PostMapping("/{gameNo}/refuse/{joinedUserUid}")
+    public void refuseAppliedGame(@PathVariable Long gameNo, Authentication authentication,
+                                  @PathVariable String joinedUserUid) {
+        User gameCreator = ((User) authentication.getPrincipal());
+        gameUserListService.refuseAppliedGame(gameCreator, gameNo, joinedUserUid);
+    }
 }
