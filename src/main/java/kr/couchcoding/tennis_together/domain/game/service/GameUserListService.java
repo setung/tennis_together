@@ -64,15 +64,16 @@ public class GameUserListService {
                 .orElseThrow(() -> new CustomException(ErrorCode.BAD_REQUEST_GAME, "해당 게임에 신청한 이력이 없습니다."));
 
         LocalDate now = LocalDate.now();
-        if (((game.getStrDt().equals(now) || game.getEndDt().equals(now) ||
-                (game.getStrDt().isBefore(now) && game.getEndDt().isAfter(now))) &&
-                gameUserList.getStatus() == GameUserListStatus.APPROVED)) {
-            game.updateStatus(GameStatus.RECRUITING);
-        }
 
-        // 신청 승락 되기 전엔 자유롭게 취소 가능
-        // 근데 신청 승락이 되고 게임은 CLOSED가 되었을떄 취소한다면??? 미리 리뷰도 달았다면?
-        //
+        if (game.getStrDt().equals(now) || game.getEndDt().equals(now) ||
+                (game.getStrDt().isBefore(now) && game.getEndDt().isAfter(now))) {
+            if (gameUserList.getStatus() == GameUserListStatus.APPROVED)
+                game.updateStatus(GameStatus.RECRUITING);
+        } else
+            throw new CustomException(ErrorCode.BAD_REQUEST_GAME, "신청 기간이 지난 게임은 취소가 불가능 합니다.");
+
+        if (gameUserList.getStatus() == GameUserListStatus.REFUSED)
+            throw new CustomException(ErrorCode.BAD_REQUEST_GAME, "거절된 게임의 신청을 취소할 수 없습니다.");
 
         gameUserListRepository.delete(gameUserList);
     }
@@ -85,7 +86,6 @@ public class GameUserListService {
                 .orElseThrow(() -> new CustomException(ErrorCode.BAD_REQUEST_GAME, "해당 유저는 게임에 신청한 이력이 없습니다."));
 
         verifyGameForApprove(game, gameUserList);
-
 
         game.updateStatus(GameStatus.CLOSED);
         gameUserList.updateStatus(GameUserListStatus.APPROVED);
