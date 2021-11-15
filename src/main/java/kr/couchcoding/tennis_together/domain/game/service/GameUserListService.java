@@ -27,7 +27,7 @@ public class GameUserListService {
 
     public void applyGame(User user, Long gameNo) {
         Game game = gameService.findGameByNo(gameNo);
-        verifyGame(user, game);
+        verifyGameForApply(user, game);
 
         GameUserList newGameUserList = GameUserList.builder()
                 .joinedGame(game)
@@ -38,7 +38,7 @@ public class GameUserListService {
         gameUserListRepository.save(newGameUserList);
     }
 
-    private void verifyGame(User user, Game game) {
+    private void verifyGameForApply(User user, Game game) {
         LocalDate now = LocalDate.now();
 
         if (game.getGameStatus() != GameStatus.RECRUITING)
@@ -81,13 +81,26 @@ public class GameUserListService {
         Game game = gameService.findGameByGameNoAndGameCreator(gameNo, gameCreator);
         User joinedUser = (User) userService.loadUserByUsername(joinedUserUid);
 
-        if (game.getGameStatus() != GameStatus.RECRUITING)
-            throw new CustomException(ErrorCode.BAD_REQUEST_GAME, game.getGameStatus() + " 상태의 게임의 요청을 승락할 수 없습니다.");
-
         GameUserList gameUserList = gameUserListRepository.findByGameUserAndJoinedGame(joinedUser, game)
                 .orElseThrow(() -> new CustomException(ErrorCode.BAD_REQUEST_GAME, "해당 유저는 게임에 신청한 이력이 없습니다."));
 
+        verifyGameForApprove(game, gameUserList);
+
+
         game.updateStatus(GameStatus.CLOSED);
         gameUserList.updateStatus(GameUserListStatus.APPROVED);
+    }
+
+    private void verifyGameForApprove(Game game, GameUserList gameUserList) {
+        if (game.getGameStatus() != GameStatus.RECRUITING)
+            throw new CustomException(ErrorCode.BAD_REQUEST_GAME, game.getGameStatus() + " 상태의 게임의 요청을 승인할 수 없습니다.");
+
+        LocalDate now = LocalDate.now();
+        if (!(game.getStrDt().equals(now) || game.getEndDt().equals(now))
+                && !(game.getStrDt().isBefore(now) && game.getEndDt().isAfter(now)))
+            throw new CustomException(ErrorCode.BAD_REQUEST_GAME, "신청기간이 아닙니다.");
+
+        if (gameUserList.getStatus() == GameUserListStatus.APPROVED)
+            throw new CustomException(ErrorCode.BAD_REQUEST_GAME, "이미 승인된 유저입니다.");
     }
 }
