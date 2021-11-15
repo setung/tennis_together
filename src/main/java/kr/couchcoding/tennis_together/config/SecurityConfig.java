@@ -50,12 +50,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/courts/**")
                 .antMatchers(HttpMethod.GET,"/games")
                 .antMatchers(HttpMethod.GET,"/games/**")
-                .antMatchers("/resources/**")
-                .antMatchers("/js/**")
-                .antMatchers("/css/**")
-                .antMatchers("/img/**")
-                .antMatchers("/fonts/**")
+                .antMatchers("/assets/**")
+                .antMatchers("/images/**")
                 .antMatchers("/favicon.ico")
+                .antMatchers("/static/**")
                 .antMatchers("/error")
                 .antMatchers("/error/**");
     }
