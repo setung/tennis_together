@@ -22,14 +22,18 @@ public class AuthConfig {
 
     @Bean
     @Profile("local")
-    public AuthFilter mockAuthFilter() {
-        return new MockAuthFilter(userService);
+    public AuthFilterContainer mockAuthFilter() {
+        AuthFilterContainer authFilterContainer = new AuthFilterContainer();
+        authFilterContainer.setAuthFilter(new MockAuthFilter(userService));
+        return authFilterContainer;
     }
 
     @Bean
     @Profile("!local")
-    public AuthFilter jwtAuthFilter() throws IOException {
-        return new JwtFilter(userService, firebaseAuth());
+    public AuthFilterContainer jwtAuthFilter() throws IOException {
+        AuthFilterContainer authFilterContainer = new AuthFilterContainer();
+        authFilterContainer.setAuthFilter(new JwtFilter(userService, firebaseAuth()));
+        return authFilterContainer;
     }
 
     @Bean

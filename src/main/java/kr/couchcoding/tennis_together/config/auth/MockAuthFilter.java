@@ -11,8 +11,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.web.filter.OncePerRequestFilter;
 
-public class MockAuthFilter extends AuthFilter{
+public class MockAuthFilter extends OncePerRequestFilter{
 
     private final UserDetailsService userDetailsService;
     public MockAuthFilter(UserDetailsService service) {
