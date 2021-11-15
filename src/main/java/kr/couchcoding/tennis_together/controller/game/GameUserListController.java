@@ -1,13 +1,13 @@
 package kr.couchcoding.tennis_together.controller.game;
 
+import kr.couchcoding.tennis_together.controller.game.dto.AppliedUserDTO;
 import kr.couchcoding.tennis_together.domain.game.service.GameUserListService;
 import kr.couchcoding.tennis_together.domain.user.model.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -40,5 +40,10 @@ public class GameUserListController {
                                   @PathVariable String joinedUserUid) {
         User gameCreator = ((User) authentication.getPrincipal());
         gameUserListService.refuseAppliedGame(gameCreator, gameNo, joinedUserUid);
+    }
+
+    @GetMapping("/{gameNo}/users")
+    public Page<AppliedUserDTO> getUsers(@PathVariable Long gameNo, Pageable pageable) {
+        return gameUserListService.findByGameNo(gameNo, pageable).map(gameUserList -> new AppliedUserDTO(gameUserList));
     }
 }

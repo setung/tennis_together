@@ -10,6 +10,8 @@ import kr.couchcoding.tennis_together.domain.user.service.UserService;
 import kr.couchcoding.tennis_together.exception.CustomException;
 import kr.couchcoding.tennis_together.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -119,5 +121,10 @@ public class GameUserListService {
             throw new CustomException(ErrorCode.BAD_REQUEST_GAME, "신청 기간이 지난 게임은 거절이 불가합니다.");
 
         gameUserList.updateStatus(GameUserListStatus.REFUSED);
+    }
+
+    public Page<GameUserList> findByGameNo(Long gameNo, Pageable pageable) {
+        Game joinedGame = gameService.findGameByNo(gameNo);
+        return gameUserListRepository.findByJoinedGame(joinedGame, pageable);
     }
 }
