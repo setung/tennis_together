@@ -10,7 +10,6 @@ import kr.couchcoding.tennis_together.domain.user.service.UserService;
 import kr.couchcoding.tennis_together.exception.CustomException;
 import kr.couchcoding.tennis_together.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -102,5 +101,23 @@ public class GameUserListService {
 
         if (gameUserList.getStatus() == GameUserListStatus.APPROVED)
             throw new CustomException(ErrorCode.BAD_REQUEST_GAME, "이미 승인된 유저입니다.");
+    }
+
+    public void refuseAppliedGame(User gameCreator, Long gameNo, String joinedUserUid) {
+        Game game = gameService.findGameByGameNoAndGameCreator(gameNo, gameCreator);
+        User joinedUser = (User) userService.loadUserByUsername(joinedUserUid);
+
+        GameUserList gameUserList = gameUserListRepository.findByGameUserAndJoinedGame(joinedUser, game)
+                .orElseThrow(() -> new CustomException(ErrorCode.BAD_REQUEST_GAME, "해당 유저는 게임에 신청한 이력이 없습니다."));
+
+        LocalDate now = LocalDate.now();
+        if (game.getStrDt().equals(now) || game.getEndDt().equals(now) ||
+                (game.getStrDt().isBefore(now) && game.getEndDt().isAfter(now))) {
+            if (gameUserList.getStatus() == GameUserListStatus.APPROVED)
+                game.updateStatus(GameStatus.RECRUITING);
+        } else
+            throw new CustomException(ErrorCode.BAD_REQUEST_GAME, "신청 기간이 지난 게임은 거절이 불가합니다.");
+
+        gameUserList.updateStatus(GameUserListStatus.REFUSED);
     }
 }
