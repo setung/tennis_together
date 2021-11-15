@@ -4,9 +4,12 @@ import kr.couchcoding.tennis_together.domain.game.dao.GameUserListRepository;
 import kr.couchcoding.tennis_together.domain.game.model.Game;
 import kr.couchcoding.tennis_together.domain.game.model.GameUserList;
 import kr.couchcoding.tennis_together.domain.game.status.GameStatus;
+import kr.couchcoding.tennis_together.domain.game.status.GameUserListStatus;
 import kr.couchcoding.tennis_together.domain.user.model.User;
 import kr.couchcoding.tennis_together.exception.CustomException;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -129,5 +132,63 @@ class GameUserListServiceTest {
         when(gameUserListRepository.findByGameUserAndJoinedGame(user, game)).thenReturn(Optional.empty());
 
         assertThrows(CustomException.class,()-> gameUserListService.applyGame(user, 1L));
+    }
+
+    @Test
+    public void cancel_applied_game_success() {
+        GameUserList gameUserList = GameUserList.builder().build();
+
+        when(gameService.findGameByNo(1L)).thenReturn(game);
+        when(gameUserListRepository.findByGameUserAndJoinedGame(user, game)).thenReturn(Optional.of(gameUserList));
+
+        gameUserListService.cancelAppliedGame(user, 1L);
+    }
+
+    @Test
+    @DisplayName("게임에 신청하지 않은 유저가 게임 취소 요청시 예외 발생")
+    public void cancel_game_not_applied() {
+        when(gameService.findGameByNo(1L)).thenReturn(game);
+        when(gameUserListRepository.findByGameUserAndJoinedGame(user, game)).thenReturn(Optional.empty());
+
+        assertThrows(CustomException.class, () -> gameUserListService.cancelAppliedGame(user, 1L));
+    }
+
+    @Test
+    @DisplayName("Closed 상태에 모집기간 중인 게임에, 승인된 유저가 신청 취소시 게임은 Recruiting 상태가 된다.")
+    public void cancel_approved_game_success() {
+        GameUserList gameUserList = GameUserList.builder()
+                .stDvCd(GameUserListStatus.APPROVED).build();
+        game = Game.builder()
+                .gameNo(1L)
+                .gameCreator(gameCreator)
+                .gameStatus(GameStatus.CLOSED)
+                .strDt(LocalDate.now())
+                .endDt(LocalDate.now())
+                .build();
+        when(gameService.findGameByNo(1L)).thenReturn(game);
+        when(gameUserListRepository.findByGameUserAndJoinedGame(user, game)).thenReturn(Optional.of(gameUserList));
+
+        gameUserListService.cancelAppliedGame(user, 1L);
+
+        Assertions.assertThat(game.getGameStatus()).isEqualTo(GameStatus.RECRUITING);
+    }
+
+    @Test
+    @DisplayName("모집 기간이 지난 게임에 취소시 예외 발생")
+    public void cancel_applied_game_late() {
+        game = Game.builder()
+                .strDt(LocalDate.now().minusDays(1))
+                .endDt(LocalDate.now().minusDays(1))
+                .gameStatus(GameStatus.CLOSED)
+                .build();
+
+        GameUserList gameUserList = GameUserList.builder()
+                .stDvCd(GameUserListStatus.APPROVED)
+                .build();
+
+        when(gameService.findGameByNo(1L)).thenReturn(game);
+        when(gameUserListRepository.findByGameUserAndJoinedGame(user, game)).thenReturn(Optional.of(gameUserList));
+
+        assertThrows(CustomException.class, () -> gameUserListService.cancelAppliedGame(user, 1L));
     }
 }

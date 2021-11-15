@@ -53,4 +53,25 @@ public class GameUserListService {
                     throw new CustomException(ErrorCode.BAD_REQUEST_GAME, "이미 신청한 게임입니다.");
                 });
     }
+
+    public void cancelAppliedGame(User user, Long gameNo) {
+        Game game = gameService.findGameByNo(gameNo);
+
+        GameUserList gameUserList = gameUserListRepository.findByGameUserAndJoinedGame(user, game)
+                .orElseThrow(() -> new CustomException(ErrorCode.BAD_REQUEST_GAME, "해당 게임에 신청한 이력이 없습니다."));
+
+        LocalDate now = LocalDate.now();
+        if (game.getStrDt().equals(now) || game.getEndDt().equals(now) ||
+                (game.getStrDt().isBefore(now) && game.getEndDt().isAfter(now))) {
+            if (gameUserList.getStDvCd() == GameUserListStatus.APPROVED)
+                game.updateStatus(GameStatus.RECRUITING);
+        } else
+            throw new CustomException(ErrorCode.BAD_REQUEST_GAME, "신청 기간이 지난 게임은 취소가 불가능 합니다.");
+
+        // 거절된 후 게임 요청 내역을 삭제하고 재신청을 방지하기 위함
+        if (gameUserList.getStDvCd() == GameUserListStatus.REFUSED)
+            throw new CustomException(ErrorCode.BAD_REQUEST_GAME, "거절된 게임의 신청을 취소할 수 없습니다.");
+
+        gameUserListRepository.delete(gameUserList);
+    }
 }
