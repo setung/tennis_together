@@ -27,4 +27,11 @@ public class GameUserListController {
         User user = ((User) authentication.getPrincipal());
         gameUserListService.cancelAppliedGame(user, gameNo);
     }
+
+    @PostMapping("/{gameNo}/approve/{joinedUserUid}")
+    public void approveAppliedGame(@PathVariable Long gameNo, Authentication authentication,
+                                   @PathVariable String joinedUserUid) {
+        User gameCreator = ((User) authentication.getPrincipal());
+        gameUserListService.approveAppliedGame(gameCreator, gameNo, joinedUserUid);
+    }
 }

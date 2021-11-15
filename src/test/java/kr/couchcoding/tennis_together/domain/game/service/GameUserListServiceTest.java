@@ -6,6 +6,7 @@ import kr.couchcoding.tennis_together.domain.game.model.GameUserList;
 import kr.couchcoding.tennis_together.domain.game.status.GameStatus;
 import kr.couchcoding.tennis_together.domain.game.status.GameUserListStatus;
 import kr.couchcoding.tennis_together.domain.user.model.User;
+import kr.couchcoding.tennis_together.domain.user.service.UserService;
 import kr.couchcoding.tennis_together.exception.CustomException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,6 +33,8 @@ class GameUserListServiceTest {
     GameService gameService;
     @Mock
     GameUserListRepository gameUserListRepository;
+    @Mock
+    UserService userService;
     @InjectMocks
     GameUserListService gameUserListService;
 
@@ -115,7 +118,7 @@ class GameUserListServiceTest {
         when(gameService.findGameByNo(1L)).thenReturn(game);
         when(gameUserListRepository.findByGameUserAndJoinedGame(user, game)).thenReturn(Optional.empty());
 
-        assertThrows(CustomException.class,()-> gameUserListService.applyGame(user, 1L));
+        assertThrows(CustomException.class, () -> gameUserListService.applyGame(user, 1L));
     }
 
     @Test
@@ -131,7 +134,63 @@ class GameUserListServiceTest {
         when(gameService.findGameByNo(1L)).thenReturn(game);
         when(gameUserListRepository.findByGameUserAndJoinedGame(user, game)).thenReturn(Optional.empty());
 
-        assertThrows(CustomException.class,()-> gameUserListService.applyGame(user, 1L));
+        assertThrows(CustomException.class, () -> gameUserListService.applyGame(user, 1L));
+    }
+
+    @Test
+    public void approve_applied_game() {
+        GameUserList gameUserList = GameUserList.builder()
+                .stDvCd(GameUserListStatus.APPLYING).build();
+
+        when(gameService.findGameByGameNoAndGameCreator(1L, gameCreator)).thenReturn(game);
+        when(userService.loadUserByUsername(user.getUid())).thenReturn(user);
+        when(gameUserListRepository.findByGameUserAndJoinedGame(user, game)).thenReturn(Optional.of(gameUserList));
+
+        gameUserListService.approveAppliedGame(gameCreator, 1L, user.getUid());
+
+        Assertions.assertThat(gameUserList.getStatus()).isEqualTo(GameUserListStatus.APPROVED);
+    }
+
+    @Test
+    @DisplayName("모집기간이 지난 신청의 승인시 예외 발생")
+    public void approve_applied_game_late() {
+        GameUserList gameUserList = GameUserList.builder()
+                .stDvCd(GameUserListStatus.APPLYING).build();
+
+        game = Game.builder()
+                .gameStatus(GameStatus.RECRUITING)
+                .strDt(LocalDate.now().minusDays(1))
+                .endDt(LocalDate.now().minusDays(1))
+                .build();
+
+        when(gameService.findGameByGameNoAndGameCreator(1L, gameCreator)).thenReturn(game);
+        when(userService.loadUserByUsername(user.getUid())).thenReturn(user);
+        when(gameUserListRepository.findByGameUserAndJoinedGame(user, game)).thenReturn(Optional.of(gameUserList));
+
+        assertThrows(CustomException.class, () -> gameUserListService.approveAppliedGame(gameCreator, 1L, user.getUid()));
+    }
+
+    @Test
+    @DisplayName("두번 승인 시 예외 발생")
+    public void approve_applied_game_twice() {
+        GameUserList gameUserList = GameUserList.builder()
+                .stDvCd(GameUserListStatus.APPROVED).build();
+
+        when(gameService.findGameByGameNoAndGameCreator(1L, gameCreator)).thenReturn(game);
+        when(userService.loadUserByUsername(user.getUid())).thenReturn(user);
+        when(gameUserListRepository.findByGameUserAndJoinedGame(user, game)).thenReturn(Optional.of(gameUserList));
+
+        assertThrows(CustomException.class, () -> gameUserListService.approveAppliedGame(gameCreator, 1L, user.getUid()));
+    }
+
+    @Test
+    @DisplayName("게임에 신청하지 않은 유저를 승인시 예외")
+    public void approve_no_applied_game() {
+        when(gameService.findGameByGameNoAndGameCreator(1L, gameCreator)).thenReturn(game);
+        when(userService.loadUserByUsername(user.getUid())).thenReturn(user);
+        when(gameUserListRepository.findByGameUserAndJoinedGame(user, game)).thenReturn(Optional.empty());
+
+        assertThrows(CustomException.class, () -> gameUserListService.approveAppliedGame(gameCreator, 1L, user.getUid()));
     }
 
     @Test
