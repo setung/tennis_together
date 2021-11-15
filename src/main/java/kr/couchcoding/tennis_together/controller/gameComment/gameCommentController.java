@@ -30,7 +30,7 @@ public class gameCommentController {
 
         // 어떤사용자가 어떤게임에 어떤 댓글을 남겼는지
         User user = ((User)authentication.getPrincipal());
-        Game game = gameService.findGameByGameNo(gameNo);
+        Game game = gameService.findGameByNo(gameNo);
         gameCommentService.createComment(user,game,gcRequestDTO);
 
     }

@@ -115,8 +115,4 @@ public class GameService {
     }
 
 
-    //삭제하기
-    public Game findGameByGameNo(Long gameNo) {
-        return gameRepository.findGameByGameNo(gameNo); }
-
 }
