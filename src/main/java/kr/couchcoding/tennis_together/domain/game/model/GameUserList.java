@@ -36,7 +36,7 @@ public class GameUserList {
 
     @Column(name = "st_dv_cd")
     @Enumerated(EnumType.STRING)
-    private GameUserListStatus stDvCd;
+    private GameUserListStatus status;
 
     @Column(name = "reg_dtm")
     @CreatedDate
@@ -50,6 +50,10 @@ public class GameUserList {
     public GameUserList(User gameUser, Game joinedGame, GameUserListStatus stDvCd) {
         this.joinedGame = joinedGame;
         this.gameUser = gameUser;
-        this.stDvCd = stDvCd;
+        this.status = stDvCd;
+    }
+
+    public void updateStatus(GameUserListStatus status) {
+        this.status = status;
     }
 }

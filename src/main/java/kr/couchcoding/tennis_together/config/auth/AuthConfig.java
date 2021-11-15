@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.io.ClassPathResource;
 
 import kr.couchcoding.tennis_together.domain.user.service.UserService;
 
@@ -33,8 +34,10 @@ public class AuthConfig {
 
     @Bean
     public FirebaseAuth firebaseAuth() throws IOException {
+        ClassPathResource resource = new ClassPathResource("config/firebaseKey.json");
         FirebaseOptions options = FirebaseOptions.builder()
-                .setCredentials(GoogleCredentials.getApplicationDefault()).build();
+                .setCredentials(GoogleCredentials.fromStream(resource.getInputStream()))
+                .build();
         FirebaseApp.initializeApp(options);
         return FirebaseAuth.getInstance(FirebaseApp.getInstance());
     }
