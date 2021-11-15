@@ -24,11 +24,15 @@ public class CourtController {
     }
 
     @GetMapping
-    public Page<CourtDto> findAll(@RequestParam(required = false) Long locCdNo, Pageable pageable) {
+    public Page<CourtDto> findAll(@RequestParam(required = false) Long locCdNo,
+                                  @RequestParam(required = false) String locSd,
+                                  @RequestParam(required = false) String locSkk,
+                                  Pageable pageable) {
         Specification<Court> spec = (root, query, criteriaBuilder) -> null;
 
-        if (locCdNo != null)
-            spec = spec.and(CourtSpecification.equalsLocCdNo(locCdNo));
+        if (locCdNo != null) spec = spec.and(CourtSpecification.equalsLocCdNo(locCdNo));
+        if (locSd != null) spec = spec.and(CourtSpecification.equalsLocSd(locSd));
+        if (locSkk != null) spec = spec.and(CourtSpecification.equalsLocSkk(locSkk));
 
         return courtService.findAll(spec, pageable).map(court -> new CourtDto(court));
     }
