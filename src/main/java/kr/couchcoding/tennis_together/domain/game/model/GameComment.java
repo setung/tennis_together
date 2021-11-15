@@ -23,9 +23,6 @@ public class GameComment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long commentNo;
 
-    @Column(nullable = false, length = 100, name = "review_title")
-    private String reviewTitle;
-
     @Column(nullable = false, name = "review_content")
     private String reviewContent;
 
@@ -54,9 +51,8 @@ public class GameComment {
 
     @Builder
     public GameComment(
-            String reviewTitle, String reviewContent, 
+            String reviewContent, 
             int depth, int grpNo, Game commentedGame, User comtWriteUser){
-        this.reviewTitle = reviewTitle;
         this.reviewContent = reviewContent;
         this.depth = depth;
         this.grpNo = grpNo;
