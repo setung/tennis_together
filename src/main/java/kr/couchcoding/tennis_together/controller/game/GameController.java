@@ -46,6 +46,8 @@ public class GameController {
             @RequestParam(required = false) String genderType,
             @RequestParam(required = false) Integer ageType,
             @RequestParam(required = false) Integer historyType,
+            @RequestParam(required = false) String locSd,
+            @RequestParam(required = false) String locSkk,
             @RequestParam(required = false) GameStatus status,
             @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate strDt,
             @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDt,
@@ -59,6 +61,8 @@ public class GameController {
         if (historyType != null) spec = spec.and(GameSpecification.equalHistoryType(historyType));
         if (strDt != null) spec = spec.and(GameSpecification.geStrDt(strDt));
         if (endDt != null) spec = spec.and(GameSpecification.leEndDt(endDt));
+        if (locSd != null) spec = spec.and(GameSpecification.equalLocSd(locSd));
+        if (locSkk != null) spec = spec.and(GameSpecification.equalLocSkk(locSkk));
         if (score != null) spec = spec.and(GameSpecification.geScore(score));
         if (status != null) {
             spec = spec.and(GameSpecification.equalStatus(status));

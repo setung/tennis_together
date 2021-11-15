@@ -47,4 +47,12 @@ public class GameSpecification {
     public static Specification<Game> geScore(Double score) {
         return (root, query, criteriaBuilder) -> criteriaBuilder.greaterThanOrEqualTo(root.get("gameCreator").get("score"), score);
     }
+
+    public static Specification<Game> equalLocSkk(String locSkk) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("court").get("locCd").get("locSkk"), locSkk);
+    }
+
+    public static Specification<Game> equalLocSd(String locSd) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("court").get("locCd").get("locSd"), locSd);
+    }
 }
