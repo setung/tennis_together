@@ -5,7 +5,6 @@ import kr.couchcoding.tennis_together.domain.friend.model.FrdList;
 import kr.couchcoding.tennis_together.domain.user.model.User;
 import lombok.Data;
 
-import java.math.BigInteger;
 import java.time.LocalDateTime;
 
 

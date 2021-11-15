@@ -9,4 +9,6 @@ import java.util.Optional;
 
 public interface GameRepository extends JpaRepository<Game, Long>, JpaSpecificationExecutor<Game> {
     Optional<Game> findGameByGameNoAndGameCreator(Long gameNo, User gameCreator);
+
+
 }
