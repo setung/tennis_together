@@ -31,4 +31,10 @@ public class LocCdService {
         Optional<LocCd> locCd = locCdRepository.findById(locCdNo);
         return locCd.orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_LOCATION));
     }
+
+
+    public LocCd findByLocSdAndLocSkk (String locSd, String locSkk){
+        Optional<LocCd> locCd = locCdRepository.findByLocSdAndLocSkk(locSd, locSkk);
+        return locCd.orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_LOCATION));
+    }
 }

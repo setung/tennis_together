@@ -26,8 +26,9 @@ public class User implements UserDetails{
     @Column(length = 10)//, columnDefinition = "휴대폰 번호")
     private String phone;
 
-    @Column(nullable = false, length = 50) // 디폴트는 nullalbe = true, length = 255
-    private String name;
+    // 유저 이름 칼럼 삭제
+    //@Column(nullable = false, length = 50) // 디폴트는 nullalbe = true, length = 255
+    //private String name;
 
     @Column(nullable = false, length = 50)
     private String nickname;
@@ -41,11 +42,11 @@ public class User implements UserDetails{
     @Column(nullable = false)
     private Integer history;
 
-    @Column(nullable = false, name = "reg_dtm")
+    @Column(name = "reg_dtm")
     @CreatedDate
     private LocalDateTime regDtm;
 
-    @Column(nullable = false, name = "upd_dtm")
+    @Column(name = "upd_dtm")
     @LastModifiedDate
     private LocalDateTime updDtm;
 
@@ -67,16 +68,16 @@ public class User implements UserDetails{
     *  - 객체는 생성할 때는 Builder를 사용
     * */
     @Builder
-    public User(String uid, String phone, String name, String password, String nickname, String birth, Character gender,
-                Integer history, LocalDateTime regDtm, LocalDateTime updDtm, Character actDvCd, String profileUrl,
-                Long score, LocCd locCd){
+    public User(String uid, String phone,  String nickname, String birth, Character gender,
+                Integer history, Long score, LocCd locCd){
         this.uid = uid;
-        this.name = name;
+        this.phone = phone;
+        //this.name = name;
         this.nickname = nickname;
         this.birth = birth;
         this.gender = gender;
         this.history = history;
-        this.profileUrl = profileUrl;
+        //this.profileUrl = profileUrl;
         this.score = score;
         this.locCd = locCd;
     }
