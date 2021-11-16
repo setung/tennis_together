@@ -1,17 +1,19 @@
 package kr.couchcoding.tennis_together.domain.user_review.model;
 
-
+import kr.couchcoding.tennis_together.domain.game.model.Game;
 import lombok.*;
+
 import javax.persistence.*;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import kr.couchcoding.tennis_together.domain.user.model.User;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
-
+@EntityListeners(AuditingEntityListener.class)
 @Entity
 @Getter
 @NoArgsConstructor
@@ -26,9 +28,15 @@ public class UserReview {
     // User 객체와 양방향 매핑 N : 1
     @ManyToOne
     @JoinColumn(name = "written_uid")
-    private User reviewUser; // written_uid 칼럼을 객체로
+    private User writtenUser; // written_uid 칼럼을 객체로
 
-    // reviewTitle 칼럼 삭제
+    @OneToOne
+    @JoinColumn(name = "recipient_uid")
+    private User recipient;  // 리뷰 대상자
+
+    @OneToOne
+    @JoinColumn(name = "game_no")
+    private Game game;
 
     @Column(name = "review_content")
     private String reviewContent;
@@ -45,10 +53,12 @@ public class UserReview {
     @Column(name = "score")
     private Long score;
 
-    public UserReview(Long reviewNo, User reviewUser, String reviewContent
-                    , Long score){
+    @Builder
+    public UserReview(Long reviewNo, User writtenUser, User recipient, Game game, String reviewContent, Long score) {
         this.reviewNo = reviewNo;
-        this.reviewUser = reviewUser;
+        this.writtenUser = writtenUser;
+        this.game = game;
+        this.recipient = recipient;
         this.reviewContent = reviewContent;
         this.score = score;
     }
