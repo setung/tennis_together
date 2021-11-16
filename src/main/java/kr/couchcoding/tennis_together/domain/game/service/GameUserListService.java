@@ -12,6 +12,7 @@ import kr.couchcoding.tennis_together.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -123,8 +124,8 @@ public class GameUserListService {
         gameUserList.updateStatus(GameUserListStatus.REFUSED);
     }
 
-    public Page<GameUserList> findByGameNo(Long gameNo, Pageable pageable) {
+    public Page<GameUserList> findByGameNo(Long gameNo, Specification<GameUserList> spec, Pageable pageable) {
         Game joinedGame = gameService.findGameByNo(gameNo);
-        return gameUserListRepository.findByJoinedGame(joinedGame, pageable);
+        return gameUserListRepository.findByJoinedGame(joinedGame, spec, pageable);
     }
 }
