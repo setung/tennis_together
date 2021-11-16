@@ -19,6 +19,10 @@ public class GameUserListSpecification {
     }
 
     public static Specification<GameUserList> equalStatus(GameUserListStatus status) {
-        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("gameUser").get("status"), status);
+        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("status"), status);
+    }
+
+    public static Specification<GameUserList> equalGameNo(Long gameNo) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("joinedGame").get("gameNo"), gameNo);
     }
 }

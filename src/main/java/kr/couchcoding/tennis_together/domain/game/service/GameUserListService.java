@@ -124,8 +124,7 @@ public class GameUserListService {
         gameUserList.updateStatus(GameUserListStatus.REFUSED);
     }
 
-    public Page<GameUserList> findByGameNo(Long gameNo, Specification<GameUserList> spec, Pageable pageable) {
-        Game joinedGame = gameService.findGameByNo(gameNo);
-        return gameUserListRepository.findByJoinedGame(joinedGame, spec, pageable);
+    public Page<GameUserList> findByGameNo(Specification<GameUserList> spec, Pageable pageable) {
+        return gameUserListRepository.findAll(spec, pageable);
     }
 }
