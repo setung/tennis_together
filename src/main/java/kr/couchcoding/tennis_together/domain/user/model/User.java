@@ -17,6 +17,7 @@ import java.util.Collection;
 @NoArgsConstructor // 기본 생성자 생성
 @ToString
 @Table(name="user_info")
+@EqualsAndHashCode(of="uid")
 public class User implements UserDetails{
 
     @Id 
