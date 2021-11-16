@@ -31,7 +31,7 @@ public class gameCommentController {
                                      @RequestBody GCRequestDTO gcRequestDTO,
                                      Authentication authentication) {
 
-        // 어떤사용자가 어떤게임에 어떤 댓글을 남겼는지
+        // 어떤사용자가 어떤게임에 어떤 댓글을 남길지
         User user = ((User)authentication.getPrincipal());
         Game game = gameService.findGameByNo(gameNo);
         gameCommentService.createComment(user,game,gcRequestDTO);
@@ -45,6 +45,15 @@ public class gameCommentController {
         return gameCommentService.getGameCommentList(game,pageable).map(GameComment -> new GCResponseDTO(GameComment));
     }
 
+    //게임 댓글 삭제
+    @DeleteMapping("/{commentNo}")
+    public void deleteComment(@PathVariable(value = "gameNo")Long gameNo,
+                              @PathVariable(value = "commentNo")Long commentNo,
+                              Authentication autentication) {
+        // 어떤사용자가 어떤게임에 어떤 댓글을 삭제할지
+        User user = ((User)autentication.getPrincipal());
+        gameCommentService.deleteComment(user,gameNo,commentNo);
+    }
 
 
 }

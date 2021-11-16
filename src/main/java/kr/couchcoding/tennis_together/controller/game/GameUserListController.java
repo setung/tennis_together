@@ -1,13 +1,17 @@
 package kr.couchcoding.tennis_together.controller.game;
 
+import kr.couchcoding.tennis_together.controller.game.dto.AppliedUserDTO;
+import kr.couchcoding.tennis_together.controller.game.specification.GameUserListSpecification;
+import kr.couchcoding.tennis_together.domain.game.model.GameUserList;
 import kr.couchcoding.tennis_together.domain.game.service.GameUserListService;
+import kr.couchcoding.tennis_together.domain.game.status.GameUserListStatus;
 import kr.couchcoding.tennis_together.domain.user.model.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -40,5 +44,24 @@ public class GameUserListController {
                                   @PathVariable String joinedUserUid) {
         User gameCreator = ((User) authentication.getPrincipal());
         gameUserListService.refuseAppliedGame(gameCreator, gameNo, joinedUserUid);
+    }
+
+    @GetMapping("/{gameNo}/users")
+    public Page<AppliedUserDTO> getUsers(@PathVariable Long gameNo,
+                                         @RequestParam(required = false) String gender,
+                                         @RequestParam(required = false) Integer history,
+                                         @RequestParam(required = false) Long score,
+                                         @RequestParam(required = false) GameUserListStatus status,
+                                         Pageable pageable) {
+
+        Specification<GameUserList> spec = GameUserListSpecification.equalGameNo(gameNo);
+
+        if (gender != null) spec = spec.and(GameUserListSpecification.equalGender(gender));
+        if (gender != null) spec = spec.and(GameUserListSpecification.equalGender(gender));
+        if (history != null) spec = spec.and(GameUserListSpecification.equalHistory(history));
+        if (score != null) spec = spec.and(GameUserListSpecification.equalScore(score));
+        if (status != null) spec = spec.and(GameUserListSpecification.equalStatus(status));
+
+        return gameUserListService.findByGameNo(spec, pageable).map(gameUserList -> new AppliedUserDTO(gameUserList));
     }
 }

@@ -10,6 +10,9 @@ import kr.couchcoding.tennis_together.domain.user.service.UserService;
 import kr.couchcoding.tennis_together.exception.CustomException;
 import kr.couchcoding.tennis_together.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -44,7 +47,7 @@ public class GameUserListService {
         if (game.getGameStatus() != GameStatus.RECRUITING)
             throw new CustomException(ErrorCode.BAD_REQUEST_GAME, game.getGameStatus() + " 상태의 게임을 신청할 수 없습니다.");
 
-        if (game.getGameCreator().getUid().equals(user.getUid()))
+        if (game.getGameCreator().getUsername().equals(user.getUsername()))
             throw new CustomException(ErrorCode.BAD_REQUEST_GAME, "자신의 게임에 신청할 수 없습니다.");
 
         if (!(game.getStrDt().equals(now) || game.getEndDt().equals(now))
@@ -122,9 +125,15 @@ public class GameUserListService {
         gameUserList.updateStatus(GameUserListStatus.REFUSED);
     }
 
+
     public GameUserList findByGameAndStatus(long gameNo, GameUserListStatus status) {
         Game game = gameService.findGameByNo(gameNo);
         return gameUserListRepository.findByJoinedGameAndStatus(game, status)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_GAME_USER_LIST));
+
+    }
+
+    public Page<GameUserList> findByGameNo(Specification<GameUserList> spec, Pageable pageable) {
+        return gameUserListRepository.findAll(spec, pageable);
     }
 }
