@@ -3,6 +3,7 @@ package kr.couchcoding.tennis_together.domain.user.service;
 import java.util.Optional;
 
 import kr.couchcoding.tennis_together.domain.location.model.LocCd;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -33,17 +34,19 @@ public class UserService implements UserDetailsService {
 
 
     // 유저 등록
+    // regDtm, updDtm 생성 인서트 안되는 문제 확인
     @Transactional
-    public User register(String uid, String phone, String name, Character gender
+    public User register(String uid, String phone, String birth, Character gender
             , Integer history, String nickname, LocCd locCd){
         User registeredUser = User.builder()
                 .uid(uid)
                 .phone(phone)
-                .name(name)
+                .birth(birth)
                 .gender(gender)
                 .history(history)
                 .nickname(nickname)
                 .locCd(locCd)
+                .score(0L)
                 .build();
         userRepository.save(registeredUser);
 

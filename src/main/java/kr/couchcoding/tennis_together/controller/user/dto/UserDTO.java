@@ -21,7 +21,6 @@ public class UserDTO {
     public UserDTO(User user){
         uid = user.getUid();
         phone = user.getPhone();
-        name = user.getName();
         nickname = user.getNickname();
         birth = user.getBirth();
         gender = user.getGender();

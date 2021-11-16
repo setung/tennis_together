@@ -8,7 +8,8 @@ public class RegisterDTO {
     private String phone;
     private String nickname;
     private String birth;
-    private Character gender;
+    private String gender;
     private Integer history;
-    private LocCd locCd;
+    private String locSd;
+    private String locSkk;
 }
