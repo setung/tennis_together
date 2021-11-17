@@ -47,4 +47,10 @@ public class UserReviewController {
     public ResponseUserReviewDTO findUserReview(@PathVariable Long reviewNo) {
         return new ResponseUserReviewDTO(userReviewService.findByReviewNo(reviewNo));
     }
+
+    @DeleteMapping("/{reviewNo}")
+    public void findUserReview(@PathVariable Long reviewNo, Authentication authentication) {
+        User user = ((User) authentication.getPrincipal());
+        userReviewService.deleteReview(user, reviewNo);
+    }
 }
