@@ -8,10 +8,9 @@ public class UserDTO {
 
     private String uid;
     private String phone;
-    private String name;
     private String nickname;
     private String birth;
-    private Character gender;
+    private String gender;
     private Integer history;
     private Character actDvCd = '1';
     private String profileUrl;

@@ -36,8 +36,9 @@ public class User implements UserDetails{
     @Column(nullable = false, length = 6)
     private String birth;
 
+    // gender 타입 변경 Character -> String
     @Column(nullable = false)
-    private Character gender;
+    private String gender;
 
     @Column(nullable = false)
     private Integer history;
@@ -68,8 +69,8 @@ public class User implements UserDetails{
     *  - 객체는 생성할 때는 Builder를 사용
     * */
     @Builder
-    public User(String uid, String phone,  String nickname, String birth, Character gender,
-                Integer history, Long score, LocCd locCd){
+    public User(String uid, String phone,  String nickname, String birth, String gender,
+                Integer history, String profileUrl, Long score, LocCd locCd){
         this.uid = uid;
         this.phone = phone;
         //this.name = name;
@@ -77,12 +78,27 @@ public class User implements UserDetails{
         this.birth = birth;
         this.gender = gender;
         this.history = history;
-        //this.profileUrl = profileUrl;
+        this.profileUrl = profileUrl;
         this.score = score;
         this.locCd = locCd;
     }
 
     public User(User registeredUser) {
+    }
+
+    public void UpdateUser(User updateUser) {
+        if (updateUser.getPhone() != null) phone = updateUser.getPhone();
+        if (updateUser.getBirth() != null) birth = updateUser.getBirth();
+        if (updateUser.getHistory() != null) history = updateUser.getHistory();
+        if (updateUser.getGender() != null) gender = updateUser.getGender();
+        if (updateUser.getNickname() != null) nickname = updateUser.getNickname();
+        if (updateUser.getLocCd().getLocCdNo() != null) locCd = updateUser.getLocCd();
+        if (updateUser.getProfileUrl() != null) profileUrl = updateUser.getProfileUrl();
+    }
+
+    public void updateUserActDvCd(Character actDvCd )
+    {
+        this.actDvCd = actDvCd;
     }
 
     @Override
