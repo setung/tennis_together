@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -46,7 +47,7 @@ public class GameUserListService {
         if (game.getGameStatus() != GameStatus.RECRUITING)
             throw new CustomException(ErrorCode.BAD_REQUEST_GAME, game.getGameStatus() + " 상태의 게임을 신청할 수 없습니다.");
 
-        if (game.getGameCreator().getUid().equals(user.getUid()))
+        if (game.getGameCreator().getUsername().equals(user.getUsername()))
             throw new CustomException(ErrorCode.BAD_REQUEST_GAME, "자신의 게임에 신청할 수 없습니다.");
 
         if (!(game.getStrDt().equals(now) || game.getEndDt().equals(now))
@@ -122,6 +123,14 @@ public class GameUserListService {
             throw new CustomException(ErrorCode.BAD_REQUEST_GAME, "신청 기간이 지난 게임은 거절이 불가합니다.");
 
         gameUserList.updateStatus(GameUserListStatus.REFUSED);
+    }
+
+
+    public GameUserList findByGameAndStatus(long gameNo, GameUserListStatus status) {
+        Game game = gameService.findGameByNo(gameNo);
+        return gameUserListRepository.findByJoinedGameAndStatus(game, status)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_GAME_USER_LIST));
+
     }
 
     public Page<GameUserList> findByGameNo(Specification<GameUserList> spec, Pageable pageable) {
