@@ -1,4 +1,4 @@
-package kr.couchcoding.tennis_together.domain.user_review.model;
+package kr.couchcoding.tennis_together.domain.userreview.model;
 
 import kr.couchcoding.tennis_together.domain.game.model.Game;
 import lombok.*;

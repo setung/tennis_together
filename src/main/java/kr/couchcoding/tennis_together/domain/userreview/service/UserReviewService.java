@@ -1,4 +1,4 @@
-package kr.couchcoding.tennis_together.domain.user_review.service;
+package kr.couchcoding.tennis_together.domain.userreview.service;
 
 import kr.couchcoding.tennis_together.controller.userreview.dto.RequestUserReviewDTO;
 import kr.couchcoding.tennis_together.domain.game.model.Game;
@@ -7,15 +7,19 @@ import kr.couchcoding.tennis_together.domain.game.service.GameUserListService;
 import kr.couchcoding.tennis_together.domain.game.status.GameStatus;
 import kr.couchcoding.tennis_together.domain.game.status.GameUserListStatus;
 import kr.couchcoding.tennis_together.domain.user.model.User;
-import kr.couchcoding.tennis_together.domain.user_review.dao.UserReviewRepository;
-import kr.couchcoding.tennis_together.domain.user_review.model.UserReview;
+import kr.couchcoding.tennis_together.domain.userreview.dao.UserReviewRepository;
+import kr.couchcoding.tennis_together.domain.userreview.model.UserReview;
 import kr.couchcoding.tennis_together.exception.CustomException;
 import kr.couchcoding.tennis_together.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -62,4 +66,12 @@ public class UserReviewService {
         recipient.updateScore(avg.longValue());
     }
 
+    public Page<UserReview> findAll(Specification<UserReview> spec, Pageable pageable) {
+        return userReviewRepository.findAll(spec, pageable);
+    }
+
+    public UserReview findByReviewNo(Long reviewNo) {
+        Optional<UserReview> userReview = userReviewRepository.findById(reviewNo);
+        return userReview.orElseThrow(() -> new CustomException(ErrorCode.BAD_REQUEST_USER_REVIEW));
+    }
 }
