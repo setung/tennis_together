@@ -65,7 +65,7 @@ public class UserController {
                 uid = generatedString;
 
             } else {
-                decodedToken = firebaseAuth.verifyIdToken(authorization);
+                decodedToken = firebaseAuth.verifyIdToken(token);
                 uid = decodedToken.getUid();
             }
 
