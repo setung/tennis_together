@@ -8,11 +8,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-
 @Repository
 public interface GameCommentRepository extends JpaRepository<GameComment,Long>  { // <Entity,id type(pk)>
 
-
     Page<GameComment> findByCommentedGame(Game commentedGame, Pageable pageable); // Entity에서 gameNo = CommentedGame
-
 }

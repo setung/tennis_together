@@ -13,5 +13,4 @@ public interface GameRepository extends JpaRepository<Game, Long>, JpaSpecificat
 
     Optional<Game> findGameByGameNoAndGameCreator(Long gameNo, User gameCreator);
 
-
 }
