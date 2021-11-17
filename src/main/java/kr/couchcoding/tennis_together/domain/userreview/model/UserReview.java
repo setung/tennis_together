@@ -1,5 +1,6 @@
 package kr.couchcoding.tennis_together.domain.userreview.model;
 
+import kr.couchcoding.tennis_together.controller.userreview.dto.RequestUserReviewDTO;
 import kr.couchcoding.tennis_together.domain.game.model.Game;
 import lombok.*;
 
@@ -63,4 +64,8 @@ public class UserReview {
         this.score = score;
     }
 
+    public void updateReview(RequestUserReviewDTO updatedReviewDTO) {
+        if (updatedReviewDTO.getReviewContent() != null) reviewContent = updatedReviewDTO.getReviewContent();
+        if (updatedReviewDTO.getScore() != null) score = updatedReviewDTO.getScore();
+    }
 }
