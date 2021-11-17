@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -67,5 +68,10 @@ public class UserReviewService {
 
     public Page<UserReview> findAll(Specification<UserReview> spec, Pageable pageable) {
         return userReviewRepository.findAll(spec, pageable);
+    }
+
+    public UserReview findByReviewNo(Long reviewNo) {
+        Optional<UserReview> userReview = userReviewRepository.findById(reviewNo);
+        return userReview.orElseThrow(() -> new CustomException(ErrorCode.BAD_REQUEST_USER_REVIEW));
     }
 }

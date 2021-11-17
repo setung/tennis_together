@@ -42,4 +42,9 @@ public class UserReviewController {
 
         return userReviewService.findAll(spec, pageable).map(userReview -> new ResponseUserReviewDTO(userReview));
     }
+
+    @GetMapping("/{reviewNo}")
+    public ResponseUserReviewDTO findUserReview(@PathVariable Long reviewNo) {
+        return new ResponseUserReviewDTO(userReviewService.findByReviewNo(reviewNo));
+    }
 }
