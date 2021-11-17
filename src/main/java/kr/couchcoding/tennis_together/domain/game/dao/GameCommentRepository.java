@@ -15,5 +15,4 @@ public interface GameCommentRepository extends JpaRepository<GameComment,Long>  
 
     Page<GameComment> findByCommentedGame(Game commentedGame, Pageable pageable); // Entity에서 gameNo = CommentedGame
 
-    void updateComment(GameComment.GameCommentBuilder updateComment);
 }
