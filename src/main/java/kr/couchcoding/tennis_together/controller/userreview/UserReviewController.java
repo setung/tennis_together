@@ -53,4 +53,12 @@ public class UserReviewController {
         User user = ((User) authentication.getPrincipal());
         userReviewService.deleteReview(user, reviewNo);
     }
+
+    @PatchMapping("/{reviewNo}")
+    public void updateUserReview(@PathVariable Long reviewNo,
+                                 @RequestBody RequestUserReviewDTO updatedReviewDTO,
+                                 Authentication authentication) {
+        User user = ((User) authentication.getPrincipal());
+        userReviewService.updateReview(user, reviewNo, updatedReviewDTO);
+    }
 }

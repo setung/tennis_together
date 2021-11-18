@@ -87,4 +87,14 @@ public class UserReviewService {
         Double avg = userReviewRepository.getAverageScore(user);
         user.updateScore(avg == null ? 0 : avg.longValue());
     }
+
+    public void updateReview(User user, Long reviewNo, RequestUserReviewDTO updatedReviewDTO) {
+        UserReview review = findByReviewNo(reviewNo);
+
+        if (!review.getWrittenUser().getUsername().equals(user.getUsername()))
+            throw new CustomException(ErrorCode.FORBIDDEN_USER);
+
+        review.updateReview(updatedReviewDTO);
+        updateUserScore(review.getRecipient());
+    }
 }
