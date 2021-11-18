@@ -61,9 +61,7 @@ public class UserReviewService {
                 .build();
 
         userReviewRepository.save(userReview);
-
-        Double avg = userReviewRepository.getAverageScore(recipient);
-        recipient.updateScore(avg.longValue());
+        updateUserScore(recipient);
     }
 
     public Page<UserReview> findAll(Specification<UserReview> spec, Pageable pageable) {
@@ -72,6 +70,21 @@ public class UserReviewService {
 
     public UserReview findByReviewNo(Long reviewNo) {
         Optional<UserReview> userReview = userReviewRepository.findById(reviewNo);
-        return userReview.orElseThrow(() -> new CustomException(ErrorCode.BAD_REQUEST_USER_REVIEW));
+        return userReview.orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER_REVIEW));
+    }
+
+    public void deleteReview(User user, Long reviewNo) {
+        UserReview review = findByReviewNo(reviewNo);
+
+        if (!review.getWrittenUser().getUsername().equals(user.getUsername()))
+            throw new CustomException(ErrorCode.FORBIDDEN_USER);
+
+        userReviewRepository.delete(review);
+        updateUserScore(review.getRecipient());
+    }
+
+    private void updateUserScore(User user) {
+        Double avg = userReviewRepository.getAverageScore(user);
+        user.updateScore(avg == null ? 0 : avg.longValue());
     }
 }
