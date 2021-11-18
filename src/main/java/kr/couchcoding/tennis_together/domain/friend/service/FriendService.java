@@ -1,18 +1,34 @@
 package kr.couchcoding.tennis_together.domain.friend.service;
 
 
+import kr.couchcoding.tennis_together.controller.court.specification.CourtSpecification;
+import kr.couchcoding.tennis_together.controller.gameComment.dto.GCRequestDTO;
+import kr.couchcoding.tennis_together.controller.user.dto.UserDTO;
+import kr.couchcoding.tennis_together.domain.court.dto.CourtDto;
+import kr.couchcoding.tennis_together.domain.court.model.Court;
 import kr.couchcoding.tennis_together.domain.friend.dao.FriendDAO;
 import kr.couchcoding.tennis_together.domain.friend.model.FrdList;
+import kr.couchcoding.tennis_together.domain.game.model.Game;
+import kr.couchcoding.tennis_together.domain.game.model.GameComment;
+import kr.couchcoding.tennis_together.domain.user.dao.UserRepository;
 import kr.couchcoding.tennis_together.domain.user.model.User;
+import kr.couchcoding.tennis_together.domain.user.service.UserService;
 import kr.couchcoding.tennis_together.exception.CustomException;
 import kr.couchcoding.tennis_together.exception.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -20,6 +36,9 @@ public class FriendService {
     
     @Autowired
     FriendDAO friendDAO; // DAO 주입,삽입
+    @Autowired
+    UserRepository userRepository;
+
 
     @Transactional
     public void followFriend(User user, User friend) {// 어떤유저가 누굴 팔로하는지
@@ -47,5 +66,11 @@ public class FriendService {
             throw new CustomException(ErrorCode.NOT_FOUND_FRIEND);
         }
     }
+
+
+    public Page<User> recommendedFriend(User user, Pageable pageable) {
+        return userRepository.findByLocCd(user.getLocCd(), pageable);
+    }
+
 
 }
