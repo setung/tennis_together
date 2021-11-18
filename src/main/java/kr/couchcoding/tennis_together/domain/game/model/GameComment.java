@@ -51,6 +51,7 @@ public class GameComment {
     @JoinColumn(name = "uid")
     private User comtWriteUser;
 
+
     @Builder
     public GameComment(
             String reviewContent, 
@@ -60,6 +61,12 @@ public class GameComment {
         this.grpNo = grpNo;
         this.commentedGame = commentedGame;
         this.comtWriteUser = comtWriteUser;
+    }
+
+
+
+    public void updateComment(String reviewContent) {
+        this.reviewContent = reviewContent;
     }
 
 }

@@ -12,5 +12,4 @@ import org.springframework.stereotype.Repository;
 public interface GameCommentRepository extends JpaRepository<GameComment,Long>  { // <Entity,id type(pk)>
 
     Page<GameComment> findByCommentedGame(Game commentedGame, Pageable pageable); // Entity에서 gameNo = CommentedGame
-
 }

@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import kr.couchcoding.tennis_together.domain.location.model.LocCd;
 import lombok.*;
+
 import java.time.LocalDateTime;
 import java.util.Collection;
 
@@ -16,13 +17,14 @@ import java.util.Collection;
 @Getter
 @NoArgsConstructor // 기본 생성자 생성
 @ToString
-@Table(name="user_info")
-public class User implements UserDetails{
+@Table(name = "user_info")
+@EqualsAndHashCode(of = "uid")
+public class User implements UserDetails {
 
-    @Id 
+    @Id
     @Column(length = 50)//, columnDefinition = "firebase uid")
     private String uid;
-    
+
     @Column(length = 10)//, columnDefinition = "휴대폰 번호")
     private String phone;
 
@@ -61,16 +63,17 @@ public class User implements UserDetails{
 
     @ManyToOne
     @JoinColumn(name = "loc_cd_no")
-    private  LocCd locCd;
+    private LocCd locCd;
 
     /*
-    * Entity에는 Setter를 사용하지 않는다.
-    *  - 객체의 일관성을 유지하는데 문제가 생길 수 있기 때문에
-    *  - 객체는 생성할 때는 Builder를 사용
-    * */
+     * Entity에는 Setter를 사용하지 않는다.
+     *  - 객체의 일관성을 유지하는데 문제가 생길 수 있기 때문에
+     *  - 객체는 생성할 때는 Builder를 사용
+     * */
     @Builder
     public User(String uid, String phone,  String nickname, String birth, String gender,
                 Integer history, String profileUrl, Long score, LocCd locCd){
+
         this.uid = uid;
         this.phone = phone;
         //this.name = name;
@@ -81,6 +84,10 @@ public class User implements UserDetails{
         this.profileUrl = profileUrl;
         this.score = score;
         this.locCd = locCd;
+    }
+
+    public void updateScore(long score) {
+        this.score = score;
     }
 
     public User(User registeredUser) {
@@ -114,7 +121,7 @@ public class User implements UserDetails{
 
     @Override
     public boolean isAccountNonExpired() {
-        return actDvCd == '1'; 
+        return actDvCd == '1';
     }
 
     @Override
