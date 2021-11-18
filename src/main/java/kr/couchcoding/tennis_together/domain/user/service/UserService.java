@@ -5,7 +5,6 @@ import java.util.Optional;
 import kr.couchcoding.tennis_together.controller.user.dto.UpdateUserDTO;
 import kr.couchcoding.tennis_together.domain.location.model.LocCd;
 import kr.couchcoding.tennis_together.domain.location.service.LocCdService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
