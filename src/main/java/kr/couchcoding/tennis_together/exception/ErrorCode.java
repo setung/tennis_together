@@ -25,6 +25,7 @@ public enum ErrorCode {
     NOT_FOUND_GAME_USER_LIST(HttpStatus.NOT_FOUND, "해당 게임 신청 목록을 찾을 수 없습니다."),
     NOT_FOUND_USER_REVIEW(HttpStatus.NOT_FOUND, "해당 리뷰를 찾을 수 없습니다."),
 
+    DELETED_USER(HttpStatus.BAD_REQUEST, "삭제된 유저입니다."),
     EXIST_USER(HttpStatus.BAD_REQUEST, "이미 등록된 유저입니다."),
     INVALID_AUTHORIZATION(HttpStatus.BAD_REQUEST, "인증 정보가 부정확합니다."),
 

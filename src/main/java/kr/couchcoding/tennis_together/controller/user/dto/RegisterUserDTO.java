@@ -4,7 +4,7 @@ import kr.couchcoding.tennis_together.domain.location.model.LocCd;
 import lombok.Data;
 
 @Data
-public class RegisterDTO {
+public class RegisterUserDTO {
     private String phone;
     private String nickname;
     private String birth;
