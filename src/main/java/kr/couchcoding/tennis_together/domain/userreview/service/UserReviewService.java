@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Optional;
 
 @Service
@@ -49,7 +50,7 @@ public class UserReviewService {
         } else
             throw new CustomException(ErrorCode.FORBIDDEN_USER, "리뷰를 작성할 권한이 없습니다.");
 
-        if (game.getEndDt().isAfter(LocalDate.now()) || game.getGameStatus() != GameStatus.CLOSED)
+        if (game.getEndDt().isAfter(LocalDate.now(ZoneId.of("+09:00:00"))) || game.getGameStatus() != GameStatus.CLOSED)
             throw new CustomException(ErrorCode.BAD_REQUEST_USER_REVIEW, "게임이 끝난 후 리뷰를 등록할 수 있습니다.");
 
         UserReview userReview = UserReview.builder()

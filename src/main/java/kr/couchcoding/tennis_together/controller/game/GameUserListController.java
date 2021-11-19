@@ -17,6 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 
 @RestController
 @RequiredArgsConstructor
@@ -78,7 +79,7 @@ public class GameUserListController {
         spec = spec.or(GameUserListSpecification.equalGameCreator(user.getUid()));
         spec = spec.or(GameUserListSpecification.equalGameUser(user.getUsername()));
         spec = spec.and(GameUserListSpecification.notEqualGameStatus(GameStatus.RECRUITING));
-        spec = spec.and(GameUserListSpecification.lessThanEndDt(LocalDate.now()));
+        spec = spec.and(GameUserListSpecification.lessThanEndDt(LocalDate.now(ZoneId.of("+09:00:00"))));
         spec = spec.and(GameUserListSpecification.equalStatus(GameUserListStatus.APPROVED));
 
         Page<GameUserList> gameUserLists = gameUserListService.findHistoriesPlayedGame(spec, pageable);

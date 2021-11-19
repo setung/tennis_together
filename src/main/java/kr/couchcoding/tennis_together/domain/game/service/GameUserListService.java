@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.time.ZoneId;
 
 @Service
 @RequiredArgsConstructor
@@ -41,7 +42,7 @@ public class GameUserListService {
     }
 
     private void verifyGameForApply(User user, Game game) {
-        LocalDate now = LocalDate.now();
+        LocalDate now = LocalDate.now(ZoneId.of("+09:00:00"));
 
         if (game.getGameStatus() != GameStatus.RECRUITING)
             throw new CustomException(ErrorCode.BAD_REQUEST_GAME, game.getGameStatus() + " 상태의 게임을 신청할 수 없습니다.");
@@ -65,7 +66,7 @@ public class GameUserListService {
         GameUserList gameUserList = gameUserListRepository.findByGameUserAndJoinedGame(user, game)
                 .orElseThrow(() -> new CustomException(ErrorCode.BAD_REQUEST_GAME, "해당 게임에 신청한 이력이 없습니다."));
 
-        LocalDate now = LocalDate.now();
+        LocalDate now = LocalDate.now(ZoneId.of("+09:00:00"));
 
         if (game.getStrDt().equals(now) || game.getEndDt().equals(now) ||
                 (game.getStrDt().isBefore(now) && game.getEndDt().isAfter(now))) {
@@ -97,7 +98,7 @@ public class GameUserListService {
         if (game.getGameStatus() != GameStatus.RECRUITING)
             throw new CustomException(ErrorCode.BAD_REQUEST_GAME, game.getGameStatus() + " 상태의 게임의 요청을 승인할 수 없습니다.");
 
-        LocalDate now = LocalDate.now();
+        LocalDate now = LocalDate.now(ZoneId.of("+09:00:00"));
         if (!(game.getStrDt().equals(now) || game.getEndDt().equals(now))
                 && !(game.getStrDt().isBefore(now) && game.getEndDt().isAfter(now)))
             throw new CustomException(ErrorCode.BAD_REQUEST_GAME, "신청기간이 아닙니다.");
@@ -113,7 +114,7 @@ public class GameUserListService {
         GameUserList gameUserList = gameUserListRepository.findByGameUserAndJoinedGame(joinedUser, game)
                 .orElseThrow(() -> new CustomException(ErrorCode.BAD_REQUEST_GAME, "해당 유저는 게임에 신청한 이력이 없습니다."));
 
-        LocalDate now = LocalDate.now();
+        LocalDate now = LocalDate.now(ZoneId.of("+09:00:00"));
         if (game.getStrDt().equals(now) || game.getEndDt().equals(now) ||
                 (game.getStrDt().isBefore(now) && game.getEndDt().isAfter(now))) {
             if (gameUserList.getStatus() == GameUserListStatus.APPROVED)
