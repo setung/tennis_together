@@ -5,6 +5,7 @@ import kr.couchcoding.tennis_together.controller.game.dto.RequestGameDTO;
 import kr.couchcoding.tennis_together.controller.gameComment.dto.GCRequestDTO;
 import kr.couchcoding.tennis_together.controller.gameComment.dto.GCResponseDTO;
 import kr.couchcoding.tennis_together.domain.game.model.Game;
+import kr.couchcoding.tennis_together.domain.game.model.GameComment;
 import kr.couchcoding.tennis_together.domain.game.service.GameCommentService;
 import kr.couchcoding.tennis_together.domain.game.service.GameService;
 import kr.couchcoding.tennis_together.domain.user.model.User;
@@ -58,7 +59,7 @@ public class gameCommentController {
 
 
     //게임 댓글 수정
-    @PatchMapping("/{commentNo}")
+     @PatchMapping("/{commentNo}")
     public void updateComment(@PathVariable Long gameNo,
                               @PathVariable Long commentNo,
                               @RequestBody GCRequestDTO updatedGameCommentDTO,
@@ -67,6 +68,7 @@ public class gameCommentController {
         User user = ((User)autentication.getPrincipal());
         gameCommentService.updateGameComment(user, gameNo, commentNo, updatedGameCommentDTO);
     }
+
 
 
 
