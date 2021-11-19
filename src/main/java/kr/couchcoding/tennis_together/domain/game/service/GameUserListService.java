@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -130,10 +129,13 @@ public class GameUserListService {
         Game game = gameService.findGameByNo(gameNo);
         return gameUserListRepository.findByJoinedGameAndStatus(game, status)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_GAME_USER_LIST));
-
     }
 
     public Page<GameUserList> findByGameNo(Specification<GameUserList> spec, Pageable pageable) {
+        return gameUserListRepository.findAll(spec, pageable);
+    }
+
+    public Page<GameUserList> findHistoriesPlayedGame(Specification<GameUserList> spec, Pageable pageable) {
         return gameUserListRepository.findAll(spec, pageable);
     }
 }
