@@ -1,6 +1,7 @@
 package kr.couchcoding.tennis_together.controller.game;
 
 import kr.couchcoding.tennis_together.controller.game.dto.AppliedUserDTO;
+import kr.couchcoding.tennis_together.controller.game.dto.ApplyGameDTO;
 import kr.couchcoding.tennis_together.controller.game.dto.PlayGameHistoryDTO;
 import kr.couchcoding.tennis_together.controller.game.specification.GameUserListSpecification;
 import kr.couchcoding.tennis_together.domain.game.model.GameUserList;
@@ -82,5 +83,19 @@ public class GameUserListController {
 
         Page<GameUserList> gameUserLists = gameUserListService.findHistoriesPlayedGame(spec, pageable);
         return gameUserLists.map(gameUserList -> new PlayGameHistoryDTO(user, gameUserList));
+    }
+
+    @GetMapping("/histories/applygames")
+    public Page<ApplyGameDTO> findHistoriesApplyGames(@RequestParam(required = false) GameStatus gameStatus,
+                                                      @RequestParam(required = false) GameUserListStatus status,
+                                                      Authentication authentication, Pageable pageable) {
+        User user = ((User) authentication.getPrincipal());
+        Specification<GameUserList> spec = GameUserListSpecification.equalGameUser(user.getUsername());
+
+        if (gameStatus != null) spec = spec.and(GameUserListSpecification.equalGameStatus(gameStatus));
+        if (status != null) spec = spec.and(GameUserListSpecification.equalStatus(status));
+
+        Page<GameUserList> gameUserLists = gameUserListService.findHistoriesPlayedGame(spec, pageable);
+        return gameUserLists.map(gameUserList -> new ApplyGameDTO(gameUserList));
     }
 }
