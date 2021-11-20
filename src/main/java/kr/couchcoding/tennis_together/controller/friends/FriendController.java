@@ -2,6 +2,7 @@ package kr.couchcoding.tennis_together.controller.friends;
 
 import kr.couchcoding.tennis_together.controller.friends.dto.FollowRequestDTO;
 import kr.couchcoding.tennis_together.controller.friends.dto.FollowResponseDTO;
+import kr.couchcoding.tennis_together.controller.user.dto.UserDTO;
 import kr.couchcoding.tennis_together.domain.friend.service.FriendService;
 import kr.couchcoding.tennis_together.domain.user.model.User;
 import kr.couchcoding.tennis_together.domain.user.service.UserService;
@@ -45,4 +46,14 @@ public class FriendController {
         User user = ((User)authentication.getPrincipal());
         friendService.deleteFriend(user,frdRelNo);
     }
+
+
+
+    // 친구 추천
+    @GetMapping("/recommend")
+    public Page<UserDTO> recommendedfriend(Authentication authentication, Pageable pageable) {
+        User user = ((User) authentication.getPrincipal());
+        return friendService.recommendedFriend(user,pageable).map(User -> new UserDTO(User));
+    }
+
 }

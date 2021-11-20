@@ -3,7 +3,11 @@ package kr.couchcoding.tennis_together.config.auth;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
+
+import kr.couchcoding.tennis_together.exception.CustomException;
 import kr.couchcoding.tennis_together.util.RequestUtil;
+import lombok.extern.slf4j.Slf4j;
+
 import org.apache.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.NoSuchElementException;
 
+@Slf4j
 public class JwtFilter extends OncePerRequestFilter{
 
     private UserDetailsService userDetailsService;
@@ -43,6 +48,7 @@ public class JwtFilter extends OncePerRequestFilter{
 
         } catch (FirebaseAuthException | IllegalArgumentException e){
             // ErrorMessage 응답 전송
+            log.info("token verify exception: " + e.getMessage());
             response.setStatus(HttpStatus.SC_UNAUTHORIZED);
             response.setContentType("application/json");
             response.getWriter().write("{\"code\":\"INVALID_TOKEN\", \"message\":\"" + e.getMessage() + "\"}");
@@ -56,9 +62,10 @@ public class JwtFilter extends OncePerRequestFilter{
                     user, null, user.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        } catch(NoSuchElementException e){
+        } catch(NoSuchElementException | CustomException e){
+            log.info("user found exception : " + e.getMessage());
             // ErrorMessage 응답 전송
-            response.setStatus(HttpStatus.SC_UNAUTHORIZED);
+            response.setStatus(HttpStatus.SC_NOT_FOUND);
             response.setContentType("application/json");
             response.getWriter().write("{\"code\":\"USER_NOT_FOUND\"}");
             return;
