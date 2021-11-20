@@ -21,9 +21,10 @@ import kr.couchcoding.tennis_together.domain.user.service.UserService;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
     @Autowired
     UserService userService;
-    
+
     @Autowired
     private AuthFilterContainer authFilterContainer;
 
@@ -38,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling() // 예외처리 기능 작동
                 .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)); // 인증실패시처리
     }
-    
+
     @Override
     public void configure(WebSecurity web) throws Exception {
         // 인증 예외 URL설정
@@ -48,15 +49,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/locations/**")
                 .antMatchers("/courts")
                 .antMatchers("/courts/**")
-                .antMatchers(HttpMethod.GET,"/games")
-                .antMatchers(HttpMethod.GET,"/games/**")
+                .antMatchers(HttpMethod.GET, "/games")
+                .antMatchers(HttpMethod.GET, "/games/*")
                 .antMatchers("/assets/**")
                 .antMatchers("/images/**")
                 .antMatchers("/favicon.ico")
                 .antMatchers("/static/**")
                 .antMatchers("/error")
                 .antMatchers("/error/**")
-                //.antMatchers(HttpMethod.GET, "/users/**")
+        //.antMatchers(HttpMethod.GET, "/users/**")
 
         ;
     }
