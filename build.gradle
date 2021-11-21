@@ -26,6 +26,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.postgresql:postgresql:42.3.0'
+	implementation "io.springfox:springfox-boot-starter:3.0.0"
 
 	// firebase 관련 디펜던시 추가
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
