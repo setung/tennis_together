@@ -137,5 +137,13 @@ public class UserController {
         userService.deleteUser(uid);
     }
 
+    // 닉네임 체크
+    @GetMapping("/nickname/{nickname}")
+    public String checkNickname(@PathVariable String nickname){
+
+        userService.checkNickname(nickname);
+        return "OK";
+    }
+
     // 추천 유저 조회
 }
