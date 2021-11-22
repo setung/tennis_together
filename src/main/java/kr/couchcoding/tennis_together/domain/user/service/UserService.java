@@ -24,7 +24,8 @@ import kr.couchcoding.tennis_together.exception.ErrorCode;
 public class UserService implements UserDetailsService {
     @Autowired
     UserRepository userRepository;
-
+    
+    @Autowired
     LocCdService locCdService;
 
     /**
