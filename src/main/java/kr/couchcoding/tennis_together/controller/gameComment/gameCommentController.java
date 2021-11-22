@@ -1,11 +1,11 @@
 package kr.couchcoding.tennis_together.controller.gameComment;
 
 
-import kr.couchcoding.tennis_together.controller.game.dto.RequestGameDTO;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import kr.couchcoding.tennis_together.controller.gameComment.dto.GCRequestDTO;
 import kr.couchcoding.tennis_together.controller.gameComment.dto.GCResponseDTO;
 import kr.couchcoding.tennis_together.domain.game.model.Game;
-import kr.couchcoding.tennis_together.domain.game.model.GameComment;
 import kr.couchcoding.tennis_together.domain.game.service.GameCommentService;
 import kr.couchcoding.tennis_together.domain.game.service.GameService;
 import kr.couchcoding.tennis_together.domain.user.model.User;
@@ -15,19 +15,19 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+@Api(tags = {"Game(모집글)에 댓글관련 API"})
 @RestController
 @RequestMapping("/games/{gameNo}/comments")
 public class gameCommentController {
 
     @Autowired
     GameCommentService gameCommentService;
+
     @Autowired
     GameService gameService;
 
-
-
-
     //게임 댓글 등록
+    @ApiOperation(value = "게임 댓글 등록 API")
     @PostMapping("")
     public void createComment(@PathVariable(value = "gameNo") Long gameNo,
                                      @RequestBody GCRequestDTO gcRequestDTO,
@@ -41,6 +41,7 @@ public class gameCommentController {
     }
 
     //게임 댓글 전체조회
+    @ApiOperation(value = "게임 댓글 조회 API")
     @GetMapping("")
     public Page<GCResponseDTO> getGameCommentList(@PathVariable(value = "gameNo") Long gameNo, Pageable pageable) {
         Game game = gameService.findGameByNo(gameNo);
@@ -48,6 +49,7 @@ public class gameCommentController {
     }
 
     //게임 댓글 삭제
+    @ApiOperation(value = "게임 댓글 삭제 API")
     @DeleteMapping("/{commentNo}")
     public void deleteComment(@PathVariable(value = "gameNo")Long gameNo,
                               @PathVariable(value = "commentNo")Long commentNo,
@@ -57,8 +59,8 @@ public class gameCommentController {
         gameCommentService.deleteComment(user,gameNo,commentNo);
     }
 
-
     //게임 댓글 수정
+    @ApiOperation(value = "게임 댓글 수정 API")
      @PatchMapping("/{commentNo}")
     public void updateComment(@PathVariable Long gameNo,
                               @PathVariable Long commentNo,
@@ -68,8 +70,5 @@ public class gameCommentController {
         User user = ((User)autentication.getPrincipal());
         gameCommentService.updateGameComment(user, gameNo, commentNo, updatedGameCommentDTO);
     }
-
-
-
 
 }

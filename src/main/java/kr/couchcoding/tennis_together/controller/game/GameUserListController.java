@@ -1,5 +1,7 @@
 package kr.couchcoding.tennis_together.controller.game;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import kr.couchcoding.tennis_together.controller.game.dto.AppliedUserDTO;
 import kr.couchcoding.tennis_together.controller.game.dto.ApplyGameDTO;
 import kr.couchcoding.tennis_together.controller.game.dto.PlayGameHistoryDTO;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 
+@Api(tags = {"Games 모집관련 API"})
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/games")
@@ -25,18 +28,21 @@ public class GameUserListController {
 
     private final GameUserListService gameUserListService;
 
+    @ApiOperation(value = "Game의 모집에 신청하는 API")
     @PostMapping("/{gameNo}/apply")
     public void applyGame(@PathVariable Long gameNo, Authentication authentication) {
         User user = ((User) authentication.getPrincipal());
         gameUserListService.applyGame(user, gameNo);
     }
 
+    @ApiOperation(value = "Game의 모집신청에 취소하는 API")
     @PostMapping("/{gameNo}/cancel")
     public void cancelAppliedGame(@PathVariable Long gameNo, Authentication authentication) {
         User user = ((User) authentication.getPrincipal());
         gameUserListService.cancelAppliedGame(user, gameNo);
     }
 
+    @ApiOperation(value = "Game의 모집신청에 승인하는 API")
     @PostMapping("/{gameNo}/approve/{joinedUserUid}")
     public void approveAppliedGame(@PathVariable Long gameNo, Authentication authentication,
                                    @PathVariable String joinedUserUid) {
@@ -44,6 +50,7 @@ public class GameUserListController {
         gameUserListService.approveAppliedGame(gameCreator, gameNo, joinedUserUid);
     }
 
+    @ApiOperation(value = "Game의 모집신청에 거절하는 API")
     @PostMapping("/{gameNo}/refuse/{joinedUserUid}")
     public void refuseAppliedGame(@PathVariable Long gameNo, Authentication authentication,
                                   @PathVariable String joinedUserUid) {
@@ -51,6 +58,7 @@ public class GameUserListController {
         gameUserListService.refuseAppliedGame(gameCreator, gameNo, joinedUserUid);
     }
 
+    @ApiOperation(value = "특정 Game에 모집신청한 User 조회 API")
     @GetMapping("/{gameNo}/users")
     public Page<AppliedUserDTO> getUsers(@PathVariable Long gameNo,
                                          @RequestParam(required = false) String gender,
@@ -70,6 +78,7 @@ public class GameUserListController {
         return gameUserListService.findByGameNo(spec, pageable).map(gameUserList -> new AppliedUserDTO(gameUserList));
     }
 
+    @ApiOperation(value = "Game에 참여한 이력 조회 API")
     @GetMapping("/histories/playgames")
     public Page<PlayGameHistoryDTO> findHistoriesPlayedGame(Authentication authentication, Pageable pageable) {
         User user = ((User) authentication.getPrincipal());
@@ -85,6 +94,7 @@ public class GameUserListController {
         return gameUserLists.map(gameUserList -> new PlayGameHistoryDTO(user, gameUserList));
     }
 
+    @ApiOperation(value = "Game에 신청한 이력 조회 API")
     @GetMapping("/histories/applygames")
     public Page<ApplyGameDTO> findHistoriesApplyGames(@RequestParam(required = false) GameStatus gameStatus,
                                                       @RequestParam(required = false) GameUserListStatus status,
