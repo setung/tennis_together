@@ -113,4 +113,14 @@ public class UserService implements UserDetailsService {
 
         user.get().updateUserActDvCd('2');
     }
+
+    // 닉네임 중복확인
+    public String checkNickname(String nickname){
+        Optional<User> user = userRepository.findByNickname(nickname);
+        // 같은 닉네임 유저가 있으면 오류
+        if (user.isPresent()){
+            throw new CustomException(ErrorCode.EXIST_NICKNAME);
+        }
+        return "OK";
+    }
 }

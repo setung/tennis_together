@@ -98,12 +98,14 @@ public class GameUserListController {
     @GetMapping("/histories/applygames")
     public Page<ApplyGameDTO> findHistoriesApplyGames(@RequestParam(required = false) GameStatus gameStatus,
                                                       @RequestParam(required = false) GameUserListStatus status,
+                                                      @RequestParam(required = false) Long gameNo,
                                                       Authentication authentication, Pageable pageable) {
         User user = ((User) authentication.getPrincipal());
-        Specification<GameUserList> spec = GameUserListSpecification.equalGameUser(user.getUsername());
 
+        Specification<GameUserList> spec = GameUserListSpecification.equalGameUser(user.getUsername());
         if (gameStatus != null) spec = spec.and(GameUserListSpecification.equalGameStatus(gameStatus));
         if (status != null) spec = spec.and(GameUserListSpecification.equalStatus(status));
+        if (gameNo != null) spec = spec.and(GameUserListSpecification.equalGameNo(gameNo));
 
         Page<GameUserList> gameUserLists = gameUserListService.findHistoriesPlayedGame(spec, pageable);
         return gameUserLists.map(gameUserList -> new ApplyGameDTO(gameUserList));
