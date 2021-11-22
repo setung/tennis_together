@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 public class AppliedUserDTO {
 
     private Long gameUserNo;
+    private ResponseGameDTO joinedGame;
     private UserDTO gameUser;
     private GameUserListStatus status;
     private LocalDateTime regDtm;
@@ -24,5 +25,6 @@ public class AppliedUserDTO {
         status = gameUserList.getStatus();
         regDtm = gameUserList.getRegDtm();
         updDtm = gameUserList.getUpdDtm();
+        joinedGame = new ResponseGameDTO(gameUserList.getJoinedGame());
     }
 }
