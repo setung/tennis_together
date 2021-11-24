@@ -15,6 +15,8 @@ public class AppliedUserDTO {
 
     @ApiModelProperty(value = "Game 신청 아이디", example = "1", required = true)
     private Long gameUserNo;
+    @ApiModelProperty(value = "참여한 Game", required = true)
+    private ResponseGameDTO joinedGame;
     @ApiModelProperty(value = "Game에 신청한 User", required = true)
     private UserDTO gameUser;
     @ApiModelProperty(value = "Game 신청 상태", example = "APPLYING", required = true)
@@ -30,5 +32,6 @@ public class AppliedUserDTO {
         status = gameUserList.getStatus();
         regDtm = gameUserList.getRegDtm();
         updDtm = gameUserList.getUpdDtm();
+        joinedGame = new ResponseGameDTO(gameUserList.getJoinedGame());
     }
 }

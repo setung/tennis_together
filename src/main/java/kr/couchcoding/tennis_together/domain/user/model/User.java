@@ -110,6 +110,8 @@ public class User implements UserDetails {
         this.actDvCd = actDvCd;
     }
 
+    public void updateUserProfileUrl(String profileUrl){ this.profileUrl = profileUrl; }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         // TODO Auto-generated method stub

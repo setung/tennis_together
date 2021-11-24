@@ -24,7 +24,8 @@ import kr.couchcoding.tennis_together.exception.ErrorCode;
 public class UserService implements UserDetailsService {
     @Autowired
     UserRepository userRepository;
-
+    
+    @Autowired
     LocCdService locCdService;
 
     /**
@@ -122,5 +123,17 @@ public class UserService implements UserDetailsService {
             throw new CustomException(ErrorCode.EXIST_NICKNAME);
         }
         return "OK";
+    }
+
+    // 이미지 업로드
+    public void uploadImage(String uid, String filePath){
+        System.out.println(uid);
+        Optional<User> user = userRepository.findById(uid);
+        System.out.println(user);
+        if (user.isPresent()){
+            user.get().updateUserProfileUrl(filePath);
+        }else{
+            throw new CustomException(ErrorCode.NOT_FOUND_USER);
+        }
     }
 }
