@@ -1,5 +1,7 @@
 package kr.couchcoding.tennis_together.controller.location;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import kr.couchcoding.tennis_together.controller.location.dto.LocCdDTO;
 import kr.couchcoding.tennis_together.controller.location.specification.LocCdSpecification;
 import kr.couchcoding.tennis_together.domain.location.model.LocCd;
@@ -14,10 +16,12 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/locations")
 @RequiredArgsConstructor
+@Api(tags = {"위치정보 관련 API"})
 public class LocCdController {
 
     private final LocCdService locCdService;
 
+    @ApiOperation(value = "위치정보 전체 조회 API")
     @GetMapping
     public Page<LocCdDTO> findAllLocCd(
             @RequestParam(value = "locSd", required = false) String locSd,
@@ -36,6 +40,7 @@ public class LocCdController {
         return locCdService.findAllLocCd(spec, pageable).map(locCd -> new LocCdDTO(locCd));
     }
 
+    @ApiOperation(value = "위치정보 상세조회 API")
     @GetMapping("/{locCdNo}")
     public LocCdDTO findByLocCdNo(@PathVariable long locCdNo) {
         return new LocCdDTO(locCdService.findById(locCdNo));

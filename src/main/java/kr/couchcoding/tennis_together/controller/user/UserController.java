@@ -3,6 +3,8 @@ package kr.couchcoding.tennis_together.controller.user;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import kr.couchcoding.tennis_together.controller.user.dto.RegisterUserDTO;
 import kr.couchcoding.tennis_together.controller.user.dto.UpdateUserDTO;
 import kr.couchcoding.tennis_together.controller.user.dto.UserDTO;
@@ -26,6 +28,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Random;
 
+@Api(tags = {"User관련 API"})
 @Slf4j
 @RestController
 @RequestMapping("/users")
@@ -41,6 +44,7 @@ public class UserController {
     private LocCdService locCdService;
 
     // 회원 등록
+    @ApiOperation(value = "회원가입 API")
     @PostMapping("")
     public void register(@RequestHeader("Authorization") String authorization,
                          @RequestBody RegisterUserDTO registerUserDTO){
@@ -96,6 +100,7 @@ public class UserController {
     }
 
     // 로그인
+    @ApiOperation(value = "로그인 API")
     @GetMapping("/me")
     public UserDTO login(Authentication authentication){
         User loginUser = (User) authentication.getPrincipal();
@@ -103,6 +108,7 @@ public class UserController {
     }
 
     // 유저상세조회
+    @ApiOperation(value = "User 상세조회 API")
     @GetMapping("/{uid}")
     public UserDTO findByUid(Authentication authentication, @PathVariable("uid") String uid) {
         User loginUser = (User) authentication.getPrincipal();
@@ -111,6 +117,7 @@ public class UserController {
     }
 
     // 유저전체조회
+    @ApiOperation(value = "User 전체조회 API")
     @GetMapping("")
     public Page<UserDTO> findAllUsers(
             @PageableDefault(sort = "regDtm", direction = Sort.Direction.DESC) Pageable pageable,
@@ -121,6 +128,7 @@ public class UserController {
     }
 
     // 유저 수정
+    @ApiOperation(value = "User 수정 API")
     @PatchMapping("/{uid}")
     public void updateUser(@PathVariable String uid, @RequestBody UpdateUserDTO updatedUserDTO,
                            Authentication authentication) {
@@ -131,6 +139,7 @@ public class UserController {
     }
 
     // 유저 삭제
+    @ApiOperation(value = "User 삭제 API")
     @DeleteMapping("/{uid}")
     public void deleteUser(@PathVariable String uid, Authentication authentication){
         User user = ((User) authentication.getPrincipal());
