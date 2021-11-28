@@ -2,6 +2,7 @@ package kr.couchcoding.tennis_together.domain.userreview.model;
 
 import kr.couchcoding.tennis_together.controller.userreview.dto.RequestUserReviewDTO;
 import kr.couchcoding.tennis_together.domain.game.model.Game;
+import kr.couchcoding.tennis_together.domain.game.model.GameUserList;
 import lombok.*;
 
 import javax.persistence.*;
@@ -18,6 +19,8 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @NoArgsConstructor
+@Builder
+@AllArgsConstructor
 @Table(name = "user_review")
 public class UserReview {
 
@@ -39,6 +42,10 @@ public class UserReview {
     @JoinColumn(name = "game_no")
     private Game game;
 
+    @OneToOne
+    @JoinColumn(name = "game_user_no")
+    private GameUserList gameUserList;
+
     @Column(name = "review_content")
     private String reviewContent;
 
@@ -53,16 +60,6 @@ public class UserReview {
     // score 타입을 정수형으로 변경
     @Column(name = "score")
     private Long score;
-
-    @Builder
-    public UserReview(Long reviewNo, User writtenUser, User recipient, Game game, String reviewContent, Long score) {
-        this.reviewNo = reviewNo;
-        this.writtenUser = writtenUser;
-        this.game = game;
-        this.recipient = recipient;
-        this.reviewContent = reviewContent;
-        this.score = score;
-    }
 
     public void updateReview(RequestUserReviewDTO updatedReviewDTO) {
         if (updatedReviewDTO.getReviewContent() != null) reviewContent = updatedReviewDTO.getReviewContent();
