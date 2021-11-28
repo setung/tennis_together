@@ -118,7 +118,7 @@ class GameUserListServiceTest {
         when(gameService.findGameByNo(1L)).thenReturn(game);
         when(gameUserListRepository.findByGameUserAndJoinedGame(user, game)).thenReturn(Optional.empty());
 
-        assertThrows(CustomException.class, () -> gameUserListService.applyGame(user, 1L));
+       gameUserListService.applyGame(user, 1L);
     }
 
     @Test

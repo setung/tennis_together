@@ -49,8 +49,8 @@ public class GameUserListService {
         if (game.getGameCreator().getUsername().equals(user.getUsername()))
             throw new CustomException(ErrorCode.BAD_REQUEST_GAME, "자신의 게임에 신청할 수 없습니다.");
 
-        if (!(game.getStrDt().equals(now) || game.getEndDt().equals(now))
-                && !(game.getStrDt().isBefore(now) && game.getEndDt().isAfter(now)))
+        if (!(game.getEndDt().equals(now))
+                && !(game.getEndDt().isAfter(now)))
             throw new CustomException(ErrorCode.BAD_REQUEST_GAME, "신청기간이 아닙니다.");
 
         gameUserListRepository.findByGameUserAndJoinedGame(user, game)
@@ -67,8 +67,8 @@ public class GameUserListService {
 
         LocalDate now = LocalDate.now();
 
-        if (game.getStrDt().equals(now) || game.getEndDt().equals(now) ||
-                (game.getStrDt().isBefore(now) && game.getEndDt().isAfter(now))) {
+        if (game.getEndDt().equals(now) ||
+                (game.getEndDt().isAfter(now))) {
             if (gameUserList.getStatus() == GameUserListStatus.APPROVED)
                 game.updateStatus(GameStatus.RECRUITING);
         } else
@@ -98,8 +98,8 @@ public class GameUserListService {
             throw new CustomException(ErrorCode.BAD_REQUEST_GAME, game.getGameStatus() + " 상태의 게임의 요청을 승인할 수 없습니다.");
 
         LocalDate now = LocalDate.now();
-        if (!(game.getStrDt().equals(now) || game.getEndDt().equals(now))
-                && !(game.getStrDt().isBefore(now) && game.getEndDt().isAfter(now)))
+        if (!(game.getEndDt().equals(now))
+                && !(game.getEndDt().isAfter(now)))
             throw new CustomException(ErrorCode.BAD_REQUEST_GAME, "신청기간이 아닙니다.");
 
         if (gameUserList.getStatus() == GameUserListStatus.APPROVED)
@@ -114,8 +114,8 @@ public class GameUserListService {
                 .orElseThrow(() -> new CustomException(ErrorCode.BAD_REQUEST_GAME, "해당 유저는 게임에 신청한 이력이 없습니다."));
 
         LocalDate now = LocalDate.now();
-        if (game.getStrDt().equals(now) || game.getEndDt().equals(now) ||
-                (game.getStrDt().isBefore(now) && game.getEndDt().isAfter(now))) {
+        if (game.getEndDt().equals(now) ||
+                (game.getEndDt().isAfter(now))) {
             if (gameUserList.getStatus() == GameUserListStatus.APPROVED)
                 game.updateStatus(GameStatus.RECRUITING);
         } else
