@@ -58,6 +58,7 @@ public class UserReviewService {
                 .reviewContent(userReviewDTO.getReviewContent())
                 .game(game)
                 .score(userReviewDTO.getScore())
+                .gameUserList(gameUserList)
                 .build();
 
         userReviewRepository.save(userReview);

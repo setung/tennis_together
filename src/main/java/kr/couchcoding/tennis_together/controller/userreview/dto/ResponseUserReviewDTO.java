@@ -3,6 +3,7 @@ package kr.couchcoding.tennis_together.controller.userreview.dto;
 import io.swagger.annotations.ApiModelProperty;
 import kr.couchcoding.tennis_together.controller.game.dto.ResponseGameDTO;
 import kr.couchcoding.tennis_together.controller.user.dto.UserDTO;
+import kr.couchcoding.tennis_together.domain.game.model.GameUserList;
 import kr.couchcoding.tennis_together.domain.userreview.model.UserReview;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,6 +30,8 @@ public class ResponseUserReviewDTO {
     private LocalDateTime updDtm;
     @ApiModelProperty(value = "평점", example = "5", required = true)
     private Long score;
+    @ApiModelProperty(value = "신청 이력 아이디", required = true)
+    private Long gameUserNo;
 
     public ResponseUserReviewDTO(UserReview userReview) {
         reviewNo = userReview.getReviewNo();
@@ -39,5 +42,6 @@ public class ResponseUserReviewDTO {
         regDtm = userReview.getRegDtm();
         updDtm = userReview.getUpdDtm();
         score = userReview.getScore();
+        gameUserNo = userReview.getGameUserList().getGameUserNo();
     }
 }
