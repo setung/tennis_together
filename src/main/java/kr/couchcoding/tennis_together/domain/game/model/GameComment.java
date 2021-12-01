@@ -51,16 +51,21 @@ public class GameComment {
     @JoinColumn(name = "uid")
     private User comtWriteUser;
 
+    @Column
+    private Long parentNo;
+
+
 
     @Builder
     public GameComment(
             String reviewContent, 
-            int depth, int grpNo, Game commentedGame, User comtWriteUser){
+            int depth, int grpNo, Long parentNo, Game commentedGame, User comtWriteUser){
         this.reviewContent = reviewContent;
         this.depth = depth;
         this.grpNo = grpNo;
         this.commentedGame = commentedGame;
         this.comtWriteUser = comtWriteUser;
+        this.parentNo = parentNo;
     }
 
 

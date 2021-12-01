@@ -1,0 +1,10 @@
+
+### Post gameAply(Success)
+
+POST http://localhost:8080/games/apply
+Authorization: Bearer test
+Content-Type: application/json
+
+{
+
+}
