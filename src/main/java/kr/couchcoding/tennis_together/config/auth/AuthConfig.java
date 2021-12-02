@@ -19,8 +19,10 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ClassPathResource;
 
 import kr.couchcoding.tennis_together.domain.user.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 
 @Configuration
+@Slf4j
 public class AuthConfig {
     @Autowired
     private UserService userService;
@@ -28,6 +30,7 @@ public class AuthConfig {
     @Bean
     @Profile("local")
     public AuthFilterContainer mockAuthFilter() {
+        log.info("Initializing Mock AuthFilter");
         AuthFilterContainer authFilterContainer = new AuthFilterContainer();
         authFilterContainer.setAuthFilter(new MockAuthFilter(userService));
         return authFilterContainer;
@@ -36,6 +39,7 @@ public class AuthConfig {
     @Bean
     @Profile("!local")
     public AuthFilterContainer jwtAuthFilter() throws IOException {
+        log.info("Initializing Firebase AuthFilter");
         AuthFilterContainer authFilterContainer = new AuthFilterContainer();
         authFilterContainer.setAuthFilter(new JwtFilter(userService, firebaseAuth()));
         return authFilterContainer;
