@@ -1,8 +1,10 @@
 package kr.couchcoding.tennis_together.controller.gameComment.dto;
 
 import io.swagger.annotations.ApiModelProperty;
+import kr.couchcoding.tennis_together.controller.user.dto.UserDTO;
 import kr.couchcoding.tennis_together.domain.game.model.GameComment;
 import lombok.Data;
+import org.apache.catalina.User;
 
 import java.time.LocalDateTime;
 
@@ -21,6 +23,10 @@ public class GCResponseDTO {
     private LocalDateTime regDtm;
     @ApiModelProperty(value = "댓글 수정일", example = "2021-11-22 00:47:51", required = true)
     private LocalDateTime updDtm;
+    @ApiModelProperty(value = "부모 댓글", example = "1", required = true)
+    private Long parentNo;
+    @ApiModelProperty(value = "작성자", example = "1", required = true)
+    private UserDTO comtWriteUser;
 
     public GCResponseDTO(GameComment gameComment) {
         this.commentNo = gameComment.getCommentNo();
@@ -29,20 +35,8 @@ public class GCResponseDTO {
         this.grpNo = gameComment.getGrpNo();
         this.regDtm = gameComment.getRegDtm();
         this.updDtm = gameComment.getUpdDtm();
+        this.parentNo = gameComment.getParentNo();
+        this.comtWriteUser = new UserDTO(gameComment.getComtWriteUser());
     }
-
-//
-//    comtWriteUser
-//            title
-//    content
-//            genderType
-//    ageType
-//            strDt
-//    endDt
-//            regDtm
-//    locCd
-//            stDvCd
-//    commentedGame
-
 
 }

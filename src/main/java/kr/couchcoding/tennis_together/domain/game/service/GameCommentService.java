@@ -78,11 +78,33 @@ public class GameCommentService {
         Game game = gameRepository.findById(gameNo).orElseThrow(()-> new CustomException(ErrorCode.NOT_FOUND_GAME));
 
 
-        if(gameComment.getComtWriteUser().equals(user) && gameComment.getCommentedGame().equals(game)) {
-            gameComment.updateComment(updatedGameCommentDTO.getReviewContents());
-        } else {
+        if(!gameComment.getComtWriteUser().equals(user)){
             throw new CustomException(ErrorCode.FORBIDDEN_USER);
+        } else if (!gameComment.getCommentedGame().equals(game)){
+            throw new CustomException(ErrorCode.BAD_REQUEST_PARAM);
+        } else {
+            gameComment.updateComment(updatedGameCommentDTO.getReviewContents());
         }
     }
 
+    public void createReplyComment(User user, Game game, Long commentNo, GCRequestDTO gcRequestDTO) {
+
+        GameComment gameComment = gameCommentRepository.findById(commentNo)
+                .orElseThrow(()-> new CustomException(ErrorCode.NOT_FOUND_GAME_REPLY,"댓글 id와 game id가 일치하지 않습니다"));
+
+        if(!gameComment.getCommentedGame().getGameNo().equals(game.getGameNo())) { // 부모댓글과 같은게임에 있는지 검증
+            throw new CustomException(ErrorCode.NOT_FOUND_GAME);
+        } else {
+            GameComment gc = GameComment.builder()
+                    .comtWriteUser(user)
+                    .commentedGame(game)
+                    .reviewContent(gcRequestDTO.getReviewContents())
+                    .depth(gameComment.getDepth() +1)
+                    .parentNo(commentNo)
+                    .build();
+
+            gameCommentRepository.save(gc);
+        }
+
+    }
 }

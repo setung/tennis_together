@@ -8,5 +8,4 @@ public class GCRequestDTO {
 
     @ApiModelProperty(value = "댓글 내용", example = "안녕하세요", required = true)
     private String reviewContents;
-
 }

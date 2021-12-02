@@ -71,4 +71,21 @@ public class gameCommentController {
         gameCommentService.updateGameComment(user, gameNo, commentNo, updatedGameCommentDTO);
     }
 
+
+
+    //게임 대댓글 등록
+    @ApiOperation(value = "게임 대댓글 등록 API")
+    @PostMapping("/{commentNo}")
+    public void createReplyComment(@PathVariable(value = "gameNo") Long gameNo,
+                                   @PathVariable(value = "commentNo") Long commentNo,
+                                   @RequestBody GCRequestDTO gcRequestDTO,
+                                   Authentication authentication) {
+        // 어떤 사용자가 어떤 게임에 어떤 대댓글을 남길지
+        User user = ((User)authentication.getPrincipal());
+        Game game = gameService.findGameByNo(gameNo);
+        gameCommentService.createReplyComment(user,game,commentNo,gcRequestDTO);
+    }
+
+
+
 }
