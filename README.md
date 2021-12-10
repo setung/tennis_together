@@ -1,5 +1,4 @@
 # Tennis Together
-https://tennis-togeter.herokuapp.com/
 --------------
 ## 프로젝트 개요
 서울 경기 지역의 테니스를 하는 유저들을 모아 함께 게임할 수 있도록 매칭해주는 API서버 토이 프로젝트입니다.!
@@ -40,6 +39,9 @@ https://tennis-togeter.herokuapp.com/
 - 추천 친구 조회 
 - 친구 팔로우 / 팔로우취소 / 전체조회 
 ### 강일훈
+- Firebase OAuth 로그인
+- CI/CD
+- Firebase Storage
 ### 장세훈
 - 테니스장 정보 크롤링
 - Game(모집글) CRUD
@@ -50,6 +52,7 @@ https://tennis-togeter.herokuapp.com/
 
 
 <br>
+Tennis-Together url :  https://tennis-togeter.herokuapp.com/ <br>
 Frontend Github Url : https://github.com/ssso-pro1/tennis-together-fe <br>
 Tennis Crawler Github Url : https://github.com/setung/tennis_together_crawler
 
