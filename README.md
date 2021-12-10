@@ -39,6 +39,9 @@
 - 추천 친구 조회 
 - 친구 팔로우 / 팔로우취소 / 전체조회 
 ### 강일훈
+- Firebase OAuth 로그인
+- CI/CD
+- Firebase Storage
 ### 장세훈
 - 테니스장 정보 크롤링
 - Game(모집글) CRUD
